@@ -1,61 +1,205 @@
 <script setup>
-import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
+import {onMounted, ref} from "vue";
+import {
+  GestureRecognizer,
+  FilesetResolver,
+  DrawingUtils
+} from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
 
-const greetMsg = ref("");
-const name = ref("");
+let gestureRecognizer = GestureRecognizer;
+let runningMode = "VIDEO";
+let isWebcamRunning = true;
+const videoHeight = "360px";
+const videoWidth = "480px";
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
+let canvasCtx;
+
+const video = ref(null)
+
+const canvasElement = ref(null)
+const canvasCtxRef = ref(null);
+
+const gestureOutput = ref(null)
+
+const createGestureRecognizer = async () => {
+  const vision = await FilesetResolver.forVisionTasks(
+      "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
+  );
+  gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
+    baseOptions: {
+      modelAssetPath:
+          "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
+      delegate: "GPU"
+    },
+    runningMode: runningMode
+  });
 }
+
+function hasGetUserMedia() {
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+
+const stream = ref(null);
+
+async function startCamera() {
+  try {
+    stream.value = await navigator.mediaDevices.getUserMedia({ video: true });
+
+    if (video.value) {
+      video.value.srcObject = stream.value;
+      isWebcamRunning = true;
+    }
+  } catch (error) {
+    console.error("Error accessing the camera:", error);
+  }
+}
+
+function enableCam(event) {
+  if (!gestureRecognizer) {
+    alert("Почекай, грузиться.")
+    return;
+  }
+
+
+}
+
+let lastVideoTime = -1;
+let results = undefined;
+async function predictWebcam() {
+  const webcamElement = video;
+  // Now let's start detecting the stream.
+  if (runningMode === "IMAGE") {
+    runningMode = "VIDEO";
+    await gestureRecognizer.setOptions({ runningMode: "VIDEO" });
+  }
+  let nowInMs = Date.now();
+  if (video.currentTime !== lastVideoTime) {
+    lastVideoTime = video.currentTime;
+    results = gestureRecognizer.recognizeForVideo(video, nowInMs);
+  }
+
+  canvasCtx.save();
+  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  const drawingUtils = new DrawingUtils(canvasCtx);
+
+  canvasElement.style.height = videoHeight;
+  webcamElement.style.height = videoHeight;
+  canvasElement.style.width = videoWidth;
+  webcamElement.style.width = videoWidth;
+
+  if (results.landmarks) {
+    for (const landmarks of results.landmarks) {
+      drawingUtils.drawConnectors(
+          landmarks,
+          GestureRecognizer.HAND_CONNECTIONS,
+          {
+            color: "#00FF00",
+            lineWidth: 5
+          }
+      );
+      drawingUtils.drawLandmarks(landmarks, {
+        color: "#FF0000",
+        lineWidth: 2
+      });
+    }
+  }
+  canvasCtx.restore();
+  if (results.gestures.length > 0) {
+    gestureOutput.style.display = "block";
+    gestureOutput.style.width = videoWidth;
+    const categoryName = results.gestures[0][0].categoryName;
+    const categoryScore = parseFloat(
+        results.gestures[0][0].score * 100
+    ).toFixed(2);
+    const handedness = results.handednesses[0][0].displayName;
+    gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+  } else {
+    gestureOutput.style.display = "none";
+  }
+  // Call this function again to keep predicting when the browser is ready.
+  if (isWebcamRunning === true) {
+    window.requestAnimationFrame(predictWebcam);
+  }
+}
+
+onMounted(() => {
+  if (hasGetUserMedia()) {
+    console.log("cool")
+  } else {
+    console.warn("getUserMedia() is not supported by your browser");
+  }
+
+  canvasCtxRef.value = canvasElement.getContext("2d");
+  canvasCtx = canvasElement.getContext("2d")
+
+
+  createGestureRecognizer();
+  enableCam();
+  startCamera();
+
+  predictWebcam();
+
+})
+
+
 </script>
 
 <template>
-  <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+  <header>
+    <h1><span>></span>Swish</h1>
+  </header>
+  <main class="global-cont">
+    <div class="circle"></div>
 
-    <div class="row">
-      <a href="https://vitejs.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
+    <div class="cont">
+      <div>
+        <video id="webcam" ref="video" autoplay playsinline></video>
+        <canvas ref="canvasElement" class="output_canvas" id="output_canvas" width="1280" height="720" style="z-index: 10999; pointer-events: none; position: absolute; left: 0px; top: 0px;"></canvas>
+        <p ref="gestureOutput" id='gesture_output' class="output"></p>
+      </div>
+
+      <button @click="enableCam">yes</button>
     </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
-
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
   </main>
 </template>
 
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-
-</style>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+body {
+  background-color: #1d1d21;
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+h1 {
+  font-family: 'Roboto Mono', sans-serif;
+  font-weight: 800;
+
+  font-size: 1.2rem;
+}
+</style>
+<style lang="scss" scoped>
+h1 {
+  padding-left: 2vw;
+
+  span {
+    color: #c6c6c6;
+  }
+}
+
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-
+  color: white;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -63,98 +207,80 @@ async function greet() {
   -webkit-text-size-adjust: 100%;
 }
 
-.container {
-  margin: 0;
-  padding-top: 10vh;
+.circle { // it's an ellipse but yes
+  border-radius: 50%;
+  width: 40%;
+  height: 40vw;
+
+  position: absolute;
+  top: -7vh;
+  left: 2vw;
+  z-index: -1;
+
+  background-color: #390036;
+}
+
+header {
+  width: 100%;
+  height: 6vh;
+
+  color: white;
+
+  //background-image: linear-gradient(35deg in hsl, #390036 5%, #2d0f36 10%, #241732 15%, #1e1b2b 20%, #1d1d21);
+  background-color: rgba(29, 29, 33, 0.6);
+  backdrop-filter: blur(300px);
+  border-bottom: black 1px solid;
+
+  position: relative;
+  z-index: 10099;
+
+  display: flex;
+  flex-direction: row;
+  //justify-content: flex-end;
+  align-items: center;
+}
+
+.cont {
+  width: 100%;
+  height: 94vh;
+
+  position: relative;
+  z-index: 10098;
+
+  //background-color: #1d1d21;
+
+  background-color: rgba(29, 29, 33, 0.6);
+  backdrop-filter: blur(1000px) grayscale(0.8);
+
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
-}
+  align-items: center;
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
-}
-
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
-  display: flex;
-  justify-content: center;
-}
-
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-h1 {
-  text-align: center;
-}
-
-input,
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-button {
-  cursor: pointer;
-}
-
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
-
-input,
-button {
-  outline: none;
-}
-
-#greet-input {
-  margin-right: 5px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
-  }
-
-  a:hover {
-    color: #24c8db;
-  }
-
-  input,
   button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+    all: unset;
+
+    width: 30vh;
+    height: 7vh;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid rgba(250, 250, 250, 0.3);
+
+    /* From https://css.glass */
+    background: rgb(44, 15, 74);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(17.3px);
+    -webkit-backdrop-filter: blur(17.3px);
+
   }
-  button:active {
-    background-color: #0f0f0f69;
+
+  video {
+    width: 30vw;
+    height: 30vw;
   }
 }
 
+.output_canvas {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+}
 </style>
