@@ -1,7 +1,6 @@
-# Tauri + Vue 3
+# Fancy ai gesture based lock opener
+Made with Vue, Tauri and Mediapipe. It pretty much just detects gestures like 👍, 👎, ✌️, ☝️, ✊, 👋, 🤟 with Mediapipe's AI.
 
-This template should help get you started developing with Tauri + Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Also 9a92f2c7f6fd4ab02fc3c6454eb44dd8a8807e1b...45028b87c286d38ef5e84b6c664af67bd9099ced is pretty much a working Vue (kinda-reactive even) implementation of the Google Mediapipe's gesture recognition [example](https://mediapipe-studio.webapps.google.com/studio/demo/gesture_recognizer) Codepen.
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+![image](https://github.com/user-attachments/assets/51f1acfc-ca05-4682-86df-85d5ed809988)
