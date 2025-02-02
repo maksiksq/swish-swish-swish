@@ -20,6 +20,8 @@ const pTxt = ref(null);
 let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
 
+// in the codepen they declared some video ones early, why??? Like I know????? I made them further.
+
 // one goal would be to make
 // 1) Model from scratch (help)
 // 2) Replace the vision locally (easy)
@@ -45,7 +47,7 @@ async function handleClick(e) {
 
   if (runningMode === "VIDEO") {
     runningMode = "IMAGE";
-    await gestureRecognizer.setOptions({ runningMode: "IMAGE" });
+    await gestureRecognizer.setOptions({runningMode: "IMAGE"});
   }
 
   const allCanvas = e.target.parentNode.getElementsByClassName("canvas");
@@ -115,31 +117,172 @@ async function handleClick(e) {
   }
 }
 
+// using refs here, turning them into html objects later on
 
+const vidRef = ref(null);
+const canvasElementRef = ref(null);
+const gestureOutputRef = ref(null);
+// notice canvasCtx is declared later
+
+const enableWebcamButtonRef = ref(null)
+let webcamRunning: Boolean = false;
+
+const videoHeight = "360px";
+const videoWidth = "480px";
+
+function hasGetUserMedia() {
+  return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+}
+
+function sayHello () {
+  info('hi');
+}
+
+function enableCam() {
+  info('webcam enabling')
+
+  const video = vidRef.value;
+  const canvasElement = canvasElementRef.value;
+  const gestureOutput = gestureOutputRef.value;
+  const canvasCtx = canvasElement.getContext("2d");
+
+  const enableWebcamButton = enableWebcamButtonRef.value;
+
+
+  if
+  (!hasGetUserMedia()) {
+    warn("your browser doesn't support getUserMedia");
+    return;
+  }
+
+  if (!gestureRecognizer) {
+    warn("hold on, it's loading");
+    return;
+  }
+
+  if (webcamRunning === true) {
+    webcamRunning = false;
+    enableWebcamButton.innerText = "ENABLE PREDICTIONS";
+  } else {
+    webcamRunning = true;
+    enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+  }
+
+  // getUserMedia parameters idk why they're necessary but ima forget
+  const constraints = {
+    video: true
+  }
+
+  navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+    video.srcObject = stream;
+    video.addEventListener("loadeddata", predictWebcam);
+  });
+}
+
+let lastVideoTime = -1;
+let results = undefined;
+async function predictWebcam() {
+  const video = vidRef.value;
+  const canvasElement = canvasElementRef.value;
+  const gestureOutput = gestureOutputRef.value;
+  const canvasCtx = canvasElement.getContext("2d");
+
+  const enableWebcamButton = enableWebcamButtonRef.value;
+
+  // just redeclared all of that ^ twice here cause lazy
+
+  const webcamElement = video;
+
+  if (runningMode === "IMAGE") {
+    runningMode = "VIDEO";
+    await gestureRecognizer.setOptions({ runningMode: "VIDEO" });
+  }
+  let nowInMs = Date.now();
+  if (video.currentTime !== lastVideoTime) {
+    lastVideoTime = video.currentTime;
+    results = gestureRecognizer.recognizeForVideo(video, nowInMs);
+  }
+
+  canvasCtx.save();
+  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  const drawingUtils = new DrawingUtils(canvasCtx);
+
+  canvasElement.style.height = videoHeight;
+  webcamElement.style.height = videoHeight;
+  canvasElement.style.width = videoWidth;
+  webcamElement.style.width = videoWidth;
+
+  if (results.landmarks) {
+    for (const landmarks of results.landmarks) {
+      drawingUtils.drawConnectors(
+          landmarks,
+          GestureRecognizer.HAND_CONNECTIONS,
+          {
+            color: "#00FF00",
+            lineWidth: 5
+          }
+      );
+      drawingUtils.drawLandmarks(landmarks, {
+        color: "#FF0000",
+        lineWidth: 2
+      });
+    }
+  }
+  canvasCtx.restore();
+
+  if (results.gestures.length > 0) {
+    gestureOutput.style.display = "block";
+    // added background color cause that was missing smh
+    gestureOutput.style.backgroundColor = "purple";
+    gestureOutput.style.width = videoWidth;
+    const categoryName = results.gestures[0][0].categoryName;
+    const categoryScore = parseFloat(
+        (results.gestures[0][0].score * 100).toString()
+    ).toFixed(2);
+    const handedness = results.handednesses[0][0].displayName;
+    gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+  } else {
+    gestureOutput.style.display = "none";
+  }
+  // Call this function again to keep predicting when the browser is ready.
+  if (webcamRunning === true) {
+    window.requestAnimationFrame(predictWebcam);
+  }
+}
 
 onMounted(() => {
   info('alivency')
   createGestureRecognizer();
-})
 
-function sayHello() {
-  info('hello0')
-}
+  info('ha')
+})
 </script>
 
 <template>
   <main class="global-cont">
-    <div class="detectOnClick">
-      <img @click="handleClick" src="https://assets.codepen.io/9177687/idea-gcbe74dc69_1920.jpg" crossorigin="anonymous" title="Click to get recognize!"  alt="ide stop bugging me"/>
-      <p ref="pTxt" class="classification removed"></p>
-    </div>
-    <div class="detectOnClick">
-      <img @click="handleClick" src="https://assets.codepen.io/9177687/thumbs-up-ga409ddbd6_1.png" crossorigin="anonymous" title="Click to get recognize!" alt="ide stop bugging me" />
-      <p ref="pTxt" class="classification removed"></p>
+    <div>
+      <div class="detectOnClick">
+        <img @click="handleClick" src="https://assets.codepen.io/9177687/idea-gcbe74dc69_1920.jpg" crossorigin="anonymous"
+             title="Click to get recognize!" alt="ide stop bugging me"/>
+        <p ref="pTxt" class="classification removed"></p>
+      </div>
+      <div class="detectOnClick">
+        <img @click="handleClick" src="https://assets.codepen.io/9177687/thumbs-up-ga409ddbd6_1.png"
+             crossorigin="anonymous" title="Click to get recognize!" alt="ide stop bugging me"/>
+        <p ref="pTxt" class="classification removed"></p>
+      </div>
     </div>
 
+
     <div id='liveView' class="videoView"></div>
-    <button @click="sayHello">Run</button>
+    <button ref="enableWebcamButtonRef" @click="enableCam" id="webcamButton">Enable webcam</button>
+    <div style="position: relative">
+      <!--      ref different from example ere, watch out-->
+      <video ref="vidRef" id="webcam" autoplay playsinline></video>
+      <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
+              style="position: absolute; left: 0; top: 0"></canvas>
+      <p ref="gestureOutputRef" id="gesture_output" class="output"></p>
+    </div>
   </main>
 </template>
 
@@ -154,18 +297,17 @@ main {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-
-  img {
-    width: 32vw;
-    height: 18vw; // that's how you do math (16:9)
-
-    cursor: pointer;
-  }
 }
 
-// copy pastad
+button {
+  position: relative;
+  margin-top: 50vh;
+  z-index: 999999;
+}
+
+// copy pasted styles from the codepen
 body {
-  font-family: roboto,serif;
+  font-family: roboto, serif;
   margin: 2em;
   color: #3d3d3d;
   --mdc-theme-primary: #007f8b;
@@ -209,6 +351,7 @@ section {
   margin: 2% 1%;
   cursor: pointer;
 }
+
 .videoView {
   position: absolute;
   float: left;
@@ -256,6 +399,7 @@ section {
 .detectOnClick img {
   width: 45vw;
 }
+
 .output {
   display: none;
   width: 100%;
