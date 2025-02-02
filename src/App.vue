@@ -133,6 +133,7 @@ onMounted(() => {
   canvasCtx = canvasElement.getContext("2d")
 
 
+
   createGestureRecognizer();
   enableCam();
   startCamera();
