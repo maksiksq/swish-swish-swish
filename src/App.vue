@@ -235,7 +235,35 @@ async function predictWebcam() {
     // added background color cause that was missing smh
     gestureOutput.style.backgroundColor = "purple";
     gestureOutput.style.width = videoWidth;
-    const categoryName = results.gestures[0][0].categoryName;
+    let categoryName = results.gestures[0][0].categoryName;
+
+    // replace categoryName with emoji cause of course
+    if (categoryName === "Thumb_Up") {
+      categoryName = "👍";
+    }
+    if (categoryName === "Thumb_Down") {
+      categoryName = "👎";
+    }
+    // this is Peace, not Victory, bite me mediapipe ...
+    if (categoryName === "Victory") {
+      categoryName = "✌️";
+    }
+    if (categoryName === "Pointing_Up") {
+      categoryName = "☝️";
+    }
+    if (categoryName === "Closed_Fist") {
+      categoryName = "✊";
+    }
+    if (categoryName === "Open_Palm") {
+      categoryName = "👋";
+    }
+    // I think this gesture is Call me and not ILY but sure
+    if (categoryName === "ILoveYou") {
+      categoryName = "🤟";
+    }
+
+    //
+
     const categoryScore = parseFloat(
         (results.gestures[0][0].score * 100).toString()
     ).toFixed(2);
