@@ -41,84 +41,6 @@ const createGestureRecognizer = async () => {
   info('gestureRecognizer initialized');
 };
 
-async function handleClick(e) {
-  if (!gestureRecognizer) {
-    warn("It's loading, hold on a little");
-    return;
-  }
-
-  if (runningMode === "VIDEO") {
-    runningMode = "IMAGE";
-    await gestureRecognizer.setOptions({runningMode: "IMAGE"});
-  }
-
-  const allCanvas = e.target.parentNode.getElementsByClassName("canvas");
-  for (var i = allCanvas.length - 1; i >= 0; i--) {
-    const n = allCanvas[i];
-    n.parentNode.removeChild(n);
-  }
-
-  const results = gestureRecognizer.recognize(e.target);
-  // info(`gestureRecognizer ${JSON.stringify(results)}`);
-
-  if (results.gestures.length > 0) {
-    const p = pTxt.value // reassigned this to a vue ref cause Typescript and Vue
-
-    info(p)
-
-    p.setAttribute("class", "info");
-
-    const categoryName = results.gestures[0][0].categoryName;
-    // has to be stringified, idk why haven't they done it in the example codepen
-    const categoryScore = parseFloat((results.gestures[0][0].score * 100).toString()).toFixed(2);
-    const handedness = results.handednesses[0][0].displayName;
-
-    p.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore}%\n Handedness: ${handedness}`;
-    p.style =
-        "left: 0px;" +
-        "top: " +
-        e.target.height +
-        "px; " +
-        "width: " +
-        (e.target.width - 10) +
-        "px;";
-
-    const canvas = document.createElement("canvas");
-    canvas.setAttribute("class", "canvas");
-    canvas.setAttribute("width", e.target.naturalWidth + "px");
-    canvas.setAttribute("height", e.target.naturalHeight + "px");
-
-    // added .cssText cause Typescript doesn't have .style on elems for some reason?
-    canvas.style.cssText =
-        "left: 0px;" +
-        "top: 0px;" +
-        "width: " +
-        e.target.width +
-        "px;" +
-        "height: " +
-        e.target.height +
-        "px;";
-
-    e.target.parentNode.appendChild(canvas);
-    const canvasCtx = canvas.getContext("2d");
-    const drawingUtils = new DrawingUtils(canvasCtx);
-    for (const landmarks of results.landmarks) {
-      drawingUtils.drawConnectors(
-          landmarks,
-          GestureRecognizer.HAND_CONNECTIONS,
-          {
-            color: "#00FF00",
-            lineWidth: 5
-          }
-      );
-      drawingUtils.drawLandmarks(landmarks, {
-        color: "#FF0000",
-        lineWidth: 1
-      });
-    }
-  }
-}
-
 // using refs here, turning them into html objects later on
 
 const vidRef = ref(null);
@@ -188,8 +110,6 @@ async function predictWebcam() {
   const canvasElement = canvasElementRef.value;
   const gestureOutput = gestureOutputRef.value;
   const canvasCtx = canvasElement.getContext("2d");
-
-  // just redeclared all of that ^ twice here cause lazy
 
   const webcamElement = video;
 
@@ -288,19 +208,6 @@ onMounted(() => {
 
 <template>
   <main class="global-cont">
-    <div>
-      <div class="detectOnClick">
-        <img @click="handleClick" src="https://assets.codepen.io/9177687/idea-gcbe74dc69_1920.jpg" crossorigin="anonymous"
-             title="Click to get recognize!" alt="ide stop bugging me"/>
-        <p ref="pTxt" class="classification removed"></p>
-      </div>
-      <div class="detectOnClick">
-        <img @click="handleClick" src="https://assets.codepen.io/9177687/thumbs-up-ga409ddbd6_1.png"
-             crossorigin="anonymous" title="Click to get recognize!" alt="ide stop bugging me"/>
-        <p ref="pTxt" class="classification removed"></p>
-      </div>
-    </div>
-
 
     <div id='liveView' class="videoView"></div>
     <button ref="enableWebcamButtonRef" @click="enableCam" id="webcamButton">Enable webcam</button>
