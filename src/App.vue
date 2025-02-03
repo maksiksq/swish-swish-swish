@@ -187,8 +187,6 @@ async function predictWebcam() {
   const gestureOutput = gestureOutputRef.value;
   const canvasCtx = canvasElement.getContext("2d");
 
-  const enableWebcamButton = enableWebcamButtonRef.value;
-
   // just redeclared all of that ^ twice here cause lazy
 
   const webcamElement = video;
