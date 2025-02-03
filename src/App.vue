@@ -138,7 +138,7 @@ async function predictWebcam() {
           landmarks,
           GestureRecognizer.HAND_CONNECTIONS,
           {
-            color: "#00FF00",
+            color: "#500077",
             lineWidth: 5
           }
       );
@@ -208,7 +208,6 @@ onMounted(() => {
 
 <template>
   <main class="global-cont">
-
     <div id='liveView' class="videoView"></div>
     <button ref="enableWebcamButtonRef" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div style="position: relative">
