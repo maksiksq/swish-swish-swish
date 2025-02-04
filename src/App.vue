@@ -152,8 +152,7 @@ async function predictWebcam() {
 
   if (results.gestures.length > 0) {
     gestureOutput.style.display = "block";
-    // added background color cause that was missing smh
-    gestureOutput.style.backgroundColor = "purple";
+    // added background color in css cause that was missing smh
     gestureOutput.style.width = videoWidth;
     let categoryName = results.gestures[0][0].categoryName;
 
@@ -190,7 +189,7 @@ async function predictWebcam() {
     const handedness = results.handednesses[0][0].displayName;
     gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
   } else {
-    gestureOutput.style.display = "none";
+    gestureOutput.style.display = "block";
   }
   // Call this function again to keep predicting when the browser is ready.
   if (webcamRunning === true) {
@@ -208,14 +207,13 @@ onMounted(() => {
 
 <template>
   <main class="global-cont">
-    <div id='liveView' class="videoView"></div>
-    <button ref="enableWebcamButtonRef" @click="enableCam" id="webcamButton">Enable webcam</button>
-    <div style="position: relative">
+    <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
+    <div class="canvasCont">
       <!--      ref different from example ere, watch out-->
       <video ref="vidRef" id="webcam" autoplay playsinline></video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
-      <p ref="gestureOutputRef" id="gesture_output" class="output"></p>
+      <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness: </p>
     </div>
   </main>
 </template>
@@ -231,11 +229,30 @@ main {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  .videoView {
+    cursor: initial;
+  }
+  
+  .webCamBtn {
+    cursor: pointer;
+  }
+
+  .canvasCont {
+    display: flex;
+    justify-content: left;
+    p {
+     background-color: purple;
+      height: 15vh;
+      width: 480px;
+    }
+
+  }
 }
 
 button {
   position: relative;
-  margin-top: 50vh;
+  margin-top: 2vh;
   z-index: 999999;
 }
 
@@ -289,10 +306,10 @@ section {
 .videoView {
   position: absolute;
   float: left;
-  width: 48%;
+  //width: 48%;
   margin: 2% 1%;
   cursor: pointer;
-  min-height: 500px;
+  //min-height: 500px;
 }
 
 .videoView p,
