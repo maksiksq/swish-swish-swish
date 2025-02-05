@@ -198,10 +198,7 @@ async function predictWebcam() {
 }
 
 onMounted(() => {
-  info('alivency')
   createGestureRecognizer();
-
-  info('ha')
 })
 </script>
 
