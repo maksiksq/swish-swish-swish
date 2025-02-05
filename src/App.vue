@@ -207,6 +207,9 @@ onMounted(() => {
 
 <template>
   <main class="global-cont">
+    <h3>Press the button to start entering the lock combination.<br>
+    If you fail, you get punished.
+    </h3>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
       <!--      ref different from example ere, watch out-->
@@ -229,6 +232,18 @@ main {
   justify-content: center;
   flex-direction: column;
   align-items: center;
+
+  padding-top: 10vw;
+
+  h3 {
+    font-size: 1rem;
+    color: white;
+    font-family: Comfortaa, sans-serif;
+    font-weight: normal;
+    text-align: center;
+
+    line-height: 2rem;
+  }
 
   .videoView {
     cursor: initial;
@@ -254,6 +269,44 @@ button {
   position: relative;
   margin-top: 2vh;
   z-index: 999999;
+  padding: 0.6vw 1vw;
+
+  color: white;
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 1rem;
+  border: 3px solid #000000;
+  background-color: #8a00bf;
+  //mix-blend-mode: hard-light; color
+
+  box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+
+  transition: all 0.2s ease-in-out;
+}
+
+button::after {
+  content: "";
+  pointer-events: none;
+
+  //background: repeating-linear-gradient(75deg,
+  //    rgb(0, 0, 0, 0.2) 0%,
+  //    rgb(0, 0, 0, 0.2) 0.001px,
+  //    rgb(0, 0, 0, 0) 5px,
+  //    rgb(0, 0, 0, 0) 10px
+  //);
+  opacity: 0.8;
+
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+button:hover {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 black;
+  background-color: #9e04da;
+  color: #000000;
 }
 
 // copy pasted styles from the codepen
