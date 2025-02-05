@@ -58,10 +58,6 @@ function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
 }
 
-function sayHello () {
-  info('hi');
-}
-
 function enableCam() {
   info('webcam enabling')
 
@@ -101,6 +97,26 @@ function enableCam() {
     video.srcObject = stream;
     video.addEventListener("loadeddata", predictWebcam);
   });
+}
+
+// let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
+// 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
+// cause it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
+// which I think would be very safe. Or move it to a server but if i can keep it internetless why move it to a server.
+
+function unlock() {
+  info('hurray you got in, now it`s time to rename yourself to Rob Banks')
+}
+
+const passwordLength = ref(6)
+const currentPassword = "Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory"
+const i = ref(0)
+
+async function matchPassword(categoryName: string) {
+  if (i.value === 6) {
+    i.value = 0;
+    return;
+  }
 }
 
 let lastVideoTime = -1;
@@ -152,11 +168,10 @@ async function predictWebcam() {
 
   if (results.gestures.length > 0) {
     gestureOutput.style.display = "block";
-    // added background color in css cause that was missing smh
     gestureOutput.style.width = videoWidth;
     let categoryName = results.gestures[0][0].categoryName;
 
-    // replace categoryName with emoji cause of course
+    // replaced categoryName with emoji cause of course
     if (categoryName === "Thumb_Up") {
       categoryName = "👍";
     }
@@ -187,7 +202,8 @@ async function predictWebcam() {
         (results.gestures[0][0].score * 100).toString()
     ).toFixed(2);
     const handedness = results.handednesses[0][0].displayName;
-    gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+    gestureOutput.innerText = `${categoryName}`;
+    // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
   } else {
     gestureOutput.style.display = "block";
   }
@@ -210,7 +226,7 @@ onMounted(() => {
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
       <!--      ref different from example ere, watch out-->
-      <video ref="vidRef" id="webcam" autoplay playsinline></video>
+      <video ref="vidRef" id="webcam" class="vid" autoplay playsinline></video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
       <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness: </p>
@@ -219,7 +235,9 @@ onMounted(() => {
 </template>
 
 <style>
-body {
+body, html {
+  overflow-x: hidden;
+  overflow-y: hidden;
   background-color: rgba(29, 29, 33, 1);
 }
 </style>
@@ -253,8 +271,12 @@ main {
   .canvasCont {
     display: flex;
     justify-content: left;
+    position: relative;
+
+    margin-top: 4vw;
+
     p {
-     background-color: purple;
+
       height: 15vh;
       width: 480px;
     }
