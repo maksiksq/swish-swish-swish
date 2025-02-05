@@ -21,7 +21,7 @@ let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
 
 // in the codepen they declared some video ones early, why??? Like I know????? I made them further.
-
+//
 // one goal would be to make
 // 1) Model from scratch (help)
 // 2) Replace the vision locally (easy)
