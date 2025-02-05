@@ -108,19 +108,65 @@ function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
 }
 
+function block() {
+  info('wrong, go to jail!')
+}
+
 const passwordLength = ref(6)
-const currentPassword = "Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory"
+// MAKE SURE TO INCLUDE A SPACE AT THE END
+const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
+const currentPassword = ref("")
 const i = ref(0)
+const oldCategoryName = ref("")
+let lastTime = 0;
+
+
+function throttle(func, delay, a) {
+
+  const now = Date.now();
+  if (now - lastTime >= delay) {
+    func(a);
+    lastTime = now;
+  }
+}
+
 
 async function matchPassword(categoryName: string) {
   if (i.value === 6) {
     i.value = 0;
+    oldCategoryName.value = "";
+    currentPassword.value = "";
+    block();
     return;
+  }
+
+  if (categoryName === oldCategoryName.value || categoryName === "None") {
+    return
+  }
+
+
+  i.value++;
+
+  oldCategoryName.value = categoryName;
+
+  currentPassword.value += categoryName;
+  currentPassword.value += " ";
+
+  await info("current password:")
+  await info(currentPassword.value);
+  await info((currentPassword.value === password.value).toString());
+
+  if (currentPassword.value === password.value) {
+    i.value = 0;
+    oldCategoryName.value = "";
+    currentPassword.value = "";
+    unlock();
   }
 }
 
 let lastVideoTime = -1;
 let results = undefined;
+
 async function predictWebcam() {
   const video = vidRef.value;
   const canvasElement = canvasElementRef.value;
@@ -131,7 +177,7 @@ async function predictWebcam() {
 
   if (runningMode === "IMAGE") {
     runningMode = "VIDEO";
-    await gestureRecognizer.setOptions({ runningMode: "VIDEO" });
+    await gestureRecognizer.setOptions({runningMode: "VIDEO"});
   }
   let nowInMs = Date.now();
   if (video.currentTime !== lastVideoTime) {
@@ -170,6 +216,9 @@ async function predictWebcam() {
     gestureOutput.style.display = "block";
     gestureOutput.style.width = videoWidth;
     let categoryName = results.gestures[0][0].categoryName;
+    const categoryNameStored = categoryName;
+
+    throttle(matchPassword, 500, categoryNameStored);
 
     // replaced categoryName with emoji cause of course
     if (categoryName === "Thumb_Up") {
@@ -221,7 +270,7 @@ onMounted(() => {
 <template>
   <main class="global-cont">
     <h3>Press the button to start entering the lock combination.<br>
-    If you fail, you get punished.
+      If you fail, you get punished.
     </h3>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
@@ -229,7 +278,8 @@ onMounted(() => {
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline></video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
-      <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness: </p>
+      <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:
+      </p>
     </div>
   </main>
 </template>
@@ -263,7 +313,7 @@ main {
   .videoView {
     cursor: initial;
   }
-  
+
   .webCamBtn {
     cursor: pointer;
   }
