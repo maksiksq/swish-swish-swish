@@ -47,6 +47,7 @@ const vidRef = ref(null);
 const canvasElementRef = ref(null);
 const gestureOutputRef = ref(null);
 // notice canvasCtx is declared later
+//
 
 const enableWebcamButtonRef = ref(null)
 let webcamRunning: Boolean = false;
