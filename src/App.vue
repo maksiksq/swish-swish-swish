@@ -46,6 +46,7 @@ const createGestureRecognizer = async () => {
 const vidRef = ref(null);
 const canvasElementRef = ref(null);
 const gestureOutputRef = ref(null);
+const isDoor = ref(false);
 // notice canvasCtx is declared later
 //
 
@@ -61,6 +62,7 @@ function hasGetUserMedia() {
 
 function enableCam() {
   info('webcam enabling')
+  isDoor.value = true;
 
   const video = vidRef.value;
   const canvasElement = canvasElementRef.value;
@@ -107,16 +109,19 @@ function enableCam() {
 
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
+  success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your 🍪 cookie stash 🍪 🍪🍪'
 }
 
 function block() {
   info('wrong, go to jail!')
-  window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
+  window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran";
 }
 
 const passwordLength = ref(6)
 // MAKE SURE TO INCLUDE A SPACE AT THE END
 const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
+const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
+
 const currentPassword = ref("")
 const i = ref(0)
 const oldCategoryName = ref("")
@@ -145,7 +150,6 @@ async function matchPassword(categoryName: string) {
   if (categoryName === oldCategoryName.value || categoryName === "None") {
     return
   }
-
 
   i.value++;
 
@@ -283,8 +287,7 @@ onMounted(() => {
       <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:
       </p>
     </div>
-    <p>I wonder what's behind this door 🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ </p>
-    <p></p>
+    <p class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
   </main>
 </template>
 
@@ -302,7 +305,11 @@ main {
   flex-direction: column;
   align-items: center;
 
-  padding-top: 10vw;
+  padding-top: 5vw;
+
+  .successTransition {
+    transition: transform 1146ms 1s linear(0.00, -0.00624, 0.0254, 0.0642, 0.103, 0.140, 0.176, 0.211, 0.243, 0.274, 0.305, 0.334, 0.361, 0.387, 0.413, 0.438, 0.461, 0.483, 0.505, 0.526, 0.545, 0.564, 0.582, 0.600, 0.617, 0.633, 0.648, 0.662, 0.676, 0.690, 0.703, 0.715, 0.727, 0.738, 0.749, 0.760, 0.769, 0.779, 0.788, 0.797, 0.805, 0.814, 0.821, 0.829, 0.836, 0.843, 0.849, 0.856, 0.861, 0.867, 0.873, 0.878, 0.883, 0.888, 0.893, 0.897, 0.901, 0.905, 0.909, 0.913, 0.917, 0.920, 0.924, 0.927, 0.930, 0.933, 0.936, 0.938, 0.941, 0.943, 0.946, 0.948, 0.950, 0.952, 0.954, 0.956, 0.958, 0.960, 0.961, 0.963, 0.964, 0.966, 0.967, 0.969, 0.970, 0.971, 0.972, 0.974, 0.975, 0.976, 0.977, 0.978, 0.979, 0.979, 0.980, 0.981, 0.982, 0.983, 0.983, 0.984, 0.985, 0.985, 0.986, 0.987, 0.987, 0.988, 0.988, 0.989, 0.989, 0.990, 0.990, 0.990, 0.991, 0.991, 0.992, 0.992, 0.992, 0.993, 0.993, 0.993, 0.993, 0.994, 0.994, 0.994, 0.995, 0.995, 0.995, 0.995, 0.995, 0.996, 0.996, 0.996, 0.996, 0.996, 0.996, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1.00);
+  }
 
   h3, p {
     font-size: 1rem;
