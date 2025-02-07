@@ -111,6 +111,7 @@ function unlock() {
 
 function block() {
   info('wrong, go to jail!')
+  window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstley";
 }
 
 const passwordLength = ref(6)
@@ -282,6 +283,8 @@ onMounted(() => {
       <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:
       </p>
     </div>
+    <p>I wonder what's behind this door 🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ </p>
+    <p></p>
   </main>
 </template>
 
@@ -301,7 +304,7 @@ main {
 
   padding-top: 10vw;
 
-  h3 {
+  h3, p {
     font-size: 1rem;
     color: white;
     font-family: Comfortaa, sans-serif;
