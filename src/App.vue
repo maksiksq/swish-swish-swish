@@ -356,7 +356,7 @@ button {
   font-size: 1rem;
   border: 3px solid #000000;
   background-color: #8a00bf;
-  //mix-blend-mode: hard-light; color
+  //mix-blend-mode: hard-light; color i wonder if I should keep it if I copy paste this one
 
   box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
 
