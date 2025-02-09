@@ -262,7 +262,7 @@ async function predictWebcam() {
   } else {
     gestureOutput.style.display = "block";
   }
-  // Call this function again to keep predicting when the browser is ready.
+  // Call this function again to keep predicting whenever the browser is ready.
   if (webcamRunning === true) {
     window.requestAnimationFrame(predictWebcam);
   }
