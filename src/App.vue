@@ -113,6 +113,8 @@ function unlock() {
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
+const ifRun = ref(true)
+
 function block() {
   info('wrong, go to jail!')
   window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
@@ -171,6 +173,16 @@ function matchEmoji(categoryName: string) {
   return categoryName;
 }
 
+function reEnable() {
+  setTimeout(() => {
+    ifRun.value = true;
+    if (webcamRunning) {
+      predictWebcam();
+    }
+  }, 3000)
+
+}
+
 async function matchPassword(categoryName: string) {
   if (i.value === 0) {
     currentCombo.value = "";
@@ -182,6 +194,10 @@ async function matchPassword(categoryName: string) {
     currentPassword.value = "";
     currentCombo.value = "";
     block();
+
+    ifRun.value = false;
+    reEnable()
+
     return;
   }
 
@@ -215,6 +231,10 @@ let lastVideoTime = -1;
 let results = undefined;
 
 async function predictWebcam() {
+  if (ifRun.value == false) {
+    return;
+  }
+
   const video = vidRef.value;
   const canvasElement = canvasElementRef.value;
   const gestureOutput = gestureOutputRef.value;
@@ -304,7 +324,7 @@ onMounted(() => {
               style="position: absolute; left: 0; top: 0"></canvas>
       <p>
         <span ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:</span>
-        <span class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{ currentCombo }}</span></span>
+        <span class="successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{ currentCombo }}</span></span>
         <!-- nested spans, truly the lazy way to do it -->
       </p>
 
