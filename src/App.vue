@@ -62,6 +62,7 @@ function hasGetUserMedia() {
 
 function enableCam() {
   info('webcam enabling')
+  isWebCamOn.value = true;
   isDoor.value = true;
 
   const video = vidRef.value;
@@ -127,6 +128,9 @@ const i = ref(0)
 const oldCategoryName = ref("")
 let lastTime = 0;
 
+const isWebCamOn = ref(false)
+const currentCombo = ref("🧈")
+
 
 function throttle(func, delay, a) {
 
@@ -137,12 +141,46 @@ function throttle(func, delay, a) {
   }
 }
 
+let emoji: string;
+
+function matchEmoji(categoryName: string) {
+  // replaced categoryName with emoji cause of course
+  if (categoryName === "Thumb_Up") {
+    categoryName = "👍";
+  }
+  if (categoryName === "Thumb_Down") {
+    categoryName = "👎";
+  }
+  // this is Peace, not Victory, bite me mediapipe ...
+  if (categoryName === "Victory") {
+    categoryName = "✌️";
+  }
+  if (categoryName === "Pointing_Up") {
+    categoryName = "☝️";
+  }
+  if (categoryName === "Closed_Fist") {
+    categoryName = "✊";
+  }
+  if (categoryName === "Open_Palm") {
+    categoryName = "👋";
+  }
+  // I think this gesture is Call me and not ILY but sure
+  if (categoryName === "ILoveYou") {
+    categoryName = "🤟";
+  }
+  return categoryName;
+}
 
 async function matchPassword(categoryName: string) {
+  if (i.value === 0) {
+    currentCombo.value = "";
+  }
+
   if (i.value === 6) {
     i.value = 0;
     oldCategoryName.value = "";
     currentPassword.value = "";
+    currentCombo.value = "";
     block();
     return;
   }
@@ -152,6 +190,9 @@ async function matchPassword(categoryName: string) {
   }
 
   i.value++;
+
+  // might as well add the emoji to the current thing with the same function cause why not
+  currentCombo.value += emoji;
 
   oldCategoryName.value = categoryName;
 
@@ -224,32 +265,9 @@ async function predictWebcam() {
     let categoryName = results.gestures[0][0].categoryName;
     const categoryNameStored = categoryName;
 
+    emoji = matchEmoji(categoryName);
     throttle(matchPassword, 500, categoryNameStored);
 
-    // replaced categoryName with emoji cause of course
-    if (categoryName === "Thumb_Up") {
-      categoryName = "👍";
-    }
-    if (categoryName === "Thumb_Down") {
-      categoryName = "👎";
-    }
-    // this is Peace, not Victory, bite me mediapipe ...
-    if (categoryName === "Victory") {
-      categoryName = "✌️";
-    }
-    if (categoryName === "Pointing_Up") {
-      categoryName = "☝️";
-    }
-    if (categoryName === "Closed_Fist") {
-      categoryName = "✊";
-    }
-    if (categoryName === "Open_Palm") {
-      categoryName = "👋";
-    }
-    // I think this gesture is Call me and not ILY but sure
-    if (categoryName === "ILoveYou") {
-      categoryName = "🤟";
-    }
 
     //
 
@@ -257,7 +275,7 @@ async function predictWebcam() {
         (results.gestures[0][0].score * 100).toString()
     ).toFixed(2);
     const handedness = results.handednesses[0][0].displayName;
-    gestureOutput.innerText = `${categoryName}`;
+    gestureOutput.innerText = `${emoji}`;
     // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
   } else {
     gestureOutput.style.display = "block";
@@ -284,8 +302,12 @@ onMounted(() => {
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline></video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
-      <p ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:
+      <p>
+        <span ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:</span>
+        <span class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{ currentCombo }}</span></span>
+        <!-- nested spans, truly the lazy way to do it -->
       </p>
+
     </div>
     <p class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
   </main>
@@ -299,6 +321,10 @@ body, html {
 }
 </style>
 <style lang="scss" scoped>
+.dNone {
+  display: none;
+}
+
 main {
   display: flex;
   justify-content: center;
