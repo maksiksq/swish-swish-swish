@@ -323,7 +323,7 @@ onMounted(() => {
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
       <p>
-        <span ref="gestureOutputRef" id="gesture_output" class="output">GestureRecognizer: <br>Confidence: <br>Handedness:</span>
+        <span ref="gestureOutputRef" id="gesture_output" class="output">None <br></span>
         <span class="successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{ currentCombo }}</span></span>
         <!-- nested spans, truly the lazy way to do it -->
       </p>
