@@ -104,17 +104,17 @@ function enableCam() {
 
 // let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
 // 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
-// cause it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
+// because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
 // which I think would be very safe. Or move it to a server but if i can keep it internetless why move it to a server.
 
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
-  success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your 🍪 cookie stash 🍪 🍪🍪'
+  success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
 function block() {
   info('wrong, go to jail!')
-  window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran";
+  window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
 }
 
 const passwordLength = ref(6)
