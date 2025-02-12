@@ -14,13 +14,15 @@ import {
   attachLogger,
 } from '@tauri-apps/plugin-log';
 import {onMounted, ref} from "vue";
+import Sidebar from "./Sidebar.vue";
 
 const pTxt = ref(null);
 
 let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
 
-// in the codepen they declared some video ones early, why??? Like I know????? I made them further.
+// Oh my god I'm finally writing comments that people are
+// actually gonna read not just talking to myself, hello
 //
 // one goal would be to make
 // 1) Model from scratch (help)
@@ -106,7 +108,7 @@ function enableCam() {
 // let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
 // 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
 // because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
-// which I think would be very safe. Or move it to a server but if i can keep it internetless why move it to a server.
+// which I think would be very safe.
 
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
@@ -118,10 +120,12 @@ const ifRun = ref(true)
 function block() {
   info('wrong, go to jail!')
   window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
+
+  success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
 }
 
 const passwordLength = ref(6)
-// MAKE SURE TO INCLUDE A SPACE AT THE END
+// MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
 const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
 const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
 
@@ -129,6 +133,10 @@ const currentPassword = ref("")
 const i = ref(0)
 const oldCategoryName = ref("")
 let lastTime = 0;
+
+const isResetPasswordMode = ref(false);
+const h3txt1 = ref("Press the button to start entering the lock combination.")
+const h3txt2 = ref("If you fail, you get punished.")
 
 const isWebCamOn = ref(false)
 const currentCombo = ref("🧈")
@@ -143,7 +151,11 @@ function throttle(func, delay, a) {
   }
 }
 
-let emoji: string;
+const emoji = ref("");
+
+function convertToEmoji(s: string) {
+
+}
 
 function matchEmoji(categoryName: string) {
   // replaced categoryName with emoji cause of course
@@ -180,7 +192,6 @@ function reEnable() {
       predictWebcam();
     }
   }, 3000)
-
 }
 
 async function matchPassword(categoryName: string) {
@@ -215,15 +226,31 @@ async function matchPassword(categoryName: string) {
   currentPassword.value += categoryName;
   currentPassword.value += " ";
 
+  await info("password:")
+  await info(password.value);
   await info("current password:")
   await info(currentPassword.value);
   await info((currentPassword.value === password.value).toString());
+
+  if (i.value === 6 && password.value === "blank") {
+    password.value = currentPassword.value;
+    h3txt1.value = "Press the button to start entering the lock combination."
+    h3txt2.value = "If you fail, you get punished."
+
+  }
 
   if (currentPassword.value === password.value) {
     i.value = 0;
     oldCategoryName.value = "";
     currentPassword.value = "";
     unlock();
+
+    if (isResetPasswordMode.value) {
+      password.value = "blank";
+      isResetPasswordMode.value = false;
+      h3txt1.value = "Now input the new password. You can always reset it";
+      h3txt2.value = "from the sidebar, provided you remember the password.";
+    }
   }
 }
 
@@ -279,13 +306,14 @@ async function predictWebcam() {
   }
   canvasCtx.restore();
 
+
   if (results.gestures.length > 0) {
     gestureOutput.style.display = "block";
     gestureOutput.style.width = videoWidth;
     let categoryName = results.gestures[0][0].categoryName;
     const categoryNameStored = categoryName;
 
-    emoji = matchEmoji(categoryName);
+    emoji.value = matchEmoji(categoryName);
     throttle(matchPassword, 500, categoryNameStored);
 
 
@@ -309,23 +337,46 @@ async function predictWebcam() {
 onMounted(() => {
   createGestureRecognizer();
 })
+
+
+const isSideBar = ref(false);
+
+function openSidebar() {
+  isSideBar.value = !isSideBar.value;
+}
+
+function resetPasswordStart() {
+  h3txt1.value = "Password reset mode, first enter the current password correctly.";
+  h3txt2.value = "If else, access denied.";
+
+  isResetPasswordMode.value = true;
+}
 </script>
 
 <template>
   <main class="global-cont">
-    <h3>Press the button to start entering the lock combination.<br>
-      If you fail, you get punished.
+    <div v-on:click="openSidebar" class="settings-button">
+      <svg class="settings-svg" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 448 512">
+        <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
+        <path
+            d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
+      </svg>
+    </div>
+    <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart"
+             :is-sidebar-open=isSideBar></Sidebar>
+    <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
-      <!--      ref different from example ere, watch out-->
-      <video ref="vidRef" id="webcam" class="vid" autoplay playsinline></video>
+      <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
       <p>
         <span ref="gestureOutputRef" id="gesture_output" class="output">None <br></span>
-        <span class="successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{ currentCombo }}</span></span>
-        <!-- nested spans, truly the lazy way to do it -->
+        <span class="successTransition"
+              :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{
+            currentCombo
+          }}</span></span>
       </p>
 
     </div>
@@ -394,7 +445,7 @@ main {
 button {
   position: relative;
   margin-top: 2vh;
-  z-index: 999999;
+  z-index: 999;
   padding: 0.6vw 1vw;
 
   color: white;
@@ -435,13 +486,36 @@ button:hover {
   color: #000000;
 }
 
-// copy pasted styles from the codepen
+.settings-button {
+  all: unset;
+  cursor: pointer;
+
+  right: 1.5vw;
+  top: 3vw;
+  position: absolute;
+  z-index: 3;
+}
+
+.settings-button::after {
+  all: unset;
+}
+
+.settings-svg {
+  position: relative;
+  width: 2vw;
+  height: 2vw;
+  z-index: 1;
+
+}
+
+.settings-svg::after {
+  all: unset;
+}
+
 body {
   font-family: roboto, serif;
   margin: 2em;
   color: #3d3d3d;
-  --mdc-theme-primary: #007f8b;
-  --mdc-theme-on-primary: #f1f3f4;
 }
 
 h1 {
