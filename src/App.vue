@@ -154,7 +154,34 @@ function throttle(func, delay, a) {
 const emoji = ref("");
 
 function convertToEmoji(s: string) {
+  const allEmoji = s.split(" ")
 
+  allEmoji.forEach((elem) => {
+    if (elem === "Thumb_Up") {
+      s += "👍";
+    }
+    if (elem === "Thumb_Down") {
+      s += "👎";
+    }
+    if (elem=== "Victory") {
+      s += "✌️";
+    }
+    if (elem === "Pointing_Up") {
+      s += "☝️";
+    }
+    if (elem === "Closed_Fist") {
+      s += "✊";
+    }
+    if (elem === "Open_Palm") {
+      s += "👋";
+    }
+    if (elem === "ILoveYou") {
+      s += "🤟";
+    }
+
+
+  })
+  return s;
 }
 
 function matchEmoji(categoryName: string) {
@@ -219,7 +246,7 @@ async function matchPassword(categoryName: string) {
   i.value++;
 
   // might as well add the emoji to the current thing with the same function cause why not
-  currentCombo.value += emoji;
+  currentCombo.value += emoji.value;
 
   oldCategoryName.value = categoryName;
 
@@ -237,6 +264,7 @@ async function matchPassword(categoryName: string) {
     h3txt1.value = "Press the button to start entering the lock combination."
     h3txt2.value = "If you fail, you get punished."
 
+    success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
   if (currentPassword.value === password.value) {
@@ -323,7 +351,7 @@ async function predictWebcam() {
         (results.gestures[0][0].score * 100).toString()
     ).toFixed(2);
     const handedness = results.handednesses[0][0].displayName;
-    gestureOutput.innerText = `${emoji}`;
+    gestureOutput.innerText = `${emoji.value}`;
     // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
   } else {
     gestureOutput.style.display = "block";
