@@ -352,7 +352,7 @@ async function predictWebcam() {
     ).toFixed(2);
     const handedness = results.handednesses[0][0].displayName;
     gestureOutput.innerText = `${emoji.value}`;
-    // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}`;
+    // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}` ;
   } else {
     gestureOutput.style.display = "block";
   }
