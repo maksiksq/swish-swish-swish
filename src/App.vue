@@ -24,9 +24,10 @@ let runningMode = "IMAGE";
 // Oh my god I'm finally writing comments that people are
 // actually gonna read not just talking to myself, hello
 //
-// one goal would be to make
+// some goals would be to make
 // 1) Model from scratch (help)
 // 2) Replace the vision locally (easy)
+// 3) Actual security you know (for later)
 const createGestureRecognizer = async () => {
 
   const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm") // maybe replace locally?
