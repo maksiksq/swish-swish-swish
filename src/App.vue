@@ -25,6 +25,7 @@ let runningMode = "IMAGE";
 // actually gonna read not just talking to myself, hello
 //
 //
+//
 // some goals would be to make
 // 1) Model from scratch (help)
 // 2) Replace the vision locally (easy)
