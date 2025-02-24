@@ -21,15 +21,13 @@ const pTxt = ref(null);
 let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
 
-// Oh my god I'm finally writing comments that people are
-// actually gonna read not just talking to myself, hello
-//
+// hello, alive human being
 //
 //
 // some goals would be to make
 // 1) Model from scratch (help)
 // 2) Replace the vision locally (easy)
-// 3) Actual security you know (for later)
+// 3) Actual security you know (depending on the implementation)
 const createGestureRecognizer = async () => {
 
   const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm") // maybe replace locally?
@@ -421,6 +419,13 @@ body, html {
   overflow-y: hidden;
   background-color: rgba(29, 29, 33, 1);
 }
+
+// selection
+
+::selection {
+  background: #8a02b5;
+}
+
 </style>
 <style lang="scss" scoped>
 .dNone {
