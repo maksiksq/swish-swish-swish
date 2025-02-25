@@ -21,13 +21,6 @@ const pTxt = ref(null);
 let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
 
-// hello, alive human being
-//
-//
-// some goals would be to make
-// 1) Model from scratch (help)
-// 2) Replace the vision locally (easy)
-// 3) Actual security you know (depending on the implementation)
 const createGestureRecognizer = async () => {
 
   const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm") // maybe replace locally?
