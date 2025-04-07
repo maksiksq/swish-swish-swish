@@ -44,7 +44,6 @@ const canvasElementRef = ref(null);
 const gestureOutputRef = ref(null);
 const isDoor = ref(false);
 // notice canvasCtx is declared later
-//
 
 const enableWebcamButtonRef = ref(null)
 let webcamRunning: Boolean = false;
@@ -337,9 +336,6 @@ async function predictWebcam() {
 
     emoji.value = matchEmoji(categoryName);
     throttle(matchPassword, 500, categoryNameStored);
-
-
-    //
 
     const categoryScore = parseFloat(
         (results.gestures[0][0].score * 100).toString()
