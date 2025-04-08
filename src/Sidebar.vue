@@ -75,7 +75,7 @@ const isOpen = computed(() => props.isSidebarOpen);
     padding: 0;
     user-select: none;
   }
-
+//
   .sidebar {
     overflow-x: hidden;
 
