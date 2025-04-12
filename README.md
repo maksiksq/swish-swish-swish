@@ -1,6 +1,6 @@
 # Swish
 
-This is the documentation for Swish, the AI gesture recognition lock/application.
+This is the documentation for Swish, the AI gesture recognition lock/app.
 
 ## About the project
 
