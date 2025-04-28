@@ -1,4 +1,4 @@
-const noble = require('@abandonware/noble');
+import noble from '@abandonware/noble'
 
 const SERVICE_UUID = '4fafc2011fb5459e8fccc5c9c331914b';
 const CHARACTERISTIC_UUID = 'beb5483e36e14688b7f5ea07361b26a8';
