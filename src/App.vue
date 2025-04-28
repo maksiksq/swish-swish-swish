@@ -402,7 +402,7 @@ function resetPasswordStart() {
   </main>
 </template>
 
-<style>
+<style lang="scss">
 body, html {
   overflow-x: hidden;
   overflow-y: hidden;
