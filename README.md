@@ -1,6 +1,6 @@
 # Swish
 
-This is the documentation for Swish, the AI gesture recognition lock/application.
+This is the documentation for Swish, the AI gesture recognition lock/app.
 
 ## About the project
 
@@ -58,7 +58,7 @@ After the main functionality was done, I finalized the UI, added a sidebar and t
 
 ### Hardware:
 
-- In the future, there are plans to slap it on an ESP32 and a stock electrical lock to make it an actual physical lock. That would also require a camera and a display. 
+- We're also slapping it on an ESP32 and a stock electrical lock to make it an actual physical lock. And then using that as our course and/or diploma project alongside the app and sending it to a competition or two.
 
 ### People:
 
