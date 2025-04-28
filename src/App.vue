@@ -369,6 +369,14 @@ function resetPasswordStart() {
 
   isResetPasswordMode.value = true;
 }
+
+//
+// Talking to the ESP32
+// via BLE ofccc
+//
+
+
+
 </script>
 
 <template>
