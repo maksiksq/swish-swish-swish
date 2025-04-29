@@ -106,6 +106,7 @@ function enableCam() {
 
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
+  sendBleCommand();
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
@@ -402,7 +403,6 @@ async function sendBleCommand() {
              :is-sidebar-open=isSideBar></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
-    <button style="width: 200px; height: 200px;" @click="sendBleCommand">run ble</button>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
