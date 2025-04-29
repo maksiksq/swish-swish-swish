@@ -15,6 +15,7 @@ import {
 } from '@tauri-apps/plugin-log';
 import {onMounted, ref} from "vue";
 import Sidebar from "./Sidebar.vue";
+import {invoke} from "@tauri-apps/api/core";
 
 const pTxt = ref(null);
 
@@ -375,7 +376,16 @@ function resetPasswordStart() {
 // via BLE ofccc
 //
 
-
+async function sendBleCommand() {
+  await info("hello");
+  try {
+    const result = await invoke("send_ble_command", { cmd: "on" });
+    await info(result);
+  } catch (err) {
+    console.error("BLE command failed:", err);
+    await info(`BLE command failed ${err.toString()}`);
+  }
+}
 
 </script>
 
@@ -392,6 +402,7 @@ function resetPasswordStart() {
              :is-sidebar-open=isSideBar></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
+    <button style="width: 200px; height: 200px;" @click="sendBleCommand">run ble</button>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
