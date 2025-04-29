@@ -1,10 +1,12 @@
-import noble from '@abandonware/noble'
+// old js code, leaving this in as a back-up, moving this part to the Rust back-end
+
+import noble from '@abandonware/noble';
 
 const SERVICE_UUID = '4fafc2011fb5459e8fccc5c9c331914b';
 const CHARACTERISTIC_UUID = 'beb5483e36e14688b7f5ea07361b26a8';
 const DEVICE_NAME = "ESP32_LED_Control";
 
-async function main() {
+async function runBle() {
     noble.on('stateChange', async (state) => {
         if (state === 'poweredOn') {
             console.log('Scanning for devices...');
@@ -39,4 +41,4 @@ async function main() {
     });
 }
 
-main().catch(console.error);
+runBle().catch(console.error);
