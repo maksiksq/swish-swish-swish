@@ -419,6 +419,7 @@ async function sendBleCommand(flipper: string) {
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
     <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
+    <button @click="sendBleCommand('off')">Lock</button>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
