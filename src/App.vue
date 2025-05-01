@@ -86,6 +86,9 @@ function enableCam() {
   } else {
     webcamRunning = true;
     enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+    info("yoy")
+    sendBleCommand("on");
+
   }
 
   // getUserMedia parameters idk why they're necessary but ima forget
@@ -386,7 +389,6 @@ async function sendBleCommand(flipper: string) {
     const result = await invoke("send_ble_command", { cmd: flipper });
     await info(result);
   } catch (err) {
-    console.error("BLE command failed:", err);
     await info(`BLE command failed ${err.toString()}`);
   }
 }

@@ -21,7 +21,6 @@ const CHARACTERISTIC_UUID: &str = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 
 #[command]
 async fn send_ble_command(cmd: String) -> Result<String, String> {
-    info!("Ble goes wroom");
     let manager = Manager::new().await.map_err(|e| e.to_string())?;
     let adapters = manager.adapters().await.map_err(|e| e.to_string())?;
     let adapter = adapters.into_iter().nth(0).ok_or("No BLE adapter found")?;
@@ -33,10 +32,11 @@ async fn send_ble_command(cmd: String) -> Result<String, String> {
 
     while let Some(event) = events.next().await {
         if let CentralEvent::DeviceDiscovered(id) | CentralEvent::DeviceUpdated(id) = event {
+//             println!("discovered thing");
             println!("Discovered device ID: {:?}", id);
             let peripheral = adapter.peripheral(&id).await.map_err(|e| e.to_string())?;
             let properties = peripheral.properties().await.map_err(|e| e.to_string())?;
-            println!("Properties: {:?}", properties);
+//             println!("Properties: {:?}", properties);
 
             if let Some(local_name) = properties.and_then(|p| p.local_name) {
                 println!("Found something");
