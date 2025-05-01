@@ -17,6 +17,37 @@ import {onMounted, ref} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
 
+//
+// endpoints
+//
+
+// let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
+// 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
+// because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
+// which I think would be very safe.
+
+function unlock() {
+  info('hurray you got in, now it`s time to rename yourself to Rob Banks')
+
+  // open sesame (opens the lock)
+  sendBleCommand("on");
+  success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
+}
+
+function block() {
+  info('wrong, go to jail!')
+
+  // you shall not pass (closes the lock)
+  sendBleCommand("off");
+  window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
+
+  success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
+}
+
+//
+//
+//
+
 const pTxt = ref(null);
 
 let gestureRecognizer: GestureRecognizer;
@@ -102,28 +133,7 @@ function enableCam() {
   });
 }
 
-// let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
-// 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
-// because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
-// which I think would be very safe.
-
-function unlock() {
-  info('hurray you got in, now it`s time to rename yourself to Rob Banks')
-
-  // sends unlock command to ESP32
-  sendBleCommand("on");
-  success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
-}
-
 const ifRun = ref(true)
-
-function block() {
-  info('wrong, go to jail!')
-  sendBleCommand("off");
-  window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
-
-  success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
-}
 
 const passwordLength = ref(6)
 // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
