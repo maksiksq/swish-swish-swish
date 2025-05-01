@@ -106,7 +106,9 @@ function enableCam() {
 
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
-  sendBleCommand();
+
+  // sends unlock command to ESP32
+  sendBleCommand("on");
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
@@ -114,6 +116,7 @@ const ifRun = ref(true)
 
 function block() {
   info('wrong, go to jail!')
+  sendBleCommand("off");
   window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
 
   success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
@@ -377,10 +380,10 @@ function resetPasswordStart() {
 // via BLE ofccc
 //
 
-async function sendBleCommand() {
+async function sendBleCommand(flipper: string) {
   await info("hello");
   try {
-    const result = await invoke("send_ble_command", { cmd: "on" });
+    const result = await invoke("send_ble_command", { cmd: flipper });
     await info(result);
   } catch (err) {
     console.error("BLE command failed:", err);
