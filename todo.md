@@ -10,3 +10,5 @@ Todo:
 - [ ] Security
 - [ ] Don't forget to remove debug functions from Disable Recognition button
 - [ ] Fix BLE search backlog, only allow one command at a time if another sent it takes priority
+- [ ] Make BLE search stop after some time
+- [ ] Rewrite BLE code for Tauri BLE library
