@@ -12,3 +12,4 @@ Todo:
 - [ ] Fix BLE search backlog, only allow one command at a time if another sent it takes priority
 - [ ] Make BLE search stop after some time
 - [ ] Rewrite BLE code for Tauri BLE library
+- [ ] Style webcam video somehow

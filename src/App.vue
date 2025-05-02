@@ -291,7 +291,11 @@ function reEnable() {
     if (webcamRunning) {
       predictWebcam();
     }
-  }, 3000)
+  }, 1500)
+}
+
+const clearCurrentLockCombo = async () => {
+
 }
 
 async function matchPassword(categoryName: string) {
@@ -488,14 +492,19 @@ async function sendBleCommand(flipper: string) {
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
-      <p>
-        <span ref="gestureOutputRef" id="gesture_output" class="output">None <br></span>
-        <span class="successTransition"
-              :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{
-            currentCombo
-          }}</span></span>
-      </p>
-
+      <div class="rightWebcamCont">
+        <p>
+          <span ref="gestureOutputRef" id="gesture_output" class="output">None <br></span>
+          <span class="successTransition"
+                :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">Current combination: <span>{{
+              currentCombo
+            }}</span>
+          </span>
+        </p>
+        <button class="buttonActive cleanInputButton successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
+          Clear
+        </button>
+      </div>
     </div>
     <p class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
   </main>
@@ -559,12 +568,18 @@ main {
 
     margin-top: 4vw;
 
-    p {
 
-      height: 15vh;
-      width: 480px;
+    .rightWebcamCont {
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+
+      p {
+        width: 480px;
+      }
+
     }
-
   }
 }
 
