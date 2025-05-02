@@ -1,4 +1,6 @@
-// old js code, leaving this in as a back-up, moving this part to the Rust back-end
+// old js code, leaving this in as a back-up
+// replaced by the Rust code in @/src-tauri/src/lib.rs
+
 
 import noble from '@abandonware/noble';
 

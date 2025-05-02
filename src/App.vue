@@ -80,6 +80,8 @@ const DO_RICKROLL = false;
 function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
 
+  // enables the lock button
+
   // open sesame (opens the lock)
   sendBleCommand("on");
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
@@ -97,7 +99,6 @@ function block() {
 
   success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
 }
-
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
@@ -173,10 +174,10 @@ function enableCam() {
 
   if (webcamRunning === true) {
     webcamRunning = false;
-    enableWebcamButton.innerText = "ENABLE PREDICTIONS";
+    enableWebcamButton.innerText = "Enable Predictions";
   } else {
     webcamRunning = true;
-    enableWebcamButton.innerText = "DISABLE PREDICTIONS";
+    enableWebcamButton.innerText = "Disable Predictions";
     info("yoy")
     sendBleCommand("on");
 
@@ -480,7 +481,7 @@ async function sendBleCommand(flipper: string) {
     </h3>
     <div class="frontButtonWrap">
       <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton" :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock</button>
-      <button @click="sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
+      <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
     </div>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
@@ -569,6 +570,8 @@ main {
 .frontButtonWrap {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  width: 100%;
 
   gap: 5vw;
 }
@@ -622,13 +625,13 @@ button::after {
 }
 
 .buttonGreyedOut {
-  background-color: #7e7c80;
+  background-color: #717171;
   box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
 
 }
 
 .buttonGreyedOut:hover {
-  background-color: #7e7c80;
+  background-color: #717171;
 
 }
 
