@@ -297,8 +297,10 @@ function reEnable() {
 }
 
 const clearCurrentLockCombo = async () => {
-  currentCombo.value = "";
   i.value = 0;
+  oldCategoryName.value = "";
+  currentPassword.value = "";
+  currentCombo.value = "";
 }
 
 async function matchPassword(categoryName: string) {
@@ -307,10 +309,7 @@ async function matchPassword(categoryName: string) {
   }
 
   if (i.value === 6) {
-    i.value = 0;
-    oldCategoryName.value = "";
-    currentPassword.value = "";
-    currentCombo.value = "";
+    await clearCurrentLockCombo();
     block();
 
     ifRun.value = false;
@@ -504,7 +503,7 @@ async function sendBleCommand(flipper: string) {
             }}</span>
           </span>
         </p>
-        <button class="buttonActive cleanInputButton successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
+        <button @click="clearCurrentLockCombo()" class="buttonActive cleanInputButton successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
       </div>
