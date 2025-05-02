@@ -203,6 +203,8 @@ const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory "
 const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
 
 const currentPassword = ref("")
+
+// this is the global password iterator
 const i = ref(0)
 const oldCategoryName = ref("")
 let lastTime = 0;
@@ -295,7 +297,8 @@ function reEnable() {
 }
 
 const clearCurrentLockCombo = async () => {
-
+  currentCombo.value = "";
+  i.value = 0;
 }
 
 async function matchPassword(categoryName: string) {
