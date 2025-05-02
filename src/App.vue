@@ -18,6 +18,18 @@ import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
 
 //
+// CONFIG
+//
+
+// Delay between each gesture recognition, to give the user a little bit of time to breathe
+// Can be offest by GestureRecognizer taking a while
+const DELAY_BETWEEN_INPUTS = 550;
+
+//
+//
+//
+
+//
 // endpoints
 //
 
@@ -353,7 +365,7 @@ async function predictWebcam() {
     const categoryNameStored = categoryName;
 
     emoji.value = matchEmoji(categoryName);
-    throttle(matchPassword, 500, categoryNameStored);
+    throttle(matchPassword, DELAY_BETWEEN_INPUTS, categoryNameStored);
 
     const categoryScore = parseFloat(
         (results.gestures[0][0].score * 100).toString()
