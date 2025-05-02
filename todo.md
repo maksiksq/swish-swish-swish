@@ -7,3 +7,4 @@ Todo:
 - [ ] (Re)move rickroll (nooooo)
 - [ ] Prettify settings
 - [ ] Add hard reset and setup (might be too much for rn)
+- [ ] Make rickroll optional
