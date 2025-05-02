@@ -81,6 +81,7 @@ function unlock() {
   info('hurray you got in, now it`s time to rename yourself to Rob Banks')
 
   // enables the lock button
+  isLockButtonGreyedOut.value = false;
 
   // open sesame (opens the lock)
   sendBleCommand("on");

@@ -8,3 +8,5 @@ Todo:
 - [ ] Add hard reset and setup (might be too much for rn)
 - [x] Make rickroll optional (nooo)
 - [ ] Security
+- [ ] Don't forget to remove debug functions from Disable Recognition button
+- [ ] Fix BLE search backlog, only allow one command at a time if another sent it takes priority
