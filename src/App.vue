@@ -59,6 +59,9 @@ import {invoke} from "@tauri-apps/api/core";
 // Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
 const DELAY_BETWEEN_INPUTS = 550;
 
+// Yes. Only does it once.
+const DO_RICKROLL = false;
+
 // --------------------------------------
 // === CONFIG END ===
 // --------------------------------------
@@ -87,7 +90,10 @@ function block() {
 
   // you shall not pass (closes the lock)
   sendBleCommand("off");
-  window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
+
+  if (DO_RICKROLL) {
+    window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
+  }
 
   success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
 }
