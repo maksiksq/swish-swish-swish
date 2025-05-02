@@ -22,7 +22,7 @@ import {invoke} from "@tauri-apps/api/core";
 //
 
 // Delay between each gesture recognition, to give the user a little bit of time to breathe
-// Can be offest by GestureRecognizer taking a while
+// Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
 const DELAY_BETWEEN_INPUTS = 550;
 
 //
