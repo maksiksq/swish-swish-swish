@@ -59,7 +59,7 @@ import {invoke} from "@tauri-apps/api/core";
 // Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
 const DELAY_BETWEEN_INPUTS = 550;
 
-// Yes. Only does it once.
+// Yes.
 const DO_RICKROLL = false;
 
 // --------------------------------------
@@ -101,6 +101,12 @@ function block() {
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
+
+const isLockButtonGreyedOut = ref(true);
+const isWebcamButtonGreyedOut = ref(false);
+
+const buttonGreyedOutClass = ref('buttonGreyedOut');
+const buttonActiveClass = ref('buttonActive');
 
 const pTxt = ref(null);
 
@@ -472,8 +478,10 @@ async function sendBleCommand(flipper: string) {
              :is-sidebar-open=isSideBar></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
-    <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton">Enable webcam</button>
-    <button @click="sendBleCommand('off')">Lock</button>
+    <div class="frontButtonWrap">
+      <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton" :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock</button>
+      <button @click="sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
+    </div>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
@@ -529,6 +537,8 @@ main {
     font-weight: normal;
     text-align: center;
 
+    hyphens: auto;
+
     line-height: 2rem;
   }
 
@@ -556,6 +566,13 @@ main {
   }
 }
 
+.frontButtonWrap {
+  display: flex;
+  flex-direction: row;
+
+  gap: 5vw;
+}
+
 button {
   position: relative;
   margin-top: 2vh;
@@ -566,10 +583,9 @@ button {
   font-family: 'Comfortaa', sans-serif;
   font-size: 1rem;
   border: 3px solid #000000;
-  background-color: #8a00bf;
-  //mix-blend-mode: hard-light; color i wonder if I should keep it if I copy paste this one
 
-  box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+  // #5301bf looks so good, but a little not in theme
+  //mix-blend-mode: hard-light;
 
   transition: all 0.2s ease-in-out;
 }
@@ -593,11 +609,27 @@ button::after {
   height: 100%;
 }
 
-button:hover {
+.buttonActive:hover {
   transform: translate(3px, 3px);
   box-shadow: 1px 1px 0 black;
   background-color: #9e04da;
   color: #000000;
+}
+
+.buttonActive {
+  background-color: #8a00bf;
+  box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+}
+
+.buttonGreyedOut {
+  background-color: #7e7c80;
+  box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+
+}
+
+.buttonGreyedOut:hover {
+  background-color: #7e7c80;
+
 }
 
 .settings-button {
