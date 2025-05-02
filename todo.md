@@ -1,7 +1,7 @@
 Todo:
 
 - [x] Position lock button naturally
-- [ ] Add clear password button (in the front)
+- [x] Add clear password button (in the front)
 - [ ] Fiddle with delays
 - [ ] Add option to automatically close the lock
 - [ ] Prettify settings
@@ -13,3 +13,5 @@ Todo:
 - [ ] Make BLE search stop after some time
 - [ ] Rewrite BLE code for Tauri BLE library
 - [ ] Style webcam video somehow
+- [ ] Maybe add timer bar
+- [ ] Apparently clear doesn't work properly??

@@ -29,3 +29,7 @@ uuid = { version = "1", features = ["v4"] }
 futures = "0.3"
 tokio = { version = "1", features = ["rt-multi-thread", "macros"] }
 log = "0.4"
+tauri-plugin-blec = "0.5.3"
+
+tauri-plugin-shell = "2.0.0"
+tracing = { version = "0.1.40", features = ["log"] }

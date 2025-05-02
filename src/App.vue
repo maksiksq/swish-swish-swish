@@ -16,6 +16,8 @@ import {
 import {onMounted, ref} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
+import { BleDevice, getConnectionUpdates, startScan, sendString, readString, unsubscribe, subscribeString, stopScan, connect, disconnect, getScanningUpdates } from '@mnlphlp/plugin-blec'
+
 
 // ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣷⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 // ⠀⠄⠠⡐⠀⠊⠍⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -77,14 +79,39 @@ const DO_RICKROLL = false;
 // because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
 // which I think would be very safe.
 
-function unlock() {
-  info('hurray you got in, now it`s time to rename yourself to Rob Banks')
+const devices = ref<BleDevice[]>([])
+const connected = ref<Boolean>(false)
+const scanning = ref<Boolean>(false)
+
+const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
+
+async function unlock() {
+  await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
+  await info(devices.value.toString());
 
   // enables the lock button
   isLockButtonGreyedOut.value = false;
 
+  await info('i got this far');
+  if (!devices.value) {
+    success.value = 'No lock found in the vicinity which is about 5-15 meters (oh no)'
+  }
+  for (const device of devices.value) {
+    console.log(device);
+    if (device.name === "ESP32_LED_Control") {
+        await connect(device.address, () => info('disconnected'));
+    }
+  }
+
+
+  console.log("minefield")
+  await sendBleCommand("on");
+  console.log("minefield2")
+
+  await sendString(CHARACTERISTIC_UUID, "on");
+
+
   // open sesame (opens the lock)
-  sendBleCommand("on");
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
@@ -180,7 +207,8 @@ function enableCam() {
     webcamRunning = true;
     enableWebcamButton.innerText = "Disable Predictions";
     info("yoy")
-    sendBleCommand("on");
+    unlock();
+    // sendBleCommand("on");
 
   }
 
@@ -438,8 +466,14 @@ async function predictWebcam() {
   }
 }
 
-onMounted(() => {
-  createGestureRecognizer();
+onMounted(async () => {
+  await createGestureRecognizer();
+
+  await getConnectionUpdates((state) => connected.value = state)
+  await getScanningUpdates((state) => {
+    console.log('Scanning:', state)
+    scanning.value = state
+  })
 })
 
 
@@ -463,6 +497,7 @@ function resetPasswordStart() {
 
 async function sendBleCommand(flipper: string) {
   await info("hello");
+  console.log("hello");
   try {
     const result = await invoke("send_ble_command", { cmd: flipper });
     await info(result);
@@ -488,6 +523,9 @@ async function sendBleCommand(flipper: string) {
     </h3>
     <div class="frontButtonWrap">
       <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton" :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock</button>
+      <button class="buttonActive" :onclick="() => startScan((dev: BleDevice[]) => {info(dev.toString()); devices = dev}, 10000)">
+        Start Scan
+      </button>
       <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
     </div>
     <div class="canvasCont">
