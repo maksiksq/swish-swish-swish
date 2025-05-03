@@ -79,10 +79,6 @@ const DO_RICKROLL = false;
 // because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
 // which I think would be very safe.
 
-const devices = ref<BleDevice[]>([])
-const connected = ref<Boolean>(false)
-const scanning = ref<Boolean>(false)
-
 const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 
 async function unlock() {
@@ -90,8 +86,11 @@ async function unlock() {
   await info(devices.value.toString());
 
   // open sesame
-  success.value = 'sending command to lock ⌛'
+  success.value = 'looking for devices 📡'
 
+  await startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv}, 10000);
+
+  success.value = 'sending command to lock ⌛'
 
   // enables the lock button
   isLockButtonGreyedOut.value = false;
@@ -149,6 +148,9 @@ async function block() {
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
+const devices = ref<BleDevice[]>([])
+const connected = ref<Boolean>(false)
+const scanning = ref<Boolean>(false)
 
 const isLockButtonGreyedOut = ref(true);
 const isWebcamButtonGreyedOut = ref(false);
@@ -654,6 +656,11 @@ main {
 
     margin-top: 4vw;
 
+    canvas {
+      // 0 idea why the x axis is inverted here unlike on the buttons
+      border: 3px solid #000000;
+      box-shadow: -6px 4px 0 black, 0 2px 0 black, -3px 2px 0 black, -2px 3px 0 black;
+    }
 
     .rightWebcamCont {
       display: flex;
