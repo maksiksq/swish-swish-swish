@@ -89,17 +89,33 @@ async function unlock() {
   await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
   await info(devices.value.toString());
 
+  // open sesame
+  success.value = 'sending command to lock ⌛'
+
+
   // enables the lock button
   isLockButtonGreyedOut.value = false;
 
   await info('i got this far');
-  if (!devices.value) {
-    success.value = 'No lock found in the vicinity which is about 5-15 meters (oh no)'
+  console.log("unlocking with:");
+
+  // i have no words ... just ... just ... why
+  console.log(devices.value.value);
+  if (devices.value.value.length === 0) {
+    success.value = 'no devices found in the vicinity which is about 5-15 meters (oh no) 📡'
+    return;
   }
-  for (const device of devices.value) {
+  const j = ref(0);
+  for (const device of devices.value.value) {
+    console.log("trying to connect");
+    j.value++;
     console.log(device);
     if (device.name === "ESP32_LED_Control") {
         await connect(device.address, () => info('disconnected'));
+        return;
+    }
+    if (j.value === devices.lenght-1) {
+      success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
   }
 
@@ -111,15 +127,15 @@ async function unlock() {
   await sendString(CHARACTERISTIC_UUID, "on");
 
 
-  // open sesame (opens the lock)
+  // open sesame
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
 }
 
-function block() {
-  info('wrong, go to jail!')
+async function block() {
+  await info('wrong, go to jail!')
 
   // you shall not pass (closes the lock)
-  sendBleCommand("off");
+  await sendBleCommand("off");
 
   if (DO_RICKROLL) {
     window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
@@ -203,13 +219,13 @@ function enableCam() {
   if (webcamRunning === true) {
     webcamRunning = false;
     enableWebcamButton.innerText = "Enable Predictions";
+
+    info("yoy")
+    unlock();
+    sendBleCommand("on");
   } else {
     webcamRunning = true;
     enableWebcamButton.innerText = "Disable Predictions";
-    info("yoy")
-    unlock();
-    // sendBleCommand("on");
-
   }
 
   // getUserMedia parameters idk why they're necessary but ima forget
@@ -315,7 +331,7 @@ function matchEmoji(categoryName: string) {
   return categoryName;
 }
 
-function reEnable() {
+async function reEnable() {
   setTimeout(() => {
     ifRun.value = true;
     if (webcamRunning) {
@@ -333,24 +349,13 @@ const clearCurrentLockCombo = async () => {
 
 async function matchPassword(categoryName: string) {
   if (i.value === 0) {
+    currentPassword.value = "";
     currentCombo.value = "";
-  }
-
-  if (i.value === 6) {
-    await clearCurrentLockCombo();
-    block();
-
-    ifRun.value = false;
-    reEnable()
-
-    return;
   }
 
   if (categoryName === oldCategoryName.value || categoryName === "None") {
     return
   }
-
-  i.value++;
 
   // might as well add the emoji to the current thing with the same function cause why not
   currentCombo.value += emoji.value;
@@ -366,7 +371,7 @@ async function matchPassword(categoryName: string) {
   await info(currentPassword.value);
   await info((currentPassword.value === password.value).toString());
 
-  if (i.value === 6 && password.value === "blank") {
+  if (i.value === 5 && password.value === "blank") {
     password.value = currentPassword.value;
     h3txt1.value = "Press the button to start entering the lock combination."
     h3txt2.value = "If you fail, you get punished."
@@ -374,11 +379,24 @@ async function matchPassword(categoryName: string) {
     success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
-  if (currentPassword.value === password.value) {
-    i.value = 0;
-    oldCategoryName.value = "";
-    currentPassword.value = "";
-    unlock();
+
+  console.log("------------------");
+  console.log("the i is:");
+  console.log(i.value);
+  console.log("the current password is:");
+  console.log(currentPassword.value);
+  console.log("does it match");
+  console.log(currentPassword.value === password.value);
+  console.log("is my condition just wrong?? (yes)");
+  console.log(i.value === 5 && currentPassword.value === password.value);
+  console.log("------------------");
+
+
+  if (i.value === 5 && currentPassword.value === password.value) {
+    console.log("testetstessetstesetset");
+
+    await clearCurrentLockCombo();
+    await unlock();
 
     if (isResetPasswordMode.value) {
       password.value = "blank";
@@ -386,7 +404,20 @@ async function matchPassword(categoryName: string) {
       h3txt1.value = "Now input the new password. You can always reset it";
       h3txt2.value = "from the sidebar, provided you remember the password.";
     }
+
+    return;
   }
+  else if ((i.value === 5 && currentPassword.value !== password.value) || i === 6) {
+    await clearCurrentLockCombo();
+    await block();
+
+    ifRun.value = false;
+    await reEnable()
+
+    return;
+  }
+
+  i.value++;
 }
 
 let lastVideoTime = -1;
@@ -523,7 +554,7 @@ async function sendBleCommand(flipper: string) {
     </h3>
     <div class="frontButtonWrap">
       <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton" :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock</button>
-      <button class="buttonActive" :onclick="() => startScan((dev: BleDevice[]) => {info(dev.toString()); devices = dev}, 10000)">
+      <button class="buttonActive" @click="() => startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv}, 10000)">
         Start Scan
       </button>
       <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
@@ -544,6 +575,8 @@ async function sendBleCommand(flipper: string) {
         <button @click="clearCurrentLockCombo()" class="buttonActive cleanInputButton successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
+        <p>{{currentPassword}}</p>
+        <p>{{i}}</p>
       </div>
     </div>
     <p class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>

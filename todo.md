@@ -14,4 +14,4 @@ Todo:
 - [ ] Rewrite BLE code for Tauri BLE library
 - [ ] Style webcam video somehow
 - [ ] Maybe add timer bar
-- [ ] Apparently clear doesn't work properly??
+- [x] Apparently clear doesn't work properly?? (no) 
