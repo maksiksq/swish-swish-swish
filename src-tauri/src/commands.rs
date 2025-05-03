@@ -7,8 +7,8 @@ const CHARACTERISTIC_UUID: Uuid = uuid!("beb5483e-36e1-4688-b7f5-ea07361b26a8");
 // here we send the command to our ESP32 via BLE
 #[tauri::command]
 pub async fn send_ble_command(cmd: String) -> bool {
-    info!("Received");
-    let data = b"on";
+    info!("Rust received the command: {}", cmd.clone());
+    let data = cmd.as_bytes();
     let handler = tauri_plugin_blec::get_handler().unwrap();
     let start = std::time::Instant::now();
     handler

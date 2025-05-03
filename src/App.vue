@@ -99,12 +99,15 @@ async function unlock() {
   await info('i got this far');
   console.log("unlocking with:");
 
-  // i have no words ... just ... just ... why
+  // i have no words ... just ... just ... why? .value.value is cursed
+  console.log(devices);
   console.log(devices.value.value);
   if (devices.value.value.length === 0) {
     success.value = 'no devices found in the vicinity which is about 5-15 meters (oh no) 📡'
     return;
   }
+  console.log("extra test")
+
   const j = ref(0);
   for (const device of devices.value.value) {
     console.log("trying to connect");
@@ -114,7 +117,7 @@ async function unlock() {
         await connect(device.address, () => info('disconnected'));
         return;
     }
-    if (j.value === devices.lenght-1) {
+    if (j.value === devices.value.value.lenght-1) {
       success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
   }
@@ -505,6 +508,9 @@ onMounted(async () => {
     console.log('Scanning:', state)
     scanning.value = state
   })
+
+  setInterval(() => {
+  }, 10000)
 })
 
 
@@ -558,6 +564,13 @@ async function sendBleCommand(flipper: string) {
         Start Scan
       </button>
       <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
+      <button @click="() => {
+        connect('20:43:A8:63:20:86', () => info('disconnected'));
+        sendBleCommand('on');
+        console.log('oi');
+        console.log('Connection status:');
+        console.log(connected.value);
+      }" class="buttonActive">debug</button>
     </div>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>

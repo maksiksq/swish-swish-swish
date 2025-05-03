@@ -10,8 +10,8 @@ Todo:
 - [ ] Security
 - [ ] Don't forget to remove debug functions from Disable Recognition button
 - [ ] Fix BLE search backlog, only allow one command at a time if another sent it takes priority
-- [ ] Make BLE search stop after some time
-- [ ] Rewrite BLE code for Tauri BLE library
+- [x] Make BLE search stop after some time
+- [x] Rewrite BLE code for Tauri BLE library
 - [ ] Style webcam video somehow
 - [ ] Maybe add timer bar
 - [x] Apparently clear doesn't work properly?? (no) 
