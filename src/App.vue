@@ -13,7 +13,7 @@ import {
   attachConsole,
   attachLogger,
 } from '@tauri-apps/plugin-log';
-import {onMounted, ref} from "vue";
+import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
 import { BleDevice, getConnectionUpdates, startScan, sendString, readString, unsubscribe, subscribeString, stopScan, connect, disconnect, getScanningUpdates } from '@mnlphlp/plugin-blec'
@@ -81,15 +81,12 @@ const DO_RICKROLL = false;
 
 const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 
-async function unlock() {
-  await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
-  await info(devices.value.toString());
+const scanning = ref<Boolean>(false)
+const devices = ref<BleDevice[]>([])
 
-  // open sesame
-  success.value = 'looking for devices 📡'
 
-  await startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv}, 10000);
-
+watch(devices, async () => {
+  console.log("hello????")
   success.value = 'sending command to lock ⌛'
 
   // enables the lock button
@@ -97,26 +94,24 @@ async function unlock() {
 
   await info('i got this far');
   console.log("unlocking with:");
-
-  // i have no words ... just ... just ... why? .value.value is cursed
   console.log(devices);
-  console.log(devices.value.value);
-  if (devices.value.value.length === 0) {
+  console.log(devices.value);
+
+  if (devices.value === undefined) {
     success.value = 'no devices found in the vicinity which is about 5-15 meters (oh no) 📡'
     return;
   }
   console.log("extra test")
 
   const j = ref(0);
-  for (const device of devices.value.value) {
+  for (const device of devices.value) {
     console.log("trying to connect");
     j.value++;
     console.log(device);
     if (device.name === "ESP32_LED_Control") {
-        await connect(device.address, () => info('disconnected'));
-        return;
+      await connect(device.address, () => info('disconnected'));
     }
-    if (j.value === devices.value.value.lenght-1) {
+    if (j.value === devices.value.lenght-1) {
       success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
   }
@@ -131,6 +126,16 @@ async function unlock() {
 
   // open sesame
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
+})
+
+async function unlock() {
+  await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
+  await info(devices.value.toString());
+
+  // open sesame
+  success.value = 'looking for devices 📡'
+
+  await startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv;}, 10000);
 }
 
 async function block() {
@@ -148,9 +153,7 @@ async function block() {
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
-const devices = ref<BleDevice[]>([])
 const connected = ref<Boolean>(false)
-const scanning = ref<Boolean>(false)
 
 const isLockButtonGreyedOut = ref(true);
 const isWebcamButtonGreyedOut = ref(false);
@@ -512,7 +515,9 @@ onMounted(async () => {
   })
 
   setInterval(() => {
-  }, 10000)
+    console.log("is thy boi scanin?:")
+    console.log(scanning.value)
+  }, 1000)
 })
 
 
