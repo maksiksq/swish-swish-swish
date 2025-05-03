@@ -106,7 +106,7 @@ async function unlock() {
 
   console.log("minefield")
   await sendBleCommand("on");
-  console.log("minefield2")
+
 
   await sendString(CHARACTERISTIC_UUID, "on");
 
