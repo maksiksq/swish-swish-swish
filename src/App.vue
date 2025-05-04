@@ -78,6 +78,8 @@ const DO_RICKROLL = false;
 // 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
 // because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
 // which I think would be very safe.
+//
+// working on it
 
 const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 
