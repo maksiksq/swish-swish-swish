@@ -16,7 +16,7 @@ import {
 import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
-
+import { load, set, save } from '@tauri-apps/plugin-store';
 import {
   BleDevice,
   getConnectionUpdates,
@@ -99,10 +99,8 @@ const automaticallyCloseLock = ref(false);
 
 // let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
 // 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door unless you edit the code which you can (currently)
-// because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust (maybe checksum tooo?)
-// which I think would be very safe.
-//
-// working on it
+// because it's a web app. In the future it could be secured by just securing the password and moving all the security logic to obfuscated rust and sending the
+// ble requests with ECDH. Which I think would be very safe.
 
 const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 
@@ -207,6 +205,34 @@ async function block() {
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
 
+let store = null;
+
+const setSetting = async (key: string, value: any) => {
+  console.log("trying to get from:")
+  console.log(store)
+  console.log("setting:")
+  console.log(value)
+  await store.set(key, { value: value });
+
+  await store.save();
+}
+
+const getSetting = async (key: string) => {
+  const setting = await store.get<{ value: boolean }>(key);
+  console.log("attempt");
+  console.log(setting);
+
+  if (setting === undefined) {
+    console.log("no setting");
+    await setSetting(key, true);
+    return true;
+  }
+
+  console.log("Persistent value:");
+  console.log(setting.value);
+
+  return setting.value;
+};
 
 const connected = ref<Boolean>(false)
 const connectedToLock = ref<Boolean>(false)
@@ -307,7 +333,15 @@ function enableCam() {
 }
 
 const enableAutoLock = async () => {
-  automaticallyCloseLock.value = true;
+  console.log("enabling auto lock")
+  automaticallyCloseLock.value = await getSetting("autoLock");
+  console.log("acquired setting:")
+  console.log(automaticallyCloseLock.value)
+  if (automaticallyCloseLock.value === undefined) {
+    automaticallyCloseLock.value = true;
+  }
+
+  await setSetting('autoLock', !automaticallyCloseLock.value)
 }
 
 const ifRun = ref(true)
@@ -570,6 +604,8 @@ async function predictWebcam() {
 onMounted(async () => {
   await createGestureRecognizer();
 
+  store = await load('store.json', { autoSave: false });
+
   await getConnectionUpdates((state) => connected.value = state)
   await getScanningUpdates((state) => {
     console.log('Scanning:', state)
@@ -577,10 +613,10 @@ onMounted(async () => {
   })
 
   setInterval(() => {
-    console.log("is thy boi scanin?:")
-    console.log(scanning.value)
-    console.log("is thy boi connectin?:")
-    console.log(connected.value)
+    // console.log("is thy boi scanin?:")
+    // console.log(scanning.value)
+    // console.log("is thy boi connectin?:")
+    // console.log(connected.value)
 
     if (connected.value) {
       connectionTxt.value = "Connected to the lock successfully ✅";

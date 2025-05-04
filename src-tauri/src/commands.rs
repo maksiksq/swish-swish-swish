@@ -26,4 +26,3 @@ pub async fn send_ble_command(cmd: String) -> bool {
     assert_eq!(response, data);
     true
 }
-

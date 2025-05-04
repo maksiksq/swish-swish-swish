@@ -1,5 +1,5 @@
-<script setup>
-import {ref, computed} from "vue";
+<script lang="ts" setup>
+import {ref, computed, onMounted} from "vue";
 import Cross from "./Cross.vue";
 
 // mostly copied this from one my previous projects so the code is a bit sloppy
@@ -11,11 +11,10 @@ const props = defineProps({
 })
 
 const isOpen = computed(() => props.isSidebarOpen);
-
 </script>
 
 <template>
-  <div :class="[isOpen ? 'open-opacity' : 'close-opacity']" class="light-box" v-on:click="$emit('clickOnBurger')"></div>
+  <div :class="[isOpen ? 'open-opacity' : 'close-opacity']" class="light-box" v-on:click="$emit('clickOnBurger'); setSetting('autoLock', !getSetting('autoLock'))"></div>
   <div :style="{transform: `translateX(${isOpen ? '-23.28vw' : '1vw'})`}" class="sidebar-wrap">
     <ul :class="[isOpen ? showUpClass : '']" class="sidebar">
       <li class="crossSlice">
@@ -30,7 +29,7 @@ const isOpen = computed(() => props.isSidebarOpen);
       </li>
       <li class="slice oneSlice">
         <div>
-          <p v-on:click="$emit('enableAutoLock')">Auto lock</p>
+          <p v-on:click="$emit('enableAutoLock');">Auto lock</p>
         </div>
       </li>
     </ul>
