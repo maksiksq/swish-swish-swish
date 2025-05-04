@@ -20,6 +20,7 @@ pub async fn send_ble_command(cmd: String) -> bool {
         .await
         .unwrap();
     let response = handler.recv_data(CHARACTERISTIC_UUID).await.unwrap();
+    info!("Response: {:?}", response.clone());
     let time = start.elapsed();
     info!("Time elapsed: {:?}", time);
     assert_eq!(response, data);
