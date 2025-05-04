@@ -16,7 +16,19 @@ import {
 import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
-import { BleDevice, getConnectionUpdates, startScan, sendString, readString, unsubscribe, subscribeString, stopScan, connect, disconnect, getScanningUpdates } from '@mnlphlp/plugin-blec'
+import {
+  BleDevice,
+  getConnectionUpdates,
+  startScan,
+  sendString,
+  readString,
+  unsubscribe,
+  subscribeString,
+  stopScan,
+  connect,
+  disconnect,
+  getScanningUpdates
+} from '@mnlphlp/plugin-blec'
 
 
 // ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣷⣦⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -113,7 +125,7 @@ watch(devices, async () => {
     if (device.name === "ESP32_LED_Control") {
       await connect(device.address, () => info('disconnected'));
     }
-    if (j.value === devices.value.lenght-1) {
+    if (j.value === devices.value.lenght - 1) {
       success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
   }
@@ -137,7 +149,10 @@ async function unlock() {
   // open sesame
   success.value = 'looking for devices 📡'
 
-  await startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv;}, 10000);
+  await startScan((dv: BleDevice[]) => {
+    info(dv.toString());
+    devices.value = dv;
+  }, 10000);
 }
 
 async function block() {
@@ -152,6 +167,7 @@ async function block() {
 
   success.value = 'I wonder what\'s behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ '
 }
+
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
@@ -197,6 +213,8 @@ let webcamRunning: Boolean = false;
 
 const videoHeight = "360px";
 const videoWidth = "480px";
+
+const webcamShadowClass = ref('webcamShadow');
 
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -292,7 +310,7 @@ function convertToEmoji(s: string) {
     if (elem === "Thumb_Down") {
       s += "👎";
     }
-    if (elem=== "Victory") {
+    if (elem === "Victory") {
       s += "✌️";
     }
     if (elem === "Pointing_Up") {
@@ -416,8 +434,7 @@ async function matchPassword(categoryName: string) {
     }
 
     return;
-  }
-  else if ((i.value === 5 && currentPassword.value !== password.value) || i === 6) {
+  } else if ((i.value === 5 && currentPassword.value !== password.value) || i === 6) {
     await clearCurrentLockCombo();
     await block();
 
@@ -545,7 +562,7 @@ async function sendBleCommand(flipper: string) {
   await info("hello");
   console.log("hello");
   try {
-    const result = await invoke("send_ble_command", { cmd: flipper });
+    const result = await invoke("send_ble_command", {cmd: flipper});
     await info(result);
   } catch (err) {
     await info(`BLE command failed ${err.toString()}`);
@@ -568,21 +585,27 @@ async function sendBleCommand(flipper: string) {
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
     <div class="frontButtonWrap">
-      <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton" :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock</button>
-      <button class="buttonActive" @click="() => startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv}, 10000)">
+      <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton"
+              :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock
+      </button>
+      <button class="buttonActive"
+              @click="() => startScan((dv: BleDevice[]) => {info(dv.toString()); devices.value = dv}, 10000)">
         Start Scan
       </button>
-      <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')" :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock</button>
+      <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')"
+              :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock
+      </button>
       <button @click="() => {
         connect('20:43:A8:63:20:86', () => info('disconnected'));
         sendBleCommand('on');
         console.log('oi');
         console.log('Connection status:');
         console.log(connected.value);
-      }" class="buttonActive">debug</button>
+      }" class="buttonActive">debug
+      </button>
     </div>
     <div class="canvasCont">
-      <video ref="vidRef" id="webcam" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
+      <video ref="vidRef" id="webcam" :class="webcamRunning ? webcamShadowClass : ''" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
       <div class="rightWebcamCont">
@@ -594,11 +617,10 @@ async function sendBleCommand(flipper: string) {
             }}</span>
           </span>
         </p>
-        <button @click="clearCurrentLockCombo()" class="buttonActive cleanInputButton successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
+        <button @click="clearCurrentLockCombo()" class="buttonActive cleanInputButton successTransition"
+                :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
-        <p>{{currentPassword}}</p>
-        <p>{{i}}</p>
       </div>
     </div>
     <p class="successTransition" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
@@ -662,12 +684,6 @@ main {
     position: relative;
 
     margin-top: 4vw;
-
-    canvas {
-      // 0 idea why the x axis is inverted here unlike on the buttons
-      border: 3px solid #000000;
-      box-shadow: -6px 4px 0 black, 0 2px 0 black, -3px 2px 0 black, -2px 3px 0 black;
-    }
 
     .rightWebcamCont {
       display: flex;
@@ -795,9 +811,8 @@ video {
   clear: both;
   display: block;
   transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
-  height: 280px;
+  height: 360px;
+  width: 480px;
 }
 
 section {
@@ -855,9 +870,18 @@ section {
 }
 
 .output_canvas {
+  padding: 0;
+  margin: 0;
+  // video width and height
+  width: 480px;
+  height: 360px;
   transform: rotateY(180deg);
-  -webkit-transform: rotateY(180deg);
-  -moz-transform: rotateY(180deg);
+}
+
+.webcamShadow {
+  // 0 idea why the x axis is inverted here unlike on the buttons
+  border: 3px solid #000000;
+  box-shadow: -6px 4px 0 black, 0 2px 0 black, -3px 2px 0 black, -2px 3px 0 black;
 }
 
 .detectOnClick {
