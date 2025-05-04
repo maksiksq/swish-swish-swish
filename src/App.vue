@@ -98,6 +98,9 @@ const CHARACTERISTIC_UUID = "beb5483e-36e1-4688-b7f5-ea07361b26a8";
 const scanning = ref<Boolean>(false)
 const devices = ref<BleDevice[]>([])
 
+// This thing makes sure the "currently nothing found in the vicinity, is Bluetooth on? 🔗"
+// does not show up in initialization, only the first time tho because lazy
+const avoidConfusion = ref(true);
 
 watch(devices, async () => {
   // enables the lock button
@@ -109,7 +112,11 @@ watch(devices, async () => {
   console.log(devices.value);
 
   if (devices.value.length === 0) {
-    success.value = 'currently nothing found in the vicinity, is Bluetooth on? 🔗';
+    if (avoidConfusion.value) {
+      !avoidConfusion.value;
+    } else {
+      success.value = 'currently nothing found in the vicinity, is Bluetooth on? 🔗';
+    }
   }
   console.log("extra test")
 
