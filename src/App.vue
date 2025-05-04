@@ -100,9 +100,6 @@ const devices = ref<BleDevice[]>([])
 
 
 watch(devices, async () => {
-  console.log("hello????")
-  success.value = 'sending command to lock ⌛'
-
   // enables the lock button
   isLockButtonGreyedOut.value = false;
 
@@ -111,16 +108,15 @@ watch(devices, async () => {
   console.log(devices);
   console.log(devices.value);
 
-  if (devices.value === undefined) {
-    success.value = 'no devices found in the vicinity which is about 5-15 meters (oh no) 📡'
-    return;
+  if (devices.value.length === 0) {
+    success.value = 'currently nothing found in the vicinity, is Bluetooth on? 🔗';
   }
   console.log("extra test")
 
   const j = ref(0);
   for (const device of devices.value) {
     console.log("trying to connect");
-    j.value++;
+    console.log(j.value);
     console.log(device);
     if (device.name === "ESP32_LED_Control") {
       await connect(device.address, () => info('disconnected'));
@@ -128,9 +124,16 @@ watch(devices, async () => {
       console.log("Look:");
       console.log(Date.now());
     }
-    if (j.value === devices.value.lenght - 1) {
+    console.log("Current j:");
+    console.log(j.value);
+    console.log("is last");
+    console.log(j.value === devices.value.length - 1);
+    console.log("device lenght");
+    console.log(devices.value.length);
+    if (j.value === devices.value.length - 1) {
       success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
+    j.value += 1;
   }
 
 
@@ -153,6 +156,9 @@ async function unlock() {
   success.value = 'looking for devices 📡'
 
   devices.value = [];
+
+  console.log("hello????")
+  success.value = 'attempting to send the command to lock ⌛'
 
   await startScan((dv: BleDevice[]) => {
     info(dv.toString());
@@ -547,10 +553,9 @@ onMounted(async () => {
     console.log(connected.value)
 
     if (connected.value) {
-      console.log("what the hell")
-      connectionTxt.value = "Connected to the lock successfully";
+      connectionTxt.value = "Connected to the lock successfully ✅";
     } else {
-      connectionTxt.value = "Awaiting connection...";
+      connectionTxt.value = "Awaiting connection... 👀";
     }
   }, 1000)
 })
@@ -608,7 +613,6 @@ async function sendBleCommand(flipper: string) {
               :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock
       </button>
     </div>
-    <p>{{connectionTxt}}</p>
     <div class="canvasCont">
       <video ref="vidRef" id="webcam" :class="webcamRunning ? webcamShadowClass : ''" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
@@ -626,6 +630,7 @@ async function sendBleCommand(flipper: string) {
                 :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
+        <p class="rightConnectionTxt successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">{{connectionTxt}}</p>
       </div>
     </div>
     <p class="successTransition successTxt" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
@@ -702,6 +707,10 @@ main {
 
       p {
         width: 480px;
+      }
+
+      .rightConnectionTxt {
+        margin-top: 11vw;
       }
 
     }

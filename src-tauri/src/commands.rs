@@ -1,5 +1,6 @@
 use tracing::info;
 use uuid::{uuid, Uuid};
+use windows::Devices::Radios::{Radio, RadioKind};
 
 // const DEVICE_NAME: &str = "ESP32_LED_Control";
 const CHARACTERISTIC_UUID: Uuid = uuid!("beb5483e-36e1-4688-b7f5-ea07361b26a8");
