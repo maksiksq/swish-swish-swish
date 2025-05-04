@@ -16,6 +16,7 @@ import {
 import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
+
 import {
   BleDevice,
   getConnectionUpdates,
@@ -78,6 +79,16 @@ const DO_RICKROLL = false;
 
 // --------------------------------------
 // === CONFIG END ===
+// --------------------------------------
+
+// --------------------------------------
+// === OPTIONS (available in-app) ===
+// --------------------------------------
+
+const automaticallyCloseLock = ref(false);
+
+// --------------------------------------
+// === OPTIONS END ===
 // --------------------------------------
 
 // --------------------------------------
@@ -150,9 +161,15 @@ watch(devices, async () => {
 
   await sendString(CHARACTERISTIC_UUID, "on");
 
-
   // open sesame
   success.value = 'hurray you got in 🍪, now it`s time to rename yourself to Rob Banks! Now you get your well deserved 🍪 personal cookie stash 🍪 🍪🍪'
+
+  // if autolock, lock in 30 seconds
+  if (automaticallyCloseLock.value) {
+    setTimeout(async () => {
+      await sendBleCommand("off");
+    }, 30000)
+  }
 })
 
 async function unlock() {
@@ -189,6 +206,8 @@ async function block() {
 // --------------------------------------
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
+
+
 const connected = ref<Boolean>(false)
 const connectedToLock = ref<Boolean>(false)
 
@@ -285,6 +304,10 @@ function enableCam() {
     video.srcObject = stream;
     video.addEventListener("loadeddata", predictWebcam);
   });
+}
+
+const enableAutoLock = async () => {
+  automaticallyCloseLock.value = true;
 }
 
 const ifRun = ref(true)
@@ -608,7 +631,7 @@ async function sendBleCommand(flipper: string) {
             d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
       </svg>
     </div>
-    <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart"
+    <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart" @enable-auto-lock="enableAutoLock"
              :is-sidebar-open=isSideBar></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
@@ -637,6 +660,7 @@ async function sendBleCommand(flipper: string) {
                 :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
+        <p>{{automaticallyCloseLock}}</p>
         <p class="rightConnectionTxt successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">{{connectionTxt}}</p>
       </div>
     </div>

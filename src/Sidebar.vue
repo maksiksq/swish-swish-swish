@@ -24,8 +24,13 @@ const isOpen = computed(() => props.isSidebarOpen);
       <li class="slice oneSlice">
         <div>
           <p v-on:click="$emit('resetPasswordMode')">
-            reset password
+            Reset password
           </p>
+        </div>
+      </li>
+      <li class="slice oneSlice">
+        <div>
+          <p v-on:click="$emit('enableAutoLock')">Auto lock</p>
         </div>
       </li>
     </ul>
