@@ -5,14 +5,16 @@ Todo:
 - [x] Fiddle with delays
 - [ ] Add option to automatically close the lock
 - [ ] Prettify settings
-- [ ] Add hard reset and setup (might be too much for rn)
 - [x] Make rickroll optional (nooo)
 - [ ] Security
 - [ ] Don't forget to remove debug functions from Disable Recognition button
-- [ ] Fix BLE search backlog, only allow one command at a time if another sent it takes priority
+- [x] Fix BLE search backlog, only allow one command at a time if another sent it takes priority // sorta fixed but this is more of a production thing
 - [x] Make BLE search stop after some time
 - [x] Rewrite BLE code for Tauri BLE library
 - [x] Style webcam video somehow
-- [-] Maybe add timer bar // No need
 - [x] Apparently clear doesn't work properly?? (no) 
 - [x] Check if bluetooth connected
+
+// not gonna do
+- [ ] Maybe add timer bar // No need
+- [ ] Add hard reset and setup // Too much for rn
