@@ -170,16 +170,28 @@ watch(devices, async () => {
   }
 })
 
+async function disconnectFromLock() {
+  // disconnecting past connection in case it was connected
+  if (connected.value) {
+    await disconnect()
+  }
+}
+
 async function unlock() {
   await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
   await info(devices.value.toString());
 
-  // open sesame
+  await info("hello??????!");
+
+  await info("hello??????");
+
+
   success.value = 'looking for devices 📡'
 
   devices.value = [];
 
   console.log("hello????")
+  await info("hello");
   success.value = 'attempting to send the command to lock ⌛'
 
   await startScan((dv: BleDevice[]) => {
@@ -218,7 +230,7 @@ const setSetting = async (key: string, value: any) => {
 }
 
 const getSetting = async (key: string) => {
-  const setting = await store.get<{ value: boolean }>(key);
+  const setting = await store.get(key);
   console.log("attempt");
   console.log(setting);
 
@@ -334,7 +346,7 @@ const enableAutoLock = async () => {
   automaticallyCloseLock.value = await getSetting("autoLock");
   console.log("acquired setting:")
   console.log(automaticallyCloseLock.value)
-  if (automaticallyCloseLock.value === undefined) {
+  if (automaticallyCloseLock.value === undefined || automaticallyCloseLock.value === null) {
     automaticallyCloseLock.value = true;
   }
 
@@ -478,29 +490,35 @@ async function matchPassword(categoryName: string) {
     h3txt1.value = "Press the button to start entering the lock combination."
     h3txt2.value = "If you fail, you get punished."
 
+    await setSetting('password', password.value)
+
     success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
 
-  console.log("------------------");
-  console.log("the i is:");
-  console.log(i.value);
-  console.log("the current password is:");
-  console.log(currentPassword.value);
-  console.log("does it match");
-  console.log(currentPassword.value === password.value);
-  console.log("is my condition just wrong?? (yes)");
-  console.log(i.value === 5 && currentPassword.value === password.value);
-  console.log("------------------");
+  // console.log("------------------");
+  // console.log("the i is:");
+  // console.log(i.value);
+  // console.log("the current password is:");
+  // console.log(currentPassword.value);
+  // console.log("the current real password is:");
+  // console.log(password.value);
+  // console.log("does it match");
+  // console.log(currentPassword.value === password.value);
+  // console.log("is my condition just wrong?? (yes)");
+  // console.log(i.value === 5 && currentPassword.value === password.value);
+  // console.log("------------------");
 
 
   if (i.value === 5 && currentPassword.value === password.value) {
     console.log("testetstessetstesetset");
 
     await clearCurrentLockCombo();
+    await disconnectFromLock();
     await unlock();
 
     if (isResetPasswordMode.value) {
+      console.log("RESETTING")
       password.value = "blank";
       isResetPasswordMode.value = false;
       h3txt1.value = "Now input the new password. You can always reset it";
@@ -600,6 +618,15 @@ async function predictWebcam() {
 
 onMounted(async () => {
   await createGestureRecognizer();
+
+  const passwordFromStorage = await getSetting('password');
+  console.log("password from storage:");
+  console.log(passwordFromStorage);
+  if (passwordFromStorage !== undefined && passwordFromStorage !== null) {
+    console.log("hai")
+    password.value = passwordFromStorage;
+
+  }
 
   store = await load('store.json', { autoSave: false });
 
