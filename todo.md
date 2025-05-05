@@ -4,7 +4,7 @@ Todo:
 - [x] Add clear password button (in the front)
 - [x] Fiddle with delays
 - [x] Add option to automatically close the lock
-- [ ] Prettify settings
+- [x] Prettify settings
 - [x] Make rickroll optional (nooo)
 - [x] Don't forget to remove debug functions from Disable Recognition button
 - [x] Fix BLE search backlog, only allow one command at a time if another sent it takes priority // sorta fixed but this is more of a production thing
