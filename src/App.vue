@@ -194,10 +194,16 @@ async function unlock() {
   await info("hello");
   success.value = 'attempting to send the command to lock ⌛'
 
+  setTimeout(async () => {
+    if(!connected.value) {
+      success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
+    }
+  }, 10000)
   await startScan((dv: BleDevice[]) => {
     info(dv.toString());
     devices.value = dv;
   }, 10000);
+
 }
 
 async function block() {
