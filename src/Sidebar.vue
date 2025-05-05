@@ -2,15 +2,21 @@
 import {ref, computed, onMounted} from "vue";
 import Cross from "./Cross.vue";
 
+import checkmark from './assets/checkmark.png'
+import checkmarkOn from './assets/checkmark-on.png'
+
 // mostly copied this from one my previous projects so the code is a bit sloppy
 
 const showUpClass = ref('show-up');
 
 const props = defineProps({
-  isSidebarOpen: Boolean
+  isSidebarOpen: Boolean,
+  isAutoLock: Boolean
 })
 
 const isOpen = computed(() => props.isSidebarOpen);
+
+
 </script>
 
 <template>
@@ -28,8 +34,11 @@ const isOpen = computed(() => props.isSidebarOpen);
         </div>
       </li>
       <li class="slice oneSlice">
-        <div>
-          <p v-on:click="$emit('enableAutoLock');">Auto lock</p>
+        <div class="sliceCont" @click="$emit('enableAutoLock');">
+          <div class="checkbox" role="checkbox">
+            <img :src="isAutoLock ? checkmark : checkmarkOn" alt="checkmark" class="checkboxImg"/>
+          </div>
+          <p>Auto lock</p>
         </div>
       </li>
     </ul>
@@ -116,6 +125,13 @@ const isOpen = computed(() => props.isSidebarOpen);
       transition: 0.3s;
     }
 
+    .slice {
+      .sliceCont {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+
     .oneSlice {
     cursor: pointer;
       div {
@@ -160,6 +176,27 @@ const isOpen = computed(() => props.isSidebarOpen);
 
   .show-up {
     margin-right: 0;
+  }
+}
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: -0.3vw;
+
+  padding-right: 0.4vw;
+
+  aspect-ratio: 1;
+  width: 3vw;
+  height: 3vw;
+  background: #1d1d21;
+
+  .checkboxImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }
 

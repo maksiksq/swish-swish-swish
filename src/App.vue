@@ -709,7 +709,7 @@ async function sendBleCommand(flipper: string) {
       </svg>
     </div>
     <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart" @enable-auto-lock="enableAutoLock"
-             :is-sidebar-open=isSideBar></Sidebar>
+             :is-sidebar-open=isSideBar :is-auto-lock="automaticallyCloseLock"></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
     <div class="frontButtonWrap">
