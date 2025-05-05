@@ -65,3 +65,8 @@ After the main functionality was done, I finalized the UI, added a sidebar and t
 - Maksiks (Maksym Zadvorniy), architect.  
 - Maksym Vitvitskiy, helped me come up with the idea and helped a little along the way with minor things, testing it and some more.  
 - Zaliska Svitlana, teacher. 
+
+
+### Known issues:
+- Physical lock connection always works first try but can be jank on repeat connections or something.
+ Whether it's BLE being jank or my logic being jank (or both) or whatever else that could've gone wrong, but it doesn't matter for a course project. You can just restart the app and/or turn Bluetooth off and on, but of course this would not do in actual production.
