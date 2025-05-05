@@ -68,5 +68,4 @@ After the main functionality was done, I finalized the UI, added a sidebar and t
 
 
 ### Known issues:
-- Physical lock connection always works first try but can be jank on repeat connections or something.
- Whether it's BLE being jank or my logic being jank (or both) or whatever else that could've gone wrong, but it doesn't matter for a course project. You can just restart the app and/or turn Bluetooth off and on, but of course this would not do in actual production.
+- Lack of security, if someone actually wants to use this project in production, they'd have to implement Elliptic Curve Diffie Hellman encrypiton for optimal security and store the password in a secure store with something a la Stronghold. You don't want someone to break into your house. Yes, getting a pick and picking an average lock in 20 minutes would probably be easier but shhhh, we love our security.
