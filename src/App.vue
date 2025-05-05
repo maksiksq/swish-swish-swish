@@ -313,9 +313,6 @@ function enableCam() {
   if (webcamRunning === true) {
     webcamRunning = false;
     enableWebcamButton.innerText = "Enable Predictions";
-
-    info("yoy")
-    unlock();
   } else {
     webcamRunning = true;
     enableWebcamButton.innerText = "Disable Predictions";
@@ -696,7 +693,6 @@ async function sendBleCommand(flipper: string) {
                 :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
-        <p>{{automaticallyCloseLock}}</p>
         <p class="rightConnectionTxt successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">{{connectionTxt}}</p>
       </div>
     </div>
