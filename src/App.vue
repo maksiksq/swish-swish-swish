@@ -230,15 +230,26 @@ const setSetting = async (key: string, value: any) => {
 }
 
 const getSetting = async (key: string) => {
-  const setting = await store.get(key);
+  console.log("attempt key");
+  console.log(key);
+  console.log("attempt key");
+  console.log(store);
+
+
+  const setting = await store.get(key) ?? 'nothingYet';
+
   console.log("attempt");
   console.log(setting);
 
-  if (setting === undefined) {
+  if (setting === undefined && key === "autoLock") {
     console.log("no setting");
     await setSetting(key, true);
     return true;
   }
+
+
+  console.log("attempt pt2");
+  console.log(setting);
 
   console.log("Persistent value:");
   console.log(setting.value);
@@ -619,16 +630,16 @@ async function predictWebcam() {
 onMounted(async () => {
   await createGestureRecognizer();
 
+  store = await load('store.json', { autoSave: false });
+
   const passwordFromStorage = await getSetting('password');
   console.log("password from storage:");
   console.log(passwordFromStorage);
-  if (passwordFromStorage !== undefined && passwordFromStorage !== null) {
+  if (passwordFromStorage !== undefined && passwordFromStorage !== "nothingYet") {
     console.log("hai")
     password.value = passwordFromStorage;
 
   }
-
-  store = await load('store.json', { autoSave: false });
 
   await getConnectionUpdates((state) => connected.value = state)
   await getScanningUpdates((state) => {
@@ -637,10 +648,10 @@ onMounted(async () => {
   })
 
   setInterval(() => {
-    // console.log("is thy boi scanin?:")
-    // console.log(scanning.value)
-    // console.log("is thy boi connectin?:")
-    // console.log(connected.value)
+    console.log("is thy boi scanin?:")
+    console.log(scanning.value)
+    console.log("is thy boi connectin?:")
+    console.log(connected.value)
 
     if (connected.value) {
       connectionTxt.value = "Connected to the lock successfully ✅";
