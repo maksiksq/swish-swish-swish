@@ -13,7 +13,7 @@ Todo:
 - [x] Style webcam video somehow
 - [x] Apparently clear doesn't work properly?? (no) 
 - [x] Check if bluetooth connected
-- [ ] Phone.
+- [?] Phone.
 
 // not gonna do
 - [ ] Security // Too much work right now
