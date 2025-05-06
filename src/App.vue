@@ -173,7 +173,7 @@ watch(devices, async () => {
 async function disconnectFromLock() {
   // disconnecting past connection in case it was connected
   if (connected.value) {
-    await disconnect()
+    // await disconnect()
   }
 }
 
@@ -194,12 +194,13 @@ async function unlock() {
   await info("hello");
   success.value = 'attempting to send the command to lock ⌛'
 
-  setTimeout(async () => {
-    if(!connected.value) {
-      success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
-    }
-  }, 10000)
+  // setTimeout(async () => {
+  //   if(!connected.value) {
+  //     success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
+  //   }
+  // }, 10000)
   await startScan((dv: BleDevice[]) => {
+    console.log("testtsetestestssssssssssss")
     info(dv.toString());
     devices.value = dv;
   }, 10000);
@@ -658,6 +659,8 @@ onMounted(async () => {
     console.log(scanning.value)
     console.log("is thy boi connectin?:")
     console.log(connected.value)
+    console.log("is thy boi scanin?:")
+    console.log(scanning.value)
 
     if (connected.value) {
       connectionTxt.value = "Connected to the lock successfully ✅";
@@ -718,6 +721,9 @@ async function sendBleCommand(flipper: string) {
       </button>
       <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')"
               :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock
+      </button>
+      <button class="buttonActive" @click="unlock">
+        are you sure?
       </button>
     </div>
     <div class="canvasCont">
