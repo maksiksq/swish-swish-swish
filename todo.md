@@ -1,5 +1,4 @@
 Todo:
-
 - [x] Position lock button naturally
 - [x] Add clear password button (in the front)
 - [x] Fiddle with delays

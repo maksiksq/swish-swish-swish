@@ -1,11 +1,11 @@
-<script lang="ts" setup>
+<script setup>
 import {ref, computed, onMounted} from "vue";
 import Cross from "./Cross.vue";
 
 import checkmark from './assets/checkmark.png'
 import checkmarkOn from './assets/checkmark-on.png'
 
-// mostly copied this from one my previous projects so the code is a bit sloppy
+// mostly copied this from one my previous projects because lazy so the code is a bit sloppy
 
 const showUpClass = ref('show-up');
 

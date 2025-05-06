@@ -116,7 +116,7 @@ watch(devices, async () => {
   isLockButtonGreyedOut.value = false;
 
   await info('i got this far');
-  console.log("unlocking with:");
+  console.log("unlocking with these devices:");
   console.log(devices);
   console.log(devices.value);
 
@@ -173,7 +173,7 @@ watch(devices, async () => {
 async function disconnectFromLock() {
   // disconnecting past connection in case it was connected
   if (connected.value) {
-    // await disconnect()
+    await disconnect()
   }
 }
 
@@ -191,7 +191,7 @@ async function unlock() {
   devices.value = [];
 
   console.log("hello????")
-  await info("hello");
+  // await info("hello");
   success.value = 'attempting to send the command to lock ⌛'
 
   // setTimeout(async () => {
@@ -200,8 +200,6 @@ async function unlock() {
   //   }
   // }, 10000)
   await startScan((dv: BleDevice[]) => {
-    console.log("testtsetestestssssssssssss")
-    info(dv.toString());
     devices.value = dv;
   }, 10000);
 
