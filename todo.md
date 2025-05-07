@@ -13,6 +13,7 @@ Todo:
 - [x] Apparently clear doesn't work properly?? (no) 
 - [x] Check if bluetooth connected
 - [?] Phone.
+- [ ] Fix the project
 
 // not gonna do
 - [ ] Security // Too much work right now
