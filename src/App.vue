@@ -154,7 +154,7 @@ watch(devices, async () => {
 
 
   console.log("minefield")
-  await sendBleCommand("on");
+  // await sendBleCommand("on");
 
 
   await sendString(CHARACTERISTIC_UUID, "on");

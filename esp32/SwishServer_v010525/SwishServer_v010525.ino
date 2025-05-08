@@ -5,7 +5,7 @@
 #include <string>
 
 // set to the buily-in LED as of currently, change this if you're using this code
-#define LED_PIN 2
+#define LED_PIN 15
 
 BLECharacteristic *pCharacteristic;
 BLEServer *pServer;
