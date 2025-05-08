@@ -6,26 +6,18 @@ import {
 } from "@mediapipe/tasks-vision"
 import {
   warn,
-  debug,
-  trace,
   info,
-  error,
-  attachConsole,
-  attachLogger,
 } from '@tauri-apps/plugin-log';
 import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
 import {invoke} from "@tauri-apps/api/core";
+// @ts-ignore (it exists)
 import { load, set, save } from '@tauri-apps/plugin-store';
 import {
   BleDevice,
   getConnectionUpdates,
   startScan,
   sendString,
-  readString,
-  unsubscribe,
-  subscribeString,
-  stopScan,
   connect,
   disconnect,
   getScanningUpdates
@@ -115,11 +107,6 @@ watch(devices, async () => {
   // enables the lock button
   isLockButtonGreyedOut.value = false;
 
-  await info('i got this far');
-  console.log("unlocking with these devices:");
-  console.log(devices);
-  console.log(devices.value);
-
   if (devices.value.length === 0) {
     if (avoidConfusion.value) {
       !avoidConfusion.value;
@@ -127,36 +114,20 @@ watch(devices, async () => {
       success.value = 'currently nothing found in the vicinity, is Bluetooth on? 🔗';
     }
   }
-  console.log("extra test")
 
   const j = ref(0);
   for (const device of devices.value) {
-    console.log("trying to connect");
-    console.log(j.value);
-    console.log(device);
     if (device.name === "ESP32_LED_Control") {
       await connect(device.address, () => info('disconnected'));
       connectedToLock.value = true;
-      console.log("Look:");
-      console.log(Date.now());
     }
-    console.log("Current j:");
-    console.log(j.value);
-    console.log("is last");
-    console.log(j.value === devices.value.length - 1);
-    console.log("device lenght");
-    console.log(devices.value.length);
     if (j.value === devices.value.length - 1) {
       success.value = 'no lock found in the vicinity which is about 5-15 meters (oh no) 📡';
     }
     j.value += 1;
   }
 
-
-  console.log("minefield")
-  // await sendBleCommand("on");
-
-
+  // can also send from js
   await sendString(CHARACTERISTIC_UUID, "on");
 
   // open sesame
@@ -165,7 +136,7 @@ watch(devices, async () => {
   // if autolock, lock in 30 seconds
   if (automaticallyCloseLock.value) {
     setTimeout(async () => {
-      await sendBleCommand("off");
+      await sendString(CHARACTERISTIC_UUID, "off");
     }, 30000)
   }
 })
@@ -178,27 +149,17 @@ async function disconnectFromLock() {
 }
 
 async function unlock() {
-  await info('hurray you got in, now it`s time to rename yourself to Rob Banks');
-  await info(devices.value.toString());
-
-  await info("hello??????!");
-
-  await info("hello??????");
-
-
   success.value = 'looking for devices 📡'
 
   devices.value = [];
 
-  console.log("hello????")
-  // await info("hello");
   success.value = 'attempting to send the command to lock ⌛'
 
-  // setTimeout(async () => {
-  //   if(!connected.value) {
-  //     success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
-  //   }
-  // }, 10000)
+  setTimeout(async () => {
+    if(!connected.value) {
+      success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
+    }
+  }, 10000)
   await startScan((dv: BleDevice[]) => {
     devices.value = dv;
   }, 10000);
@@ -209,7 +170,7 @@ async function block() {
   await info('wrong, go to jail!')
 
   // you shall not pass (closes the lock)
-  await sendBleCommand("off");
+  await sendString(CHARACTERISTIC_UUID, "off");
 
   if (DO_RICKROLL) {
     window.open("https://www.youtube.com/watch?v=xvFZjo5PgG0&ab_channel=Duran", "_blank");
@@ -225,39 +186,18 @@ async function block() {
 let store = null;
 
 const setSetting = async (key: string, value: any) => {
-  console.log("trying to get from:")
-  console.log(store)
-  console.log("setting:")
-  console.log(value)
   await store.set(key, { value: value });
 
   await store.save();
 }
 
 const getSetting = async (key: string) => {
-  console.log("attempt key");
-  console.log(key);
-  console.log("attempt key");
-  console.log(store);
-
-
   const setting = await store.get(key) ?? 'nothingYet';
 
-  console.log("attempt");
-  console.log(setting);
-
   if (setting === undefined && key === "autoLock") {
-    console.log("no setting");
     await setSetting(key, true);
     return true;
   }
-
-
-  console.log("attempt pt2");
-  console.log(setting);
-
-  console.log("Persistent value:");
-  console.log(setting.value);
 
   return setting.value;
 };
@@ -315,7 +255,7 @@ function hasGetUserMedia() {
 }
 
 function enableCam() {
-  info('webcam enabling')
+  info('enabling webcam')
   isWebCamOn.value = true;
   isDoor.value = true;
 
@@ -329,7 +269,7 @@ function enableCam() {
 
   if
   (!hasGetUserMedia()) {
-    warn("your browser doesn't support getUserMedia");
+    warn("your browser probab;y doesn't support getUserMedia");
     return;
   }
 
@@ -358,10 +298,7 @@ function enableCam() {
 }
 
 const enableAutoLock = async () => {
-  console.log("enabling auto lock")
   automaticallyCloseLock.value = await getSetting("autoLock");
-  console.log("acquired setting:")
-  console.log(automaticallyCloseLock.value)
   if (automaticallyCloseLock.value === undefined || automaticallyCloseLock.value === null) {
     automaticallyCloseLock.value = true;
   }
@@ -371,7 +308,6 @@ const enableAutoLock = async () => {
 
 const ifRun = ref(true)
 
-const passwordLength = ref(6)
 // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
 const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
 const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
@@ -392,7 +328,6 @@ const currentCombo = ref("🧈")
 
 
 function throttle(func, delay, a) {
-
   const now = Date.now();
   if (now - lastTime >= delay) {
     func(a);
@@ -495,12 +430,6 @@ async function matchPassword(categoryName: string) {
   currentPassword.value += categoryName;
   currentPassword.value += " ";
 
-  await info("password:")
-  await info(password.value);
-  await info("current password:")
-  await info(currentPassword.value);
-  await info((currentPassword.value === password.value).toString());
-
   if (i.value === 5 && password.value === "blank") {
     password.value = currentPassword.value;
     h3txt1.value = "Press the button to start entering the lock combination."
@@ -511,30 +440,12 @@ async function matchPassword(categoryName: string) {
     success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
-
-  // console.log("------------------");
-  // console.log("the i is:");
-  // console.log(i.value);
-  // console.log("the current password is:");
-  // console.log(currentPassword.value);
-  // console.log("the current real password is:");
-  // console.log(password.value);
-  // console.log("does it match");
-  // console.log(currentPassword.value === password.value);
-  // console.log("is my condition just wrong?? (yes)");
-  // console.log(i.value === 5 && currentPassword.value === password.value);
-  // console.log("------------------");
-
-
   if (i.value === 5 && currentPassword.value === password.value) {
-    console.log("testetstessetstesetset");
-
     await clearCurrentLockCombo();
     await disconnectFromLock();
     await unlock();
 
     if (isResetPasswordMode.value) {
-      console.log("RESETTING")
       password.value = "blank";
       isResetPasswordMode.value = false;
       h3txt1.value = "Now input the new password. You can always reset it";
@@ -638,28 +549,17 @@ onMounted(async () => {
   store = await load('store.json', { autoSave: false });
 
   const passwordFromStorage = await getSetting('password');
-  console.log("password from storage:");
-  console.log(passwordFromStorage);
   if (passwordFromStorage !== undefined && passwordFromStorage !== "nothingYet") {
-    console.log("hai")
     password.value = passwordFromStorage;
 
   }
 
   await getConnectionUpdates((state) => connected.value = state)
   await getScanningUpdates((state) => {
-    console.log('Scanning:', state)
     scanning.value = state
   })
 
   setInterval(() => {
-    console.log("is thy boi scanin?:")
-    console.log(scanning.value)
-    console.log("is thy boi connectin?:")
-    console.log(connected.value)
-    console.log("is thy boi scanin?:")
-    console.log(scanning.value)
-
     if (connected.value) {
       connectionTxt.value = "Connected to the lock successfully ✅";
     } else {
@@ -681,23 +581,6 @@ function resetPasswordStart() {
 
   isResetPasswordMode.value = true;
 }
-
-//
-// Talking to the ESP32
-// via BLE ofccc
-//
-
-async function sendBleCommand(flipper: string) {
-  await info("hello");
-  console.log("hello");
-  try {
-    const result = await invoke("send_ble_command", {cmd: flipper});
-    await info(result);
-  } catch (err) {
-    await info(`BLE command failed ${err.toString()}`);
-  }
-}
-
 </script>
 
 <template>
@@ -717,7 +600,7 @@ async function sendBleCommand(flipper: string) {
       <button ref="enableWebcamButtonRef" class="webCamBtn" @click="enableCam" id="webcamButton"
               :class="isWebcamButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Start unlock
       </button>
-      <button @click="isLockButtonGreyedOut ? '' : sendBleCommand('off')"
+      <button @click="isLockButtonGreyedOut ? '' : sendString(CHARACTERISTIC_UUID, 'off'); "
               :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock
       </button>
       <button class="buttonActive" @click="unlock">

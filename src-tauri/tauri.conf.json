@@ -1,5 +1,5 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
+  "$schema": "https://schema.tauri.app/config/2.0.0",
   "productName": "swish",
   "version": "0.1.0",
   "identifier": "com.swish.app",
@@ -12,9 +12,10 @@
   "app": {
     "windows": [
       {
-        "title": "swish",
-        "width": 1280,
-        "height": 720
+        "title": "Swish",
+        "width": 800,
+        "height": 600
+
       }
     ],
     "security": {
