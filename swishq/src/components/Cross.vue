@@ -1,0 +1,1 @@
+<script/><template><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="white" viewBox="0 0 17 17"><rect width="21.241" height="2.451" y="15.021" fill="white" rx="1.225" transform="rotate(-45 0 15.02)"/><rect width="21.241" height="2.451" fill="white" rx="1.225" transform="scale(-1 1)rotate(-45 9.754 27.732)"/></svg></template>
