@@ -40,11 +40,6 @@ const isOpen = computed(() => props.isSidebarOpen);
           <p>Auto lock</p>
         </div>
       </li>
-      <li class="slice oneSlice">
-        <div class="sliceCont" @click="console.log(props.isAutoLock);">
-          <p>Yeet</p>
-        </div>
-      </li>
     </ul>
   </div>
 </template>
