@@ -188,21 +188,21 @@ async function block() {
 let store: any = null;
 
 const setSetting = async (key: string, value: any) => {
+  console.log("/// SETTING SETTING ///");
+  console.log(key);
+  console.log(value);
+  console.log("/// SETTING SETTING ///");
+
   await store.set(key, { value: value });
 
   await store.save();
 }
 
-const getSetting = async (key: string) => {
+const getSetting: any = async (key: string) => {
   const setting = await store.get(key) ?? 'nothingYet';
-  console.log("/// SETTING ///");
+  console.log("/// GETTING SETTING ///");
   console.log(setting);
-  console.log("/// SETTING ///");
-
-  if (setting === undefined && key === "autoLock") {
-    await setSetting(key, true);
-    return true;
-  }
+  console.log("/// GETTING SETTING ///");
 
   return setting.value;
 };
@@ -217,8 +217,6 @@ const buttonGreyedOutClass = ref('buttonGreyedOut');
 const buttonActiveClass = ref('buttonActive');
 
 const connectionTxt = ref("Awaiting unlock...");
-
-const pTxt = ref(null);
 
 let gestureRecognizer: GestureRecognizer;
 let runningMode = "IMAGE";
@@ -303,12 +301,9 @@ function enableCam() {
 }
 
 const enableAutoLock = async () => {
-  automaticallyCloseLock.value = await getSetting("autoLock");
-  if (automaticallyCloseLock.value === undefined || automaticallyCloseLock.value === null) {
-    automaticallyCloseLock.value = true;
-  }
+  automaticallyCloseLock.value = !automaticallyCloseLock.value;
 
-  await setSetting('autoLock', !automaticallyCloseLock.value)
+  await setSetting("autoLock", automaticallyCloseLock.value);
 }
 
 const ifRun = ref(true)
@@ -552,14 +547,15 @@ onMounted(async () => {
   await createGestureRecognizer();
 
   store = await load('store.json', { autoSave: false });
-  console.log("/// STORE STORE ///")
-  console.log(store)
-  console.log("/// STORE STORE ///")
+
+  // Getters for settings on load
+  automaticallyCloseLock.value = await getSetting("autoLock");
+  if (automaticallyCloseLock.value === "nothingYet") { console.warn('Setting default value for autoLock'); automaticallyCloseLock.value = true;}
+
 
   const passwordFromStorage = await getSetting('password');
   if (passwordFromStorage !== undefined && passwordFromStorage !== "nothingYet") {
     password.value = passwordFromStorage;
-
   }
 
   await getConnectionUpdates((state) => connected.value = state)
@@ -601,7 +597,7 @@ function resetPasswordStart() {
       </svg>
     </div>
     <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart" @enable-auto-lock="enableAutoLock"
-             :is-sidebar-open=isSideBar :is-auto-lock="automaticallyCloseLock"></Sidebar>
+             :is-sidebar-open=isSideBar :is-auto-lock=automaticallyCloseLock></Sidebar>
     <h3> {{ h3txt1 }} <br> {{ h3txt2 }}
     </h3>
     <div class="frontButtonWrap">

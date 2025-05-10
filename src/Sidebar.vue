@@ -1,5 +1,5 @@
 <script setup>
-import {ref, computed, onMounted} from "vue";
+import {ref, computed, onMounted, watch} from "vue";
 import Cross from "./Cross.vue";
 
 import checkmark from './assets/checkmark.png'
@@ -15,7 +15,6 @@ const props = defineProps({
 })
 
 const isOpen = computed(() => props.isSidebarOpen);
-
 
 </script>
 
@@ -36,9 +35,14 @@ const isOpen = computed(() => props.isSidebarOpen);
       <li class="slice oneSlice">
         <div class="sliceCont" @click="$emit('enableAutoLock');">
           <div class="checkbox" role="checkbox">
-            <img :src="isAutoLock ? checkmark : checkmarkOn" alt="checkmark" class="checkboxImg"/>
+            <img :src="props.isAutoLock ? checkmarkOn : checkmark" alt="checkmark" class="checkboxImg"/>
           </div>
           <p>Auto lock</p>
+        </div>
+      </li>
+      <li class="slice oneSlice">
+        <div class="sliceCont" @click="console.log(props.isAutoLock);">
+          <p>Yeet</p>
         </div>
       </li>
     </ul>
