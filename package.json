@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri"
@@ -17,6 +17,7 @@
     "@tauri-apps/plugin-opener": "~2.2.6",
     "@tauri-apps/plugin-shell": ">=2.0.0",
     "@tauri-apps/plugin-store": "^2.2.0",
+    "internal-ip": "^8.0.0",
     "sass-embedded": "^1.87.0",
     "scss": "^0.2.4",
     "vue": "^3.3.4"
