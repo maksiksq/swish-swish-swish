@@ -332,7 +332,7 @@ const isWebCamOn = ref(false)
 const currentCombo = ref("🧈")
 
 
-function throttle(func: , delay, a) {
+function throttle(func: any, delay: number, a: any) {
   const now = Date.now();
   if (now - lastTime >= delay) {
     func(a);
@@ -458,7 +458,7 @@ async function matchPassword(categoryName: string) {
     }
 
     return;
-  } else if ((i.value === 5 && currentPassword.value !== password.value) || i === 6) {
+  } else if ((i.value === 5 && currentPassword.value !== password.value) || i.value === 6) {
     await clearCurrentLockCombo();
     await block();
 
