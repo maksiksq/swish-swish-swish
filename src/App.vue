@@ -243,7 +243,6 @@ const vidRef = ref<HTMLVideoElement | null>(null);
 const canvasElementRef = ref<HTMLCanvasElement | null>(null);
 const gestureOutputRef = ref<HTMLElement | null>(null);
 const isDoor = ref<boolean>(false);
-// notice canvasCtx is declared later
 
 const enableWebcamButtonRef = ref<HTMLElement | null>(null)
 let webcamRunning: Boolean = false;
