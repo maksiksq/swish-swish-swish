@@ -77,7 +77,8 @@ const DO_RICKROLL = false;
 // === OPTIONS (available in-app) ===
 // --------------------------------------
 
-const automaticallyCloseLock = ref(false);
+// string because it becomes 'nothingYet' if it was undeclared because clarity
+const automaticallyCloseLock = ref<boolean | string>(false);
 
 // --------------------------------------
 // === OPTIONS END ===
@@ -331,7 +332,7 @@ const isWebCamOn = ref(false)
 const currentCombo = ref("🧈")
 
 
-function throttle(func, delay, a) {
+function throttle(func: , delay, a) {
   const now = Date.now();
   if (now - lastTime >= delay) {
     func(a);
@@ -513,6 +514,9 @@ async function predictWebcam() {
   if (!results) {
     console.warn("Prediction result is undefined as of right now. Trying again.");
     canvasCtx.restore();
+    if (webcamRunning === true) {
+      window.requestAnimationFrame(predictWebcam);
+    }
 
     return;
   }
@@ -536,22 +540,25 @@ async function predictWebcam() {
 
 
   if (results.gestures.length > 0) {
-    gestureOutput.style.display = "block";
-    gestureOutput.style.width = videoWidth;
+    gestureOutput!.style.display = "block";
+    gestureOutput!.style.width = videoWidth;
     let categoryName = results.gestures[0][0].categoryName;
     const categoryNameStored = categoryName;
 
     emoji.value = matchEmoji(categoryName);
     throttle(matchPassword, DELAY_BETWEEN_INPUTS, categoryNameStored);
 
+    // @ts-ignore useful debug
     const categoryScore = parseFloat(
         (results.gestures[0][0].score * 100).toString()
     ).toFixed(2);
-    const handedness = results.handednesses[0][0].displayName;
-    gestureOutput.innerText = `${emoji.value}`;
+
+    // @ts-ignore useful debug
+    const handedness = results.handedness[0][0].displayName;
+    gestureOutput!.innerText = `${emoji.value}`;
     // gestureOutput.innerText = `GestureRecognizer: ${categoryName}\n Confidence: ${categoryScore} %\n Handedness: ${handedness}` ;
   } else {
-    gestureOutput.style.display = "block";
+    gestureOutput!.style.display = "block";
   }
   // Call this function again to keep predicting whenever the browser is ready.
   if (webcamRunning === true) {
