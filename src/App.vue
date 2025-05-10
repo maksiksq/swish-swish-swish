@@ -185,7 +185,7 @@ async function block() {
 // === HERE'S WHERE THE MAGIC ENDS ===
 // --------------------------------------
 
-let store = null;
+let store: any = null;
 
 const setSetting = async (key: string, value: any) => {
   await store.set(key, { value: value });
@@ -195,6 +195,9 @@ const setSetting = async (key: string, value: any) => {
 
 const getSetting = async (key: string) => {
   const setting = await store.get(key) ?? 'nothingYet';
+  console.log("/// SETTING ///");
+  console.log(setting);
+  console.log("/// SETTING ///");
 
   if (setting === undefined && key === "autoLock") {
     await setSetting(key, true);
@@ -549,6 +552,9 @@ onMounted(async () => {
   await createGestureRecognizer();
 
   store = await load('store.json', { autoSave: false });
+  console.log("/// STORE STORE ///")
+  console.log(store)
+  console.log("/// STORE STORE ///")
 
   const passwordFromStorage = await getSetting('password');
   if (passwordFromStorage !== undefined && passwordFromStorage !== "nothingYet") {

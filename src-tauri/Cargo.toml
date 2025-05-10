@@ -28,3 +28,4 @@ uuid = "1"
 
 tauri-plugin-log = "2"
 tauri-plugin-blec = "0.5.3"
+tauri-plugin-store = "2"
