@@ -2,7 +2,7 @@
 import {
   GestureRecognizer,
   FilesetResolver,
-  DrawingUtils
+  DrawingUtils, GestureRecognizerResult
 } from "@mediapipe/tasks-vision"
 import {
   warn,
@@ -238,8 +238,8 @@ const createGestureRecognizer = async () => {
 
 // using refs here, turning them into html objects later on
 
-const vidRef = ref<HTMLElement | null>(null);
-const canvasElementRef = ref<HTMLElement | null>(null);
+const vidRef = ref<HTMLVideoElement | null>(null);
+const canvasElementRef = ref<HTMLCanvasElement | null>(null);
 const gestureOutputRef = ref<HTMLElement | null>(null);
 const isDoor = ref<boolean>(false);
 // notice canvasCtx is declared later
@@ -261,10 +261,13 @@ function enableCam() {
   isWebCamOn.value = true;
   isDoor.value = true;
 
-  const video = vidRef.value;
+  const video: HTMLVideoElement | null = vidRef.value;
+  if (!video) {
+    console.warn("Video not found! Something went very wrong (?). Try a restart.");
+    return;
+  }
 
   const enableWebcamButton: HTMLElement | null = enableWebcamButtonRef.value;
-
 
   if
   (!hasGetUserMedia()) {
@@ -278,7 +281,7 @@ function enableCam() {
   }
 
   if (!enableWebcamButton) {
-    console.warn("Webcam button didn't load. Something went very wrong (?)");
+    console.warn("Webcam button didn't load. Something went very wrong (?). Try a restart.");
     return;
   }
 
@@ -468,17 +471,23 @@ async function matchPassword(categoryName: string) {
 }
 
 let lastVideoTime = -1;
-let results = undefined;
+
+let results: GestureRecognizerResult | undefined = undefined;
 
 async function predictWebcam() {
   if (ifRun.value == false) {
     return;
   }
 
-  const video = vidRef.value;
-  const canvasElement = canvasElementRef.value;
-  const gestureOutput = gestureOutputRef.value;
+  const video: HTMLVideoElement | null = vidRef.value;
+  if (!video) { console.warn("Video not found! Something went very wrong (?). Try a restart."); return;}
+
+  const canvasElement: HTMLCanvasElement | null = canvasElementRef.value;
+  if (!canvasElement) { console.warn("Canvas not found! Something went very wrong (?). Try a restart."); return;}
+  const gestureOutput: HTMLElement | null = gestureOutputRef.value;
   const canvasCtx = canvasElement.getContext("2d");
+  if (!canvasCtx) { console.warn("Canvas context not found! Something went very wrong (?). Try a restart."); return;}
+
 
   const webcamElement = video;
 
@@ -501,6 +510,12 @@ async function predictWebcam() {
   canvasElement.style.width = videoWidth;
   webcamElement.style.width = videoWidth;
 
+  if (!results) {
+    console.warn("Prediction result is undefined as of right now. Trying again.");
+    canvasCtx.restore();
+
+    return;
+  }
   if (results.landmarks) {
     for (const landmarks of results.landmarks) {
       drawingUtils.drawConnectors(
