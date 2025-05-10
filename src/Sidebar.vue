@@ -183,7 +183,7 @@ const isOpen = computed(() => props.isSidebarOpen);
   justify-content: center;
   align-items: center;
 
-  margin-top: -0.3vw;
+  margin-top: -0.5vw;
 
   padding-right: 0.4vw;
 

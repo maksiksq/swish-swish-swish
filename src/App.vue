@@ -10,9 +10,8 @@ import {
 } from '@tauri-apps/plugin-log';
 import {onMounted, ref, watch} from "vue";
 import Sidebar from "./Sidebar.vue";
-import {invoke} from "@tauri-apps/api/core";
 // @ts-ignore (it exists)
-import { load, set, save } from '@tauri-apps/plugin-store';
+import {load, set, save} from '@tauri-apps/plugin-store';
 import {
   BleDevice,
   getConnectionUpdates,
@@ -158,7 +157,7 @@ async function unlock() {
 
 
   setTimeout(async () => {
-    if(!connected.value) {
+    if (!connected.value) {
       success.value = 'no device connected within 10 seconds, is Bluetooth on? 🔗';
     }
   }, 10000)
@@ -193,7 +192,7 @@ const setSetting = async (key: string, value: any) => {
   console.log(value);
   console.log("/// SETTING SETTING ///");
 
-  await store.set(key, { value: value });
+  await store.set(key, {value: value});
 
   await store.save();
 }
@@ -239,19 +238,19 @@ const createGestureRecognizer = async () => {
 
 // using refs here, turning them into html objects later on
 
-const vidRef = ref(null);
-const canvasElementRef = ref(null);
-const gestureOutputRef = ref(null);
-const isDoor = ref(false);
+const vidRef = ref<HTMLElement | null>(null);
+const canvasElementRef = ref<HTMLElement | null>(null);
+const gestureOutputRef = ref<HTMLElement | null>(null);
+const isDoor = ref<boolean>(false);
 // notice canvasCtx is declared later
 
-const enableWebcamButtonRef = ref(null)
+const enableWebcamButtonRef = ref<HTMLElement | null>(null)
 let webcamRunning: Boolean = false;
 
 const videoHeight = "360px";
 const videoWidth = "480px";
 
-const webcamShadowClass = ref('webcamShadow');
+const webcamShadowClass = ref<string>('webcamShadow');
 
 function hasGetUserMedia() {
   return !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
@@ -263,11 +262,8 @@ function enableCam() {
   isDoor.value = true;
 
   const video = vidRef.value;
-  const canvasElement = canvasElementRef.value;
-  const gestureOutput = gestureOutputRef.value;
-  const canvasCtx = canvasElement.getContext("2d");
 
-  const enableWebcamButton = enableWebcamButtonRef.value;
+  const enableWebcamButton: HTMLElement | null = enableWebcamButtonRef.value;
 
 
   if
@@ -278,6 +274,11 @@ function enableCam() {
 
   if (!gestureRecognizer) {
     warn("hold on, it's loading");
+    return;
+  }
+
+  if (!enableWebcamButton) {
+    console.warn("Webcam button didn't load. Something went very wrong (?)");
     return;
   }
 
@@ -546,11 +547,14 @@ async function predictWebcam() {
 onMounted(async () => {
   await createGestureRecognizer();
 
-  store = await load('store.json', { autoSave: false });
+  store = await load('store.json', {autoSave: false});
 
   // Getters for settings on load
   automaticallyCloseLock.value = await getSetting("autoLock");
-  if (automaticallyCloseLock.value === "nothingYet") { console.warn('Setting default value for autoLock'); automaticallyCloseLock.value = true;}
+  if (automaticallyCloseLock.value === "nothingYet") {
+    console.warn('Setting default value for autoLock');
+    automaticallyCloseLock.value = true;
+  }
 
 
   const passwordFromStorage = await getSetting('password');
@@ -612,7 +616,9 @@ function resetPasswordStart() {
       </button>
     </div>
     <div class="canvasCont">
-      <video ref="vidRef" id="webcam" :class="webcamRunning ? webcamShadowClass : ''" class="vid" autoplay playsinline>Video loading, hold on a little ...</video>
+      <video ref="vidRef" id="webcam" :class="webcamRunning ? webcamShadowClass : ''" class="vid" autoplay playsinline>
+        Video loading, hold on a little ...
+      </video>
       <canvas ref="canvasElementRef" class="output_canvas" id="output_canvas" width="1280" height="720"
               style="position: absolute; left: 0; top: 0"></canvas>
       <div class="rightWebcamCont">
@@ -628,10 +634,14 @@ function resetPasswordStart() {
                 :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
           Clear
         </button>
-        <p class="rightConnectionTxt successTransition" :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">{{connectionTxt}}</p>
+        <p class="rightConnectionTxt successTransition"
+           :style="{display: 'block', position: 'relative', transform: `translateY(${isDoor ? '0' : '1500px'})`}">
+          {{ connectionTxt }}</p>
       </div>
     </div>
-    <p class="successTransition successTxt" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{ success }}</p>
+    <p class="successTransition successTxt" :style="{transform: `translateY(${isDoor ? '0' : '500px'})`}">{{
+        success
+      }}</p>
   </main>
 </template>
 
