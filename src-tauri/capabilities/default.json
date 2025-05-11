@@ -10,6 +10,7 @@
     "shell:allow-open",
     "blec:default",
     "log:default",
-    "store:default"
+    "store:default",
+    "shell:default"
   ]
 }
