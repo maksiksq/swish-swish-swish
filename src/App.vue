@@ -188,11 +188,6 @@ async function block() {
 let store: any = null;
 
 const setSetting = async (key: string, value: any) => {
-  console.log("/// SETTING SETTING ///");
-  console.log(key);
-  console.log(value);
-  console.log("/// SETTING SETTING ///");
-
   await store.set(key, {value: value});
 
   await store.save();
@@ -200,9 +195,6 @@ const setSetting = async (key: string, value: any) => {
 
 const getSetting: any = async (key: string) => {
   const setting = await store.get(key) ?? 'nothingYet';
-  console.log("/// GETTING SETTING ///");
-  console.log(setting);
-  console.log("/// GETTING SETTING ///");
 
   return setting.value;
 };
@@ -632,8 +624,8 @@ function resetPasswordStart() {
       <button @click="isLockButtonGreyedOut ? '' : sendString(CHARACTERISTIC_UUID, 'off'); "
               :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Lock
       </button>
-      <button class="buttonActive" @click="unlock">
-        are you sure?
+      <button @click="isLockButtonGreyedOut ? '' : sendString(CHARACTERISTIC_UUID, 'on'); "
+              :class="isLockButtonGreyedOut ? buttonGreyedOutClass : buttonActiveClass">Unlock
       </button>
     </div>
     <div class="canvasCont">
