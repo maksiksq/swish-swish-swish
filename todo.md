@@ -12,7 +12,7 @@ Todo:
 - [x] Style webcam video somehow
 - [x] Apparently clear doesn't work properly?? (no)
 - [x] Check if bluetooth connected
-- [?] Phone.
+- [x] Phone.
 - [x] Fix the project
 
 // not gonna do
