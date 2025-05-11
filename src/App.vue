@@ -614,7 +614,7 @@ function resetPasswordStart() {
 
 <template>
   <main class="global-cont">
-    <div v-on:click="openSidebar" class="settings-button">
+    <div v-on:click="openSidebar" role="button" class="settings-button">
       <svg class="settings-svg" xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 448 512">
         <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.-->
         <path
@@ -670,6 +670,7 @@ function resetPasswordStart() {
 body, html {
   overflow-x: hidden;
   overflow-y: hidden;
+  margin: 0;
   background-color: rgba(29, 29, 33, 1);
 }
 
@@ -726,6 +727,8 @@ main {
     justify-content: left;
     position: relative;
 
+    flex-wrap: wrap;
+
     margin-top: 4vw;
 
     .rightWebcamCont {
@@ -749,6 +752,9 @@ main {
 .frontButtonWrap {
   display: flex;
   flex-direction: row;
+
+  flex-wrap: wrap;
+
   justify-content: center;
   width: 100%;
 
