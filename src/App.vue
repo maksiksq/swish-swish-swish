@@ -226,7 +226,7 @@ const createGestureRecognizer = async () => {
     // @ts-ignore
     runningMode: runningMode
   });
-  info('gestureRecognizer initialized');
+  await info('gestureRecognizer initialized');
 };
 
 // using refs here, turning them into html objects later on
