@@ -5,7 +5,6 @@
   "identifier": "com.swish.app",
   "build": {
     "beforeDevCommand": "pnpm dev",
-    "devUrl": "http://192.168.0.148:1420",
     "beforeBuildCommand": "pnpm build",
     "frontendDist": "../dist"
   },
