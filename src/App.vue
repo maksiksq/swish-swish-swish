@@ -67,6 +67,7 @@ import {
 const DELAY_BETWEEN_INPUTS = 550;
 
 // Yes.
+// TODO: fix
 const DO_RICKROLL = false;
 
 // --------------------------------------
