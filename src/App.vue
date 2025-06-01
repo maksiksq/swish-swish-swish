@@ -295,7 +295,7 @@ const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌�
 const currentPassword = ref("")
 
 // this is the global password iterator
-const i = ref(0)
+const passIter = ref(0)
 const oldCategoryName = ref("")
 let lastTime = 0;
 
@@ -386,14 +386,14 @@ async function reEnable() {
 }
 
 const clearCurrentLockCombo = async () => {
-  i.value = 0;
+  passIter.value = 0;
   oldCategoryName.value = "";
   currentPassword.value = "";
   currentCombo.value = "";
 }
 
 async function matchPassword(categoryName: string) {
-  if (i.value === 0) {
+  if (passIter.value === 0) {
     currentPassword.value = "";
     currentCombo.value = "";
   }
@@ -410,7 +410,7 @@ async function matchPassword(categoryName: string) {
   currentPassword.value += categoryName;
   currentPassword.value += " ";
 
-  if (i.value === 5 && password.value === "blank") {
+  if (passIter.value === 5 && password.value === "blank") {
     password.value = currentPassword.value;
     h3txt1.value = "Press the button to start entering the lock combination."
     h3txt2.value = "If you fail, you get punished."
@@ -420,7 +420,7 @@ async function matchPassword(categoryName: string) {
     success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
-  if (i.value === 5 && currentPassword.value === password.value) {
+  if (passIter.value === 5 && currentPassword.value === password.value) {
     await clearCurrentLockCombo();
     await disconnectFromLock();
     await unlock();
@@ -433,7 +433,7 @@ async function matchPassword(categoryName: string) {
     }
 
     return;
-  } else if ((i.value === 5 && currentPassword.value !== password.value) || i.value === 6) {
+  } else if ((passIter.value === 5 && currentPassword.value !== password.value) || passIter.value === 6) {
     await clearCurrentLockCombo();
     await block();
 
@@ -443,7 +443,7 @@ async function matchPassword(categoryName: string) {
     return;
   }
 
-  i.value++;
+  passIter.value++;
 }
 
 let lastVideoTime = -1;
