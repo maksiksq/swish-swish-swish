@@ -46,6 +46,7 @@ import {
 const DELAY_BETWEEN_INPUTS = 550;
 
 // Yes.
+// TODO: fix
 const DO_RICKROLL = false;
 
 // Actual pairing is planned for the future. For now just this option.
