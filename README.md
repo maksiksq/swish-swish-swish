@@ -1,6 +1,6 @@
 # Swish
 
-This is the documentation for Swish, the AI gesture recognition lock/app.
+This is Swish, an AI gesture recognition lock/app.
 
 ## About the project
 
@@ -34,7 +34,7 @@ In addition to that, it doesn’t require a powerful device to run, as long as i
 ### Hardware:
 
 - We're also slapping it on an ESP32 and an electromechanical lock to make it an actual physical lock. And then using that as our course project alongside the app and sending it to a competition. The app and the lock are connected via BLE (Bluetooth Low Energy).
-  
+
 ![Swish collage](https://github.com/user-attachments/assets/c03206e7-1443-4913-8c04-048f52a36fa4)
 
 
