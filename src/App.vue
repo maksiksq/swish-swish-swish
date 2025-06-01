@@ -41,6 +41,13 @@ import {
 // === CONFIG ===
 // --------------------------------------
 
+// Password length. Let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
+// 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door. In the future it could be
+// secured by just securing the password and moving all the security logic to obfuscated rust and sending the ble requests
+// with ECDH. Which would be incredibly secure.
+// TODO: length
+const PASSWORD_LENGTH = 6;
+
 // Delay between each gesture recognition, to give the user a little bit of time to breathe
 // Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
 const DELAY_BETWEEN_INPUTS = 550;
@@ -73,11 +80,6 @@ const automaticallyCloseLock = ref<boolean | string>(false);
 // --------------------------------------
 
 // if you want to plug in something here, this is the place
-
-// let's imagine for a second this is all encrypted and there's a key generated for every time a password is made
-// 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door. In the future it could be
-// secured by just securing the password and moving all the security logic to obfuscated rust and sending the ble requests
-// with ECDH. Which would be incredibly secure.
 
 const scanning = ref<Boolean>(false)
 const devices = ref<BleDevice[]>([])
