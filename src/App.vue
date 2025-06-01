@@ -46,7 +46,7 @@ import {
 // secured by just securing the password and moving all the security logic to obfuscated rust and sending the ble requests
 // with ECDH. Which would be incredibly secure.
 // TODO: length
-const PASSWORD_LENGTH = 6;
+const PASSWORD_LENGTH = 3;
 
 // Delay between each gesture recognition, to give the user a little bit of time to breathe
 // Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
@@ -289,7 +289,8 @@ const enableAutoLock = async () => {
 const ifRun = ref(true)
 
 // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
-const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
+// const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
+const password = ref("Thumb_Up Thumb_Down Victory ")
 const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
 
 const currentPassword = ref("")
@@ -410,7 +411,7 @@ async function matchPassword(categoryName: string) {
   currentPassword.value += categoryName;
   currentPassword.value += " ";
 
-  if (passIter.value === 5 && password.value === "blank") {
+  if (passIter.value === PASSWORD_LENGTH-1 && password.value === "blank") {
     password.value = currentPassword.value;
     h3txt1.value = "Press the button to start entering the lock combination."
     h3txt2.value = "If you fail, you get punished."
@@ -420,7 +421,7 @@ async function matchPassword(categoryName: string) {
     success.value = "I wonder what's behind this door 🔒🚪 ; " + convertToEmoji(password.value);
   }
 
-  if (passIter.value === 5 && currentPassword.value === password.value) {
+  if (passIter.value === PASSWORD_LENGTH-1 && currentPassword.value === password.value) {
     await clearCurrentLockCombo();
     await disconnectFromLock();
     await unlock();
@@ -433,7 +434,7 @@ async function matchPassword(categoryName: string) {
     }
 
     return;
-  } else if ((passIter.value === 5 && currentPassword.value !== password.value) || passIter.value === 6) {
+  } else if ((passIter.value === PASSWORD_LENGTH-1 && currentPassword.value !== password.value) || passIter.value === PASSWORD_LENGTH) {
     await clearCurrentLockCombo();
     await block();
 
@@ -444,6 +445,8 @@ async function matchPassword(categoryName: string) {
   }
 
   passIter.value++;
+  console.log("hiya");
+  console.log(passIter.value);
 }
 
 let lastVideoTime = -1;
