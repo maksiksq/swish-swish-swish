@@ -673,7 +673,7 @@ main {
   flex-direction: column;
   align-items: center;
 
-  padding-top: 5vw;
+  padding-top: 3vw;
 
   .successTxt {
     margin-top: 4vh;

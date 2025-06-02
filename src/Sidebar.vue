@@ -40,7 +40,7 @@ const isOpen = computed(() => props.isSidebarOpen);
           <p>Auto lock</p>
         </div>
       </li>
-      <li class="slice oneSlice bottomSlice">
+      <li class="slice bottomSlice">
         <div class="sliceCont">
           <p>Available gestures:<br>☝️ 👍 👎 ✌️ ✊ 👋 🤟</p>
         </div>
@@ -154,6 +154,12 @@ const isOpen = computed(() => props.isSidebarOpen);
 
     .bottomSlice {
       margin-top: auto;
+
+      div {
+        p {
+          user-select: text;
+        }
+      }
     }
 
     .crossSlice {
