@@ -370,7 +370,7 @@ function matchEmoji(categoryName: string) {
   if (categoryName === "Open_Palm") {
     categoryName = "👋";
   }
-  // I think this gesture is Call me and not ILY but sure
+  // I think this gesture is Metal and not ILY but sure
   if (categoryName === "ILoveYou") {
     categoryName = "🤟";
   }
