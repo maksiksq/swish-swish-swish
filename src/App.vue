@@ -646,6 +646,8 @@ function resetPasswordStart() {
 </template>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap');
+
 body, html {
   overflow-x: hidden;
   overflow-y: hidden;
