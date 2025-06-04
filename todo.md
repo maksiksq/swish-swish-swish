@@ -15,7 +15,7 @@ Todo:
 - [x] Phone.
 - [x] Fix the project
 
-// not gonna do
+// no
 - [ ] Security // Too much work right now
 - [ ] Maybe add timer bar // No need
 - [ ] Add hard reset and setup // Too much for rn

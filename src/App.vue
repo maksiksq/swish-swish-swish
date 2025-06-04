@@ -45,8 +45,7 @@ import {
 // 7^6 is already 117649 combinations which is basically unpickable by hand if it were used for a real door. In the future it could be
 // secured by just securing the password and moving all the security logic to obfuscated rust and sending the ble requests
 // with ECDH. Which would be incredibly secure.
-// TODO: length
-const PASSWORD_LENGTH = 3;
+const PASSWORD_LENGTH = 6;
 
 // Delay between each gesture recognition, to give the user a little bit of time to breathe
 // Can be offset by GestureRecognizer taking a while to do its thing on a low-end machine I imagine
