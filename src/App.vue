@@ -288,8 +288,8 @@ const enableAutoLock = async () => {
 const ifRun = ref(true)
 
 // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
-// const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
-const password = ref("Thumb_Up Thumb_Down Victory ")
+const password = ref("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
+// const password = ref("Thumb_Up Thumb_Down Victory ")
 const success = ref("I wonder what's behind this door 🔒🚪 ; 👍 👎 ✌️ ✊ 👍 ✌️ ")
 
 const currentPassword = ref("")
