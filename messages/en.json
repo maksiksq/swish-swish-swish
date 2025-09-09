@@ -1,0 +1,31 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"lang": "en",
+
+	"button_1": "Start unlock",
+	"button_1_enable": "Enable Predictions",
+	"button_1_disable": "Disable Predictions",
+
+	"button_2": "Lock",
+	"button_3": "Unlock",
+	"main1": "Press the button to start entering the lock combination.",
+	"main2": "If you fail, you get punished.",
+	"main1_now_input": "Now input the new password. You can always reset it",
+	"main2_from_the_sidebar": "from the sidebar, provided you remember the password.",
+
+	"sidebar_1": "Reset password",
+	"sidebar_2": "Auto lock",
+	"sidebar_99": "Available symbols",
+	"clear": "clear",
+	"process_1": "MONE",
+	"process_2": "current combination",
+	"process_3": "awaiting connection...",
+
+	"success": "I wonder what's behind this door \uD83D\uDD12\uD83D\uDEAA ; ",
+	"success_nothing": "currently nothing found in the vicinity, is Bluetooth on? \uD83D\uDD17",
+	"success_no_lock": "no lock found in the vicinity which is about 5-15 meters (oh no) \uD83D\uDCE1",
+	"success_hurray": "hurray you got in \uD83C\uDF6A, now it`s time to rename yourself to Rob Banks! Now you get your well deserved \uD83C\uDF6A personal cookie stash \uD83C\uDF6A \uD83C\uDF6A\uD83C\uDF6A",
+	"success_looking": "looking for devices \uD83D\uDCE1",
+	"success_attempting": "attempting to send the command to lock ⌛",
+	"success_no_device": "no device connected within 10 seconds, is Bluetooth on? \uD83D\uDD17"
+}

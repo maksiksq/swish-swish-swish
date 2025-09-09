@@ -1,0 +1,27 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"lang": "uk",
+
+	"button_1": "Почати відкривання",
+	"button_1_enable": "#",
+	"button_1_disable": "#",
+
+	"button_2": "Закрити",
+	"button_3": "Відкрити",
+	"main1": "Натисніть кнопку, щоб почати вводити комбінацію замка.",
+	"main2": "У разі невдачі ви будете покарані.",
+	"main1_now_input": "#",
+	"main2_from_the_sidebar": "#",
+
+	"sidebar_1": "Змінити пароль",
+	"sidebar_2": "Авто замикання",
+	"sidebar_99": "Доступні символи",
+	"clear": "очистити",
+	"process_1": "нічого",
+	"process_2": "поточна комбінація",
+	"process_3": "очікування з'єднання...",
+
+	"success": "#",
+	"success_nothing": "#"
+
+}
