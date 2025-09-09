@@ -598,8 +598,10 @@
     let lang = $derived(m.lang);
     $inspect(lang);
 </script>
-<button onclick={() => setLocale('en')}>en</button>
-<button onclick={() => setLocale('uk')}>uk</button>
+<div style="position: fixed">
+    <button onclick={() => setLocale('en')}>en</button>
+    <button onclick={() => setLocale('uk')}>uk</button>
+</div>
 <p>{m.button_1()}</p>
 <main class="global-cont">
     <div onclick={openSidebar} onkeydown={(e: KeyboardEvent) => {if (e.key === "Enter") {openSidebar()}}} role="button"
