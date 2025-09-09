@@ -183,8 +183,6 @@ const isOpen = computed(() => props.isSidebarOpen);
         margin-left: 2vw;
       }
     }
-
-
   }
 
   .show-up {
@@ -205,6 +203,7 @@ const isOpen = computed(() => props.isSidebarOpen);
   width: 3vw;
   height: 3vw;
   background: #1d1d21;
+
 
   .checkboxImg {
     width: 100%;

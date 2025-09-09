@@ -35,7 +35,7 @@ import {
 // ⠀⠠⣿⣿⣿⣿⣿⣿⣿⢠⣸⣿⣿⣿⣿⣀⠀⠀⠀⠀
 // ⠀⠀⢷⣷⣿⣿⣿⣿⣿⣾⢈⡀⡏⣿⣿⣿⣿⢸⠀⠀
 // ⠀⠀⠀⠀⣷⣿⣿⣿⣿⢄⣷⢀⣧⣿⣿⣿⣿⠐⠀⠀
-// ⠀⠀⠀⠀⠀⠀⢿⣿⠀⠂⢹⢁⣿⠤⣿⣿⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+// ⠀⠀⠀⠀⠀⠀⢿⣿⠀⠂⢹⢁⣿⠤⣿⣿⢁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 
 // --------------------------------------
 // === CONFIG ===
@@ -98,6 +98,7 @@ watch(devices, async () => {
       success.value = 'currently nothing found in the vicinity, is Bluetooth on? 🔗';
     }
   }
+
 
   const j = ref(0);
   for (const device of devices.value) {
@@ -205,7 +206,7 @@ const createGestureRecognizer = async () => {
       modelAssetPath: "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
       delegate: "GPU"
     },
-    // typescript being funni here, RunningMode type is basically a string.
+    // typescript being funny here, RunningMode type is basically a string.
     // @ts-ignore
     runningMode: runningMode
   });

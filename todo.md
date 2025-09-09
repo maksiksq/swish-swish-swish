@@ -15,6 +15,10 @@ Todo:
 - [x] Phone.
 - [x] Fix the project
 
+
+
+- [ ] remake in svelte lol
+
 // no
 - [ ] Security // Too much work right now
 - [ ] Maybe add timer bar // No need
