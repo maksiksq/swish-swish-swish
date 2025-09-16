@@ -95,44 +95,46 @@
     let avoidConfusion = $state(true);
 
     // !!! may break 1
-    $effect(() => {(async () => {
-        // enables the lock button
-        isLockButtonGreyedOut = false;
+    $effect(() => {
+        (async () => {
+            // enables the lock button
+            isLockButtonGreyedOut = false;
 
-        if (devices.length === 0) {
-            if (avoidConfusion) {
-                !avoidConfusion;
-            } else {
-                success = m.success_nothing();
+            if (devices.length === 0) {
+                if (avoidConfusion) {
+                    !avoidConfusion;
+                } else {
+                    success = m.success_nothing();
+                }
             }
-        }
 
 
-        let j = $state(0);
-        for (const device of devices) {
-            if (device.name === "ESP32_LED_Control") {
-                await connect(device.address, () => info('disconnected'));
-                connectedToLock = true;
+            let j = $state(0);
+            for (const device of devices) {
+                if (device.name === "ESP32_LED_Control") {
+                    await connect(device.address, () => info('disconnected'));
+                    connectedToLock = true;
+                }
+                if (j === devices.length - 1) {
+                    success = m.success_no_lock();
+                }
+                j += 1;
             }
-            if (j === devices.length - 1) {
-                success = m.success_no_lock();
+
+            // can also send from js
+            await sendString(CHARACTERISTIC_UUID, "on");
+
+            // open sesame
+            success = m.success_hurray();
+
+            // if autolock, lock in 30 seconds
+            if (automaticallyCloseLock) {
+                setTimeout(async () => {
+                    await sendString(CHARACTERISTIC_UUID, "off");
+                }, 30000)
             }
-            j += 1;
-        }
-
-        // can also send from js
-        await sendString(CHARACTERISTIC_UUID, "on");
-
-        // open sesame
-        success = m.success_hurray();
-
-        // if autolock, lock in 30 seconds
-        if (automaticallyCloseLock) {
-            setTimeout(async () => {
-                await sendString(CHARACTERISTIC_UUID, "off");
-            }, 30000)
-        }
-    })})
+        })
+    })
 
     async function disconnectFromLock() {
         // disconnecting past connection in case it was connected
@@ -280,12 +282,6 @@
         });
     }
 
-    const enableAutoLock = async () => {
-        automaticallyCloseLock = !automaticallyCloseLock;
-
-        await setSetting("autoLock", automaticallyCloseLock);
-    }
-
     let ifRun = $state(true)
 
     // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
@@ -411,7 +407,7 @@
         currentPassword += categoryName;
         currentPassword += " ";
 
-        if (passIter === PASSWORD_LENGTH-1 && password === "blank") {
+        if (passIter === PASSWORD_LENGTH - 1 && password === "blank") {
             password = currentPassword;
 
             h3txt1 = m.main1();
@@ -422,7 +418,7 @@
             success = m.success() + convertToEmoji(password);
         }
 
-        if (passIter === PASSWORD_LENGTH-1 && currentPassword === password) {
+        if (passIter === PASSWORD_LENGTH - 1 && currentPassword === password) {
             await clearCurrentLockCombo();
             await disconnectFromLock();
             await unlock();
@@ -435,7 +431,7 @@
             }
 
             return;
-        } else if ((passIter === PASSWORD_LENGTH-1 && currentPassword !== password) || passIter === PASSWORD_LENGTH) {
+        } else if ((passIter === PASSWORD_LENGTH - 1 && currentPassword !== password) || passIter === PASSWORD_LENGTH) {
             await clearCurrentLockCombo();
             await block();
 
@@ -446,8 +442,6 @@
         }
 
         passIter++;
-        console.log("hiya");
-        console.log(passIter);
     }
 
     let lastVideoTime = -1;
@@ -460,13 +454,22 @@
         }
 
         const video: HTMLVideoElement | null = vidRef;
-        if (!video) { console.warn("Video not found! Something went very wrong (?). Try a restart."); return;}
+        if (!video) {
+            console.warn("Video not found! Something went very wrong (?). Try a restart.");
+            return;
+        }
 
         const canvasElement: HTMLCanvasElement | null = canvasElementRef;
-        if (!canvasElement) { console.warn("Canvas not found! Something went very wrong (?). Try a restart."); return;}
+        if (!canvasElement) {
+            console.warn("Canvas not found! Something went very wrong (?). Try a restart.");
+            return;
+        }
         const gestureOutput: HTMLElement | null = gestureOutputRef;
         const canvasCtx = canvasElement.getContext("2d");
-        if (!canvasCtx) { console.warn("Canvas context not found! Something went very wrong (?). Try a restart."); return;}
+        if (!canvasCtx) {
+            console.warn("Canvas context not found! Something went very wrong (?). Try a restart.");
+            return;
+        }
 
 
         const webcamElement = video;
@@ -581,7 +584,10 @@
     let isSideBar = $state(false);
 
     function openSidebar() {
-        isSideBar = !isSideBar;
+        console.log("consolations")
+        isSideBar = true;
+        console.log(isSideBar)
+
     }
 
     function resetPasswordStart() {
@@ -592,17 +598,12 @@
     }
 
     // i18n
-    import { m } from '$lib/paraglide/messages.js';
-    import { setLocale } from '$lib/paraglide/runtime';
+    import {m} from '$lib/paraglide/messages.js';
+    import {setLocale} from '$lib/paraglide/runtime';
 
     let lang = $derived(m.lang);
     $inspect(lang);
 </script>
-<div style="position: fixed">
-    <button onclick={() => setLocale('en')}>en</button>
-    <button onclick={() => setLocale('uk')}>uk</button>
-</div>
-<p>{m.button_1()}</p>
 <main class="global-cont">
     <div onclick={openSidebar} onkeydown={(e: KeyboardEvent) => {if (e.key === "Enter") {openSidebar()}}} role="button"
          tabindex="0" class="settings-button">
@@ -612,11 +613,7 @@
                     d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
         </svg>
     </div>
-    <!-- TODO: impl calls -->
-    <!--            -->
-    <!--    <Sidebar @click-on-burger="openSidebar" @reset-password-mode="resetPasswordStart" @enable-auto-lock="enableAutoLock"-->
-    <!--             :is-sidebar-open=isSideBar :is-auto-lock=automaticallyCloseLock></Sidebar>-->
-    <Sidebar></Sidebar>
+    <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting} {automaticallyCloseLock}></Sidebar>
     <h3> {m.main1()} <br> {m.main2()}
     </h3>
     <div class="front-button-wrap">

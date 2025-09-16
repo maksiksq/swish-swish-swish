@@ -1,22 +1,26 @@
 <script lang="ts">
     import Cross from "$lib/Cross.svelte";
 
-    let {isSidebarOpen = false, isAutoLock = false} = $props();
+    let {isSidebar: isSidebar = $bindable(false), isAutoLock = $bindable(false), getSetting, setSetting, automaticallyCloseLock} = $props();
 
-    const clickOnBurger = () => {};
+    $inspect(isSidebar)
 
-    const setSetting = (s: string, b: boolean) => {};
-    const getSetting = (s: string) => {return true};
+    const clickOnBurger = () => {
+        isSidebar = false;
+    };
 
-    const enableAutoLock = () => {return true};
+    const enableAutoLock = async () => {
+        automaticallyCloseLock = !automaticallyCloseLock;
+
+        await setSetting("autoLock", automaticallyCloseLock);
+    }
 
     const resetPasswordMode = () => {return true};
 
-    const isOpen = $derived(isSidebarOpen);
+    const isOpen = $derived(isSidebar);
 
     const handleLightboxClick = () => {
-        clickOnBurger;
-        setSetting('autoLock', !getSetting('autoLock'));
+        clickOnBurger();
     }
 
     // i18n
@@ -50,6 +54,12 @@
             </div>
         </li>
         <li class="slice bottom-slice">
+            <div style="position: fixed">
+                <button onclick={() => setLocale('en')}>en</button>
+                <button onclick={() => setLocale('uk')}>uk</button>
+            </div>
+        </li>
+        <li class="slice">
             <div class="slice-cont">
                 <p>{m.sidebar_99()}<br>☝️ 👍 👎 ✌️ ✊ 👋 🤟</p>
             </div>
@@ -78,11 +88,11 @@
     }
 
     .open-opacity {
-        opacity: 0.3;
+        opacity: 0.6;
     }
 
     .sidebar-wrap {
-        transition: transform 500ms ease-in-out;
+        transition: transform 200ms cubic-bezier(0.78, 0, 0.22, 1);
 
         display: flex;
         justify-content: right;
@@ -110,12 +120,12 @@
         z-index: 10000;
 
         position: fixed;
-        width: 23.28vw;
+        width: 18vw;
         height: 100vh;
 
         transform: translateX(23.28vw);
 
-        transition: transform 1500ms linear(0.00, -0.00624, 0.0254, 0.0642, 0.103, 0.140, 0.176, 0.211, 0.243, 0.274, 0.305, 0.334, 0.361, 0.387, 0.413, 0.438, 0.461, 0.483, 0.505, 0.526, 0.545, 0.564, 0.582, 0.600, 0.617, 0.633, 0.648, 0.662, 0.676, 0.690, 0.703, 0.715, 0.727, 0.738, 0.749, 0.760, 0.769, 0.779, 0.788, 0.797, 0.805, 0.814, 0.821, 0.829, 0.836, 0.843, 0.849, 0.856, 0.861, 0.867, 0.873, 0.878, 0.883, 0.888, 0.893, 0.897, 0.901, 0.905, 0.909, 0.913, 0.917, 0.920, 0.924, 0.927, 0.930, 0.933, 0.936, 0.938, 0.941, 0.943, 0.946, 0.948, 0.950, 0.952, 0.954, 0.956, 0.958, 0.960, 0.961, 0.963, 0.964, 0.966, 0.967, 0.969, 0.970, 0.971, 0.972, 0.974, 0.975, 0.976, 0.977, 0.978, 0.979, 0.979, 0.980, 0.981, 0.982, 0.983, 0.983, 0.984, 0.985, 0.985, 0.986, 0.987, 0.987, 0.988, 0.988, 0.989, 0.989, 0.990, 0.990, 0.990, 0.991, 0.991, 0.992, 0.992, 0.992, 0.993, 0.993, 0.993, 0.993, 0.994, 0.994, 0.994, 0.995, 0.995, 0.995, 0.995, 0.995, 0.996, 0.996, 0.996, 0.996, 0.996, 0.996, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.997, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.998, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 0.999, 1.00);
+        transition: transform linear(0, 0.409 5.7%, 0.68 10.7%, 0.838 15.5%, 0.877 17.9%, 0.89 20.3%, 0.883 22.1%, 0.862 24%, 0.775 28.1%, 0.103 46.8%, -0.03 51.9%, -0.11 56.9%, -0.142 61.2%, -0.143 65.9%, -0.124 70.2%, -0.021 86%, -0.004 92.1%, 0);
 
         display: flex;
         flex-direction: column;
@@ -126,7 +136,7 @@
             color: white;
             font-family: Montserrat, sans-serif;
             font-weight: 600;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
 
             padding: 1vw;
 
@@ -177,6 +187,7 @@
 
             & button {
                 all: unset;
+                cursor: pointer;
                 & svg {
                     cursor: pointer;
                 }
