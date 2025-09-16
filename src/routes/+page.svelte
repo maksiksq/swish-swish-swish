@@ -226,6 +226,13 @@
 
     let enableWebcamButtonRef = $state<HTMLElement | null>(null)
     let webcamRunning: Boolean = $state(false);
+    let webcamRanOnce: Boolean = $state(false);
+
+    $effect(() => {
+        webcamRunning = webcamRunning;
+
+        webcamRanOnce = true;
+    })
 
     const videoHeight = "360px";
     const videoWidth = "480px";
@@ -627,7 +634,7 @@
         </button>
     </div>
     <div class="canvas-cont">
-        <video bind:this={vidRef} id="webcam" class={`vid ${webcamRunning ? "webcam-shadow" : ''}`} muted autoplay
+        <video bind:this={vidRef} id="webcam" class={`vid ${webcamRanOnce ? "webcam-shadow" : ''}`} muted autoplay
                playsinline>
             Video loading, hold on a little ...
         </video>
@@ -644,7 +651,7 @@
             </p>
             <button onclick={clearCurrentLockCombo} class="button-active clean-input-button success-transition"
                     style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>
-                {m.clear}
+                {m.clear()}
             </button>
             <p class="right-connection-txt success-transition"
                style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>

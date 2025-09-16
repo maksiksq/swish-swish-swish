@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="feat: oh and added paraglide because why not">
+    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: sidebar sorta works again">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/uk.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Sidebar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Sidebar.svelte" afterDir="false" />
     </list>
     <list id="ddb44eb8-58a8-4447-90ed-2aebd544d1de" name="Changes by Vitvinio" comment="">
       <change beforePath="$PROJECT_DIR$/messages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/uk.json" afterDir="false" />
@@ -34,6 +34,16 @@
 }</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/node_modules/.pnpm/@tauri-apps+plugin-store@2.4.0/node_modules/@tauri-apps/plugin-store/dist-js/index.d.ts" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/messages/uk.json">
+      <ranges>
+        <range start1="5" end1="7" start2="5" end2="7" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+        <range start1="12" end1="14" start2="12" end2="14" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+        <range start1="18" end1="19" start2="18" end2="19" changelist="a7d5924b-43b8-4586-ade0-23758ff0b78d" />
+        <range start1="23" end1="25" start2="23" end2="30" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+      </ranges>
+    </file>
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -106,7 +116,7 @@
       <option name="presentableId" value="Default" />
       <updated>1757440256734</updated>
       <workItem from="1757440257844" duration="553000" />
-      <workItem from="1758017401178" duration="2422000" />
+      <workItem from="1758017401178" duration="3926000" />
     </task>
     <task id="LOCAL-00001" summary="fix: re-added some old files that didn't depend on the framework and copied stuff over from a different repo + fix: some progress to make it bearably lookable">
       <option name="closed" value="true" />
@@ -124,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757445985554</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix: sidebar sorta works again">
+      <option name="closed" value="true" />
+      <created>1758019978187</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1758019978187</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,6 +153,7 @@
     <MESSAGE value="feat: svelte init x2" />
     <MESSAGE value="fix: re-added some old files that didn't depend on the framework and copied stuff over from a different repo + fix: some progress to make it bearably lookable" />
     <MESSAGE value="feat: oh and added paraglide because why not" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: oh and added paraglide because why not" />
+    <MESSAGE value="fix: sidebar sorta works again" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: sidebar sorta works again" />
   </component>
 </project>
