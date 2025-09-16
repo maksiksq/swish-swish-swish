@@ -1,7 +1,7 @@
 <script lang="ts">
     import Cross from "$lib/Cross.svelte";
 
-    let {isSidebar: isSidebar = $bindable(false), isAutoLock = $bindable(false), getSetting, setSetting, automaticallyCloseLock} = $props();
+    let {isSidebar: isSidebar = $bindable(false), getSetting, setSetting, automaticallyCloseLock=$bindable()} = $props();
 
     $inspect(isSidebar)
 
@@ -26,8 +26,6 @@
     // i18n
     import { m } from '$lib/paraglide/messages.js';
     import { setLocale } from '$lib/paraglide/runtime';
-
-
 </script>
 
 <div class={`light-box ${isOpen ? 'open-opacity' : 'close-opacity'}`} role="button" tabindex="0" onclick={handleLightboxClick} onkeydown={(e) => {if (e.key==="Enter") {enableAutoLock()}}}></div>
@@ -40,15 +38,15 @@
         </li>
         <li class="slice one-slice">
             <div>
-                <button onclick={resetPasswordMode}>
+                <button onclick={resetPasswordMode} class="button-active clean-input-button success-transition">
                     {m.sidebar_1()}
                 </button>
             </div>
         </li>
         <li class="slice one-slice">
             <div class="slice-cont" onclick={enableAutoLock} role="button" tabindex="0" onkeydown={(e) => {if (e.key==="Enter") {enableAutoLock()}}}>
-                <div class="check-box" aria-checked={isAutoLock} role="checkbox">
-                    <img src={isAutoLock ? "/img/checkmarkOn.png" : "/img/checkmark.png"} alt="checkmark" class="check-box-img"/>
+                <div class="check-box" aria-checked={automaticallyCloseLock} role="checkbox">
+                    <img src={automaticallyCloseLock ? "/img/checkmarkOn.png" : "/img/checkmark.png"} alt="checkmark" class="check-box-img"/>
                 </div>
                 <p>{m.sidebar_2()}</p>
             </div>
@@ -136,7 +134,7 @@
             color: white;
             font-family: Montserrat, sans-serif;
             font-weight: 600;
-            font-size: 1.2rem;
+            font-size: 1rem;
 
             padding: 1vw;
 
@@ -217,13 +215,13 @@
         justify-content: center;
         align-items: center;
 
-        margin-top: -0.5vw;
+        margin-top: -0.35rem;
 
         padding-right: 0.4vw;
 
         aspect-ratio: 1;
-        width: 3vw;
-        height: 3vw;
+        width: 2rem;
+        height: 2rem;
         background: #1d1d21;
 
 

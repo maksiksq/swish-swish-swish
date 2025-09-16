@@ -73,7 +73,7 @@
     // --------------------------------------
 
     // string because it becomes 'nothingYet' if it was undeclared because clarity
-    let automaticallyCloseLock = $state<boolean | string>(false);
+    let automaticallyCloseLock = $state<boolean | string | undefined>(false);
 
     // --------------------------------------
     // === OPTIONS END ===
@@ -228,10 +228,16 @@
     let webcamRunning: Boolean = $state(false);
     let webcamRanOnce: Boolean = $state(false);
 
+    $inspect(webcamRanOnce);
+
+    let webcamOnceIx = 0;
     $effect(() => {
         webcamRunning = webcamRunning;
 
-        webcamRanOnce = true;
+        if (webcamOnceIx === 1) {
+            webcamRanOnce = true;
+        }
+        webcamOnceIx++;
     })
 
     const videoHeight = "360px";
@@ -591,10 +597,7 @@
     let isSideBar = $state(false);
 
     function openSidebar() {
-        console.log("consolations")
         isSideBar = true;
-        console.log(isSideBar)
-
     }
 
     function resetPasswordStart() {
@@ -609,7 +612,7 @@
     import {setLocale} from '$lib/paraglide/runtime';
 
     let lang = $derived(m.lang);
-    $inspect(lang);
+    $inspect(`${webcamRanOnce ? '' : "d-none"}`);
 </script>
 <main class="global-cont">
     <div onclick={openSidebar} onkeydown={(e: KeyboardEvent) => {if (e.key === "Enter") {openSidebar()}}} role="button"
@@ -620,47 +623,48 @@
                     d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
         </svg>
     </div>
-    <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting} {automaticallyCloseLock}></Sidebar>
+    <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting}
+             bind:automaticallyCloseLock={automaticallyCloseLock}></Sidebar>
     <h3> {m.main1()} <br> {m.main2()}
     </h3>
-    <div class="front-button-wrap">
-        <button bind:this={enableWebcamButtonRef} onclick={enableCam} id="webcam-button"
-                class={`web-cam-btn ${isWebcamButtonGreyedOut ? "button-greyed-out" : "button-active"}`}>{m.button_1()}</button>
-        <button onclick={() => {isLockButtonGreyedOut ? '' : sendString(CHARACTERISTIC_UUID, 'off')}}
-                class={isLockButtonGreyedOut ? "button-greyed-out" : "button-active"}>{m.button_2()}
-        </button>
-        <button onclick={() => {if(isLockButtonGreyedOut){sendString(CHARACTERISTIC_UUID, 'on')}}}
-                class={isLockButtonGreyedOut ? "button-greyed-out" : "button-active"}>{m.button_3()}
-        </button>
-    </div>
-    <div class="canvas-cont">
-        <video bind:this={vidRef} id="webcam" class={`vid ${webcamRanOnce ? "webcam-shadow" : ''}`} muted autoplay
-               playsinline>
-            Video loading, hold on a little ...
-        </video>
-        <canvas bind:this={canvasElementRef} class="output-canvas" id="output-canvas" width="1280" height="720"
-                style="position: absolute; left: 0; top: 0"></canvas>
-        <div class="right-webcam-cont">
-            <p>
-                <span bind:this={gestureOutputRef} id="gesture-output" class="output">None <br></span>
-                <span class="success-transition"
-                      style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>Current combination: <span>{
-                    currentCombo
-                }</span>
-          </span>
-            </p>
-            <button onclick={clearCurrentLockCombo} class="button-active clean-input-button success-transition"
-                    style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>
-                {m.clear()}
+        <div class="front-button-wrap">
+            <button bind:this={enableWebcamButtonRef} onclick={enableCam} id="webcam-button"
+                    class={`web-cam-btn ${isWebcamButtonGreyedOut ? "button-greyed-out" : "button-active"}`}>{m.button_1()}</button>
+            <button onclick={() => {isLockButtonGreyedOut ? '' : sendString(CHARACTERISTIC_UUID, 'off')}}
+                    class={isLockButtonGreyedOut ? "button-greyed-out" : "button-active"}>{m.button_2()}
             </button>
-            <p class="right-connection-txt success-transition"
-               style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>
-                {connectionTxt}</p>
+            <button onclick={() => {if(isLockButtonGreyedOut){sendString(CHARACTERISTIC_UUID, 'on')}}}
+                    class={isLockButtonGreyedOut ? "button-greyed-out" : "button-active"}>{m.button_3()}
+            </button>
         </div>
-    </div>
-    <p class="success-transition success-txt" style={`transform: translateY(${isDoor ? '0' : '500px'})}`}>{
-        success
-    }</p>
+        <div class={`canvas-cont ${webcamRanOnce ? "" : "d-none"}`}>
+            <video bind:this={vidRef} id="webcam" class={`vid ${webcamRanOnce ? "webcam-shadow" : ''}`} muted autoplay
+                   playsinline>
+                Video loading, hold on a little ...
+            </video>
+            <canvas bind:this={canvasElementRef} class="output-canvas" id="output-canvas" width="1280" height="720"
+                    style="position: absolute; left: 0; top: 0"></canvas>
+            <div class="right-webcam-cont">
+                <p>
+                    <span bind:this={gestureOutputRef} id="gesture-output" class="output">None <br></span>
+                    <span class="success-transition"
+                          style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>Current combination: <span>{
+                        currentCombo
+                    }</span>
+          </span>
+                </p>
+                <button onclick={clearCurrentLockCombo} class="button-active clean-input-button success-transition"
+                        style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>
+                    {m.clear()}
+                </button>
+                <p class="right-connection-txt success-transition"
+                   style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>
+                    {connectionTxt}</p>
+            </div>
+        </div>
+        <p class={`success-transition success-txt ${webcamRanOnce ? '' : "d-none"}`} style={`transform: translateY(${isDoor ? '0' : '500px'})}`}>{
+            success
+        }</p>
 </main>
 
 <style>
@@ -673,18 +677,77 @@
             margin: 0;
             background-color: rgba(29, 29, 33, 1);
         }
-    }
 
-    /*selection*/
+        /*selection*/
 
-    ::selection {
-        background: #8a02b5;
-    }
+        ::selection {
+            background: #8a02b5;
+        }
 
-    /*//*/
+        /*//*/
 
-    .dNone {
-        display: none;
+        .d-none {
+            display: none !important;
+        }
+
+        button {
+            position: relative;
+            margin-top: 2vh;
+            z-index: 999;
+            padding: 0.6vw 1vw;
+
+            color: white;
+            font-family: 'Comfortaa', sans-serif;
+            font-size: 1rem;
+            border: 3px solid #000000;
+
+            /*// #5301bf looks so good, but a little not in theme*/
+            /*//mix-blend-mode: hard-light;*/
+
+            transition: all 0.2s ease-in-out;
+        }
+
+        button::after {
+            content: "";
+            pointer-events: none;
+
+            /*//background: repeating-linear-gradient(75deg,*/
+            /*//    rgb(0, 0, 0, 0.2) 0%,*/
+            /*//    rgb(0, 0, 0, 0.2) 0.001px,*/
+            /*//    rgb(0, 0, 0, 0) 5px,*/
+            /*//    rgb(0, 0, 0, 0) 10px*/
+            /*//);*/
+            opacity: 0.8;
+
+            position: absolute;
+            z-index: -1;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .button-active:hover {
+            transform: translate(3px, 3px);
+            box-shadow: 1px 1px 0 black;
+            background-color: #9e04da;
+            color: #000000;
+        }
+
+        .button-active {
+            background-color: #8a00bf;
+            box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+        }
+
+        .button-greyed-out {
+            background-color: #717171;
+            box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
+
+        }
+
+        .button-greyed-out:hover {
+            background-color: #717171;
+
+        }
     }
 
     main {
@@ -762,65 +825,7 @@
         width: 100%;
 
         gap: 5vw;
-    }
-
-    button {
-        position: relative;
-        margin-top: 2vh;
-        z-index: 999;
-        padding: 0.6vw 1vw;
-
-        color: white;
-        font-family: 'Comfortaa', sans-serif;
-        font-size: 1rem;
-        border: 3px solid #000000;
-
-        /*// #5301bf looks so good, but a little not in theme*/
-        /*//mix-blend-mode: hard-light;*/
-
-        transition: all 0.2s ease-in-out;
-    }
-
-    button::after {
-        content: "";
-        pointer-events: none;
-
-        /*//background: repeating-linear-gradient(75deg,*/
-        /*//    rgb(0, 0, 0, 0.2) 0%,*/
-        /*//    rgb(0, 0, 0, 0.2) 0.001px,*/
-        /*//    rgb(0, 0, 0, 0) 5px,*/
-        /*//    rgb(0, 0, 0, 0) 10px*/
-        /*//);*/
-        opacity: 0.8;
-
-        position: absolute;
-        z-index: -1;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .button-active:hover {
-        transform: translate(3px, 3px);
-        box-shadow: 1px 1px 0 black;
-        background-color: #9e04da;
-        color: #000000;
-    }
-
-    .button-active {
-        background-color: #8a00bf;
-        box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
-    }
-
-    .button-greyed-out {
-        background-color: #717171;
-        box-shadow: 4px 4px 0 black, 0 1px 0 black, 1px 2px 0 black, 2px 3px 0 black;
-
-    }
-
-    .button-greyed-out:hover {
-        background-color: #717171;
-
+        padding-bottom: 1rem;
     }
 
     .settings-button {
