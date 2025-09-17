@@ -143,8 +143,11 @@
         }
     }
 
+    let session = $state(false);
+
     async function unlock() {
         success = m.success_looking();
+        session = true;
 
         devices = [];
 
@@ -300,7 +303,7 @@
     // MAKE SURE TO INCLUDE A SPACE AT THE END 3 AM ME
     let password = $state("Thumb_Up Thumb_Down Victory Closed_Fist Thumb_Up Victory ")
     // const password = $state("Thumb_Up Thumb_Down Victory ")
-    let success = $state(m.success() + "👍 👎 ✌️ ✊ 👍 ✌️ ")
+    let success = $state(m.success() + " 👍 👎 ✌️ ✊ 👍 ✌️ ")
 
     let currentPassword = $state("")
 
@@ -600,19 +603,17 @@
         isSideBar = true;
     }
 
-    function resetPasswordStart() {
-        h3txt1 = "Password reset mode, first enter the current password correctly.";
-        h3txt2 = "If else, access denied.";
-
-        isResetPasswordMode = true;
-    }
+    $effect(() => {
+        if (isResetPasswordMode) {
+            h3txt1 = m.main1_now_input();
+            h3txt2 = m.main2_from_the_sidebar();
+        }
+    })
 
     // i18n
     import {m} from '$lib/paraglide/messages.js';
     import {setLocale} from '$lib/paraglide/runtime';
-
-    let lang = $derived(m.lang);
-    $inspect(`${webcamRanOnce ? '' : "d-none"}`);
+    $inspect(password)
 </script>
 <main class="global-cont">
     <div onclick={openSidebar} onkeydown={(e: KeyboardEvent) => {if (e.key === "Enter") {openSidebar()}}} role="button"
@@ -623,9 +624,9 @@
                     d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/>
         </svg>
     </div>
-    <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting}
-             bind:automaticallyCloseLock={automaticallyCloseLock}></Sidebar>
-    <h3> {m.main1()} <br> {m.main2()}
+    <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting} {session}
+             bind:automaticallyCloseLock={automaticallyCloseLock} bind:isResetPasswordMode={isResetPasswordMode}></Sidebar>
+    <h3> {h3txt1} <br> {h3txt2}
     </h3>
         <div class="front-button-wrap">
             <button bind:this={enableWebcamButtonRef} onclick={enableCam} id="webcam-button"

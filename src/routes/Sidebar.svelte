@@ -1,7 +1,7 @@
 <script lang="ts">
     import Cross from "$lib/Cross.svelte";
 
-    let {isSidebar: isSidebar = $bindable(false), getSetting, setSetting, automaticallyCloseLock=$bindable()} = $props();
+    let {isSidebar: isSidebar = $bindable(false), session=false, getSetting, setSetting, automaticallyCloseLock=$bindable(), isResetPasswordMode=$bindable(false)} = $props();
 
     $inspect(isSidebar)
 
@@ -15,7 +15,12 @@
         await setSetting("autoLock", automaticallyCloseLock);
     }
 
-    const resetPasswordMode = () => {return true};
+    const resetPasswordMode = () => {
+        if (session) {
+            isResetPasswordMode = true;
+            return;
+        }
+    };
 
     const isOpen = $derived(isSidebar);
 
@@ -26,6 +31,8 @@
     // i18n
     import { m } from '$lib/paraglide/messages.js';
     import { setLocale } from '$lib/paraglide/runtime';
+
+    let lang = $derived(m.lang());
 </script>
 
 <div class={`light-box ${isOpen ? 'open-opacity' : 'close-opacity'}`} role="button" tabindex="0" onclick={handleLightboxClick} onkeydown={(e) => {if (e.key==="Enter") {enableAutoLock()}}}></div>
@@ -38,7 +45,7 @@
         </li>
         <li class="slice one-slice">
             <div>
-                <button onclick={resetPasswordMode} class="button-active clean-input-button success-transition">
+                <button onclick={resetPasswordMode} class={`clean-input-button success-transition ${isResetPasswordMode || !session ? "button-greyed-out" : "button-active"}`}>
                     {m.sidebar_1()}
                 </button>
             </div>
@@ -46,15 +53,15 @@
         <li class="slice one-slice">
             <div class="slice-cont" onclick={enableAutoLock} role="button" tabindex="0" onkeydown={(e) => {if (e.key==="Enter") {enableAutoLock()}}}>
                 <div class="check-box" aria-checked={automaticallyCloseLock} role="checkbox">
-                    <img src={automaticallyCloseLock ? "/img/checkmarkOn.png" : "/img/checkmark.png"} alt="checkmark" class="check-box-img"/>
+                    <img src={automaticallyCloseLock ? "/img/checkmark-on.png" : "/img/checkmark.png"} alt="checkmark" class="check-box-img"/>
                 </div>
                 <p>{m.sidebar_2()}</p>
             </div>
         </li>
         <li class="slice bottom-slice">
-            <div style="position: fixed">
-                <button onclick={() => setLocale('en')}>en</button>
-                <button onclick={() => setLocale('uk')}>uk</button>
+            <div class="slice-cont">
+                <button class={`clean-input-button success-transition ${lang === "en" ? "button-greyed-out" : "button-active"}`} onclick={() => setLocale('en')}>en</button>
+                <button class={`clean-input-button success-transition ${lang === "uk" ? "button-greyed-out" : "button-active"}`} onclick={() => setLocale('uk')}>uk</button>
             </div>
         </li>
         <li class="slice">
@@ -112,7 +119,7 @@
         overflow-x: hidden;
 
         background: #1d1d21;
-        border-left: #ffffff 1px solid;
+        border-left: rgba(0, 0, 0, 1) solid;
 
 
         z-index: 10000;
@@ -159,10 +166,6 @@
                 p {
                     margin: 0;
                     transition: 0.3s;
-
-                }
-                p:hover {
-                    color: #9e04da;
                 }
             }
         }
@@ -215,7 +218,7 @@
         justify-content: center;
         align-items: center;
 
-        margin-top: -0.35rem;
+        margin-top: -0.4rem;
 
         padding-right: 0.4vw;
 

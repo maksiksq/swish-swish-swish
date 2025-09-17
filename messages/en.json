@@ -13,6 +13,9 @@
 	"main1_now_input": "Now input the new password. You can always reset it",
 	"main2_from_the_sidebar": "from the sidebar, provided you remember the password.",
 
+	"main_password_reset": "Password reset mode, first enter the current password correctly.",
+	"main_if_else": "If else, access denied.",
+
 	"sidebar_1": "Reset password",
 	"sidebar_2": "Auto lock",
 	"sidebar_99": "Available symbols",
