@@ -205,7 +205,6 @@
     let runningMode = "IMAGE";
 
     const createGestureRecognizer = async () => {
-
         const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm") // maybe replace locally?
 
         gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
@@ -217,7 +216,6 @@
             // @ts-ignore
             runningMode: runningMode
         });
-        await info('gestureRecognizer initialized');
     };
 
     // using refs here, turning them into html objects later on
@@ -230,8 +228,6 @@
     let enableWebcamButtonRef = $state<HTMLElement | null>(null)
     let webcamRunning: Boolean = $state(false);
     let webcamRanOnce: Boolean = $state(false);
-
-    $inspect(webcamRanOnce);
 
     let webcamOnceIx = 0;
     $effect(() => {
@@ -565,9 +561,11 @@
     }
 
     onMount(async () => {
+        console.log("wait");
         await createGestureRecognizer();
 
-        store = await load('store.json', {autoSave: false});
+        store = await load('store.json', { autoSave: false });
+        console.log("stoishing", store);
 
         // Getters for settings on load
         automaticallyCloseLock = await getSetting("autoLock");
@@ -613,7 +611,6 @@
     // i18n
     import {m} from '$lib/paraglide/messages.js';
     import {setLocale} from '$lib/paraglide/runtime';
-    $inspect(password)
 </script>
 <main class="global-cont">
     <div onclick={openSidebar} onkeydown={(e: KeyboardEvent) => {if (e.key === "Enter") {openSidebar()}}} role="button"
@@ -626,8 +623,7 @@
     </div>
     <Sidebar bind:isSidebar={isSideBar} {getSetting} {setSetting} {session}
              bind:automaticallyCloseLock={automaticallyCloseLock} bind:isResetPasswordMode={isResetPasswordMode}></Sidebar>
-    <h3> {h3txt1} <br> {h3txt2}
-    </h3>
+    <h3> {h3txt1} <br> {h3txt2}</h3>
         <div class="front-button-wrap">
             <button bind:this={enableWebcamButtonRef} onclick={enableCam} id="webcam-button"
                     class={`web-cam-btn ${isWebcamButtonGreyedOut ? "button-greyed-out" : "button-active"}`}>{m.button_1()}</button>

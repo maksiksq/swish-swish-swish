@@ -11,6 +11,7 @@ const config = {
   kit: {
     adapter: adapter({
       fallback: "index.html",
+      runtime: "nodejs22.x"
     }),
   },
 };
