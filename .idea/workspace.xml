@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: ui is now not displayed at the start (as it was)">
+    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: various fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/uk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/Sidebar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Sidebar.svelte" afterDir="false" />
     </list>
     <list id="ddb44eb8-58a8-4447-90ed-2aebd544d1de" name="Changes by Vitvinio" comment="">
       <change beforePath="$PROJECT_DIR$/messages/uk.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/uk.json" afterDir="false" />
@@ -37,6 +38,16 @@
     <setting file="file://$PROJECT_DIR$/node_modules/.pnpm/@tauri-apps+plugin-store@2.4.0/node_modules/@tauri-apps/plugin-store/dist-js/index.d.ts" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/node_modules/.pnpm/svelte@5.38.8/node_modules/svelte/elements.d.ts" root0="SKIP_INSPECTION" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/messages/uk.json">
+      <ranges>
+        <range start1="5" end1="7" start2="5" end2="7" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+        <range start1="12" end1="14" start2="12" end2="14" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+        <range start1="19" end1="22" start2="19" end2="24" changelist="a7d5924b-43b8-4586-ade0-23758ff0b78d" />
+        <range start1="23" end1="25" start2="25" end2="32" changelist="ddb44eb8-58a8-4447-90ed-2aebd544d1de" />
+      </ranges>
+    </file>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -45,26 +56,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;Shell Script.spaghetti.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Docs/webstormproj/swish-eternal-svelte/static&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;C:\\Users\\Maksiks\\AppData\\Local\\Microsoft\\WinGet\\Links\\pnpm.exe&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;Errors&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Docs\\webstormproj\\swish-eternal-svelte\\node_modules\\typescript\\lib&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "Shell Script.spaghetti.executor": "Run",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "D:/Docs/webstormproj/swish-eternal-svelte/static",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "C:\\Users\\Maksiks\\AppData\\Local\\Microsoft\\WinGet\\Links\\pnpm.exe",
+    "settings.editor.selected.configurable": "terminal",
+    "ts.external.directory.path": "D:\\Docs\\webstormproj\\swish-eternal-svelte\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Docs\webstormproj\swish-eternal-svelte\static" />
@@ -110,7 +122,9 @@
       <workItem from="1757440257844" duration="553000" />
       <workItem from="1758017401178" duration="6484000" />
       <workItem from="1758026631181" duration="5759000" />
-      <workItem from="1758109366966" duration="474000" />
+      <workItem from="1758109366966" duration="1106000" />
+      <workItem from="1758110488636" duration="1705000" />
+      <workItem from="1758112603699" duration="491000" />
     </task>
     <task id="LOCAL-00001" summary="fix: re-added some old files that didn't depend on the framework and copied stuff over from a different repo + fix: some progress to make it bearably lookable">
       <option name="closed" value="true" />
@@ -152,7 +166,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758028282033</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix: various fixes">
+      <option name="closed" value="true" />
+      <created>1758109858038</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758109858039</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -166,6 +188,7 @@
     <MESSAGE value="fix: sidebar sorta works again" />
     <MESSAGE value="fix: layout went made" />
     <MESSAGE value="fix: ui is now not displayed at the start (as it was)" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: ui is now not displayed at the start (as it was)" />
+    <MESSAGE value="fix: various fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: various fixes" />
   </component>
 </project>

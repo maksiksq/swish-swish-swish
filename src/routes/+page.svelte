@@ -199,7 +199,7 @@
     let isLockButtonGreyedOut = $state(true);
     let isWebcamButtonGreyedOut = $state(false);
 
-    let connectionTxt = $state("Awaiting unlock...");
+    let connectionTxt = $state(m.process_4());
 
     let gestureRecognizer: GestureRecognizer;
     let runningMode = "IMAGE";
@@ -589,9 +589,9 @@
 
         setInterval(() => {
             if (connected) {
-                connectionTxt = "Connected to the lock successfully ✅";
+                connectionTxt = m.process_5();
             } else {
-                connectionTxt = "Awaiting connection... 👀";
+                connectionTxt = m.process_3();
             }
         }, 1000)
     })
@@ -647,9 +647,9 @@
                     style="position: absolute; left: 0; top: 0"></canvas>
             <div class="right-webcam-cont">
                 <p>
-                    <span bind:this={gestureOutputRef} id="gesture-output" class="output">None <br></span>
+                    <span bind:this={gestureOutputRef} id="gesture-output" class="output">{m.process_1()} <br></span>
                     <span class="success-transition"
-                          style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>Current combination: <span>{
+                          style={`display: block, position: relative, transform: translateY(${isDoor ? '0' : '1500px'})`}>{m.process_2()} <span>{
                         currentCombo
                     }</span>
           </span>
