@@ -7,7 +7,6 @@
     "dev": "vite dev",
     "build": "vite build",
     "preview": "vite preview",
-    "postinstall": "paraglide generate",
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "tauri": "tauri"
@@ -16,6 +15,7 @@
   "dependencies": {
     "@mediapipe/tasks-vision": "0.10.22-rc.20250304",
     "@mnlphlp/plugin-blec": "~0.4.1",
+    "@sveltejs/adapter-vercel": "^5.10.2",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-log": "~2",
     "@tauri-apps/plugin-opener": "^2",
@@ -25,7 +25,6 @@
   },
   "devDependencies": {
     "@inlang/paraglide-js": "^2.0.0",
-    "@sveltejs/adapter-static": "^3.0.6",
     "@sveltejs/kit": "^2.9.0",
     "@sveltejs/vite-plugin-svelte": "^5.0.0",
     "@tauri-apps/cli": "^2",
