@@ -18,7 +18,18 @@
 
 	"sidebar_1": "Reset password",
 	"sidebar_2": "Auto lock",
+
+	"sidebar_log_1": "Action Log",
+	"sidebar_log_action_result_1": "FAILED",
+	"sidebar_log_action_result_2": "SUCCESS",
+	"sidebar_log_action_1": "Unlock Attempt",
+	"sidebar_log_action_2": "Unlocked",
+	"sidebar_log_action_3": "Locked",
+	"sidebar_log_action_4": "Password Reset Attempt",
+	"sidebar_log_action_5": "Password Reset",
+
 	"sidebar_99": "Available symbols",
+
 	"clear": "Clear",
 	"process_1": "None",
 	"process_2": "Current combination",

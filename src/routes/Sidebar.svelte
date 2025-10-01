@@ -3,8 +3,6 @@
 
     let {isSidebar: isSidebar = $bindable(false), session=false, getSetting, setSetting, automaticallyCloseLock=$bindable(), isResetPasswordMode=$bindable(false)} = $props();
 
-    $inspect(isSidebar)
-
     const clickOnBurger = () => {
         isSidebar = false;
     };
@@ -27,6 +25,8 @@
     const handleLightboxClick = () => {
         clickOnBurger();
     }
+
+    let logs = $state([])
 
     // i18n
     import { m } from '$lib/paraglide/messages.js';
@@ -56,6 +56,18 @@
                     <img src={automaticallyCloseLock ? "/img/checkmark-on.png" : "/img/checkmark.png"} alt="checkmark" class="check-box-img"/>
                 </div>
                 <p>{m.sidebar_2()}</p>
+            </div>
+        </li>
+        <li class="slice one-slice">
+            <div class="slice-cont log-cont">
+                <h3>{m.sidebar_log_1()}</h3>
+                <div class="logs">
+                    {#each logs as log}
+                        <p>{log}</p>
+                    {/each}
+                    <p>aa</p>
+                    <p>aaa</p>
+                </div>
             </div>
         </li>
         <li class="slice bottom-slice">
@@ -235,5 +247,27 @@
         }
     }
 
+    .log-cont {
+        display: flex;
+        flex-direction: column  !important;
+
+        box-sizing: border-box;
+        padding: 1rem 0 1rem 1.4rem;
+        background: #323232;
+        border: 1px solid black;
+
+        h3 {
+            margin: 0;
+            height: 1rem;
+            border-bottom: 1px solid black;
+        }
+
+        .logs {
+            display: flex;
+            flex-direction: column;
+
+            height: 11rem;
+        }
+    }
 
 </style>

@@ -14,10 +14,18 @@ Todo:
 - [x] Check if bluetooth connected
 - [x] Phone.
 - [x] Fix the project
+- [x] remake the whole thing in svelte lol
 
-
-
-- [ ] remake in svelte lol
+- [ ] Мікрофон (під питанням !?)
+- [ ] Датчик руху (може)
+- [x] Зробити у програмі Український переклад (шок, забули)
+- [ ] Налаштування
+- [ ] Доробити мобільний застосунок
+- [ ] API !!!
+- [ ] Додаткова безпека
+- [ ] Логування подій, попередження про спроби зламу
+- [x] Покращити UX
+- [ ] Додати більше символів
 
 // no
 - [ ] Security // Too much work right now

@@ -4,42 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: forgot to commit inlang settings">
-      <change afterPath="$PROJECT_DIR$/swishicon.png" afterDir="false" />
+    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/gen/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/128x128.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/128x128@2x.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/128x128@2x.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/32x32.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/32x32.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square107x107Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square107x107Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square142x142Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square142x142Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square150x150Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square150x150Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square284x284Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square284x284Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square30x30Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square30x30Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square310x310Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square310x310Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square44x44Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square44x44Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square71x71Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square71x71Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/Square89x89Logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/Square89x89Logo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/StoreLogo.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/StoreLogo.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.icns" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.icns" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.ico" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src-tauri/icons/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src-tauri/icons/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/+page.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/+page.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/svelte.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/svelte.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/routes/Sidebar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Sidebar.svelte" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,27 +42,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Shell Script.spaghetti.executor": "Run",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Docs/webstormproj/swish-eternal-svelte",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_interpreter_path": "node",
-    "nodejs_package_manager_path": "C:\\Users\\Maksiks\\AppData\\Local\\Microsoft\\WinGet\\Links\\pnpm.exe",
-    "settings.editor.selected.configurable": "terminal",
-    "ts.external.directory.path": "D:\\Docs\\webstormproj\\swish-eternal-svelte\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Shell Script.spaghetti.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;idea.background.editor&quot;: &quot;D:/Docs/webstormproj/swish-eternal-svelte/seal.png,4,tile,center,flipHV&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Docs/webstormproj/swish-eternal-svelte&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;C:\\Users\\Maksiks\\AppData\\Local\\Microsoft\\WinGet\\Links\\pnpm.exe&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\Docs\\webstormproj\\swish-eternal-svelte\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Docs\webstormproj\swish-eternal-svelte" />
@@ -141,7 +111,21 @@
       <workItem from="1758026631181" duration="5759000" />
       <workItem from="1758109366966" duration="1106000" />
       <workItem from="1758110488636" duration="1705000" />
-      <workItem from="1758112603699" duration="3192000" />
+      <workItem from="1758112603699" duration="4469000" />
+      <workItem from="1758290599076" duration="756000" />
+      <workItem from="1758353853084" duration="3389000" />
+      <workItem from="1758433830390" duration="2745000" />
+      <workItem from="1758455599579" duration="1660000" />
+      <workItem from="1758539665099" duration="1487000" />
+      <workItem from="1758618511463" duration="40000" />
+      <workItem from="1758632835524" duration="13000" />
+      <workItem from="1758717333920" duration="1000" />
+      <workItem from="1758720462778" duration="6000" />
+      <workItem from="1758972632168" duration="4000" />
+      <workItem from="1759042119294" duration="82000" />
+      <workItem from="1759071799686" duration="29000" />
+      <workItem from="1759076698817" duration="9000" />
+      <workItem from="1759318014885" duration="2676000" />
     </task>
     <task id="LOCAL-00001" summary="fix: re-added some old files that didn't depend on the framework and copied stuff over from a different repo + fix: some progress to make it bearably lookable">
       <option name="closed" value="true" />
@@ -223,7 +207,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758113976141</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea">
+      <option name="closed" value="true" />
+      <created>1758115964075</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1758115964075</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,6 +234,7 @@
     <MESSAGE value="fix: frien" />
     <MESSAGE value="fix: i love how vercel cli is just &quot;vercel&quot; and that's it most of the time i notice this every time lol" />
     <MESSAGE value="fix: forgot to commit inlang settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: forgot to commit inlang settings" />
+    <MESSAGE value="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea" />
   </component>
 </project>
