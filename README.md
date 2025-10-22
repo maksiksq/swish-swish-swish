@@ -26,7 +26,7 @@ In addition to that, it doesn’t require a powerful device to run, as long as i
 
 ### Software:
 
-- **Vue & Vite**, my beloved. Used them for the front-end, made writing it easy and fast.
+- **Vue & Vite**, my beloved. Used them for the front-end, made writing it easy and fast, but currently port-ed/ing to Svelte.
 - **Tauri**. Used it for making a desktop app. You can technically use the app as a website as well, but for the target audience and possible applications, an app would be way more practical. Tauri uses Rust on the back-end to keep the app blazing fast and the bundle size tiny, which is super nice in comparison to its alternatives like Electron which is notably slow unlike Tauri, this app only uses ~5% CPU power and ~400 mb of RAM in active use on my machine, it should work on a potato as long as it has a gpu, and that doesn't even have to be mid-range either. Talking about Tauri a lot, but I'm just baffled by how good it is.
 - **Google’s Mediapipe API**. Used for the AI, greatly simplifies the process, is incredibly useful. And their example [Codepen](https://codepen.io/mediapipe-preview/details/zYamdVd) as well. Originally used Tensorflow.
 - **JetBrains WebStorm**, just an IDE but a good one at that.
