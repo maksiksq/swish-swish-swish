@@ -4,11 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea">
+    <list default="true" id="a7d5924b-43b8-4586-ade0-23758ff0b78d" name="Changes" comment="feat: aciton log beginning">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/messages/en.json" beforeDir="false" afterPath="$PROJECT_DIR$/messages/en.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/routes/Sidebar.svelte" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/Sidebar.svelte" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.md" beforeDir="false" afterPath="$PROJECT_DIR$/todo.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +123,17 @@
       <workItem from="1759042119294" duration="82000" />
       <workItem from="1759071799686" duration="29000" />
       <workItem from="1759076698817" duration="9000" />
-      <workItem from="1759318014885" duration="2676000" />
+      <workItem from="1759318014885" duration="2883000" />
+      <workItem from="1759487585674" duration="349000" />
+      <workItem from="1759929785282" duration="4000" />
+      <workItem from="1760017135741" duration="26000" />
+      <workItem from="1760106945958" duration="7000" />
+      <workItem from="1760114591901" duration="9000" />
+      <workItem from="1760296254077" duration="1000" />
+      <workItem from="1760540739349" duration="2148000" />
+      <workItem from="1760548657550" duration="1211000" />
+      <workItem from="1760729113206" duration="695000" />
+      <workItem from="1761118308890" duration="2094000" />
     </task>
     <task id="LOCAL-00001" summary="fix: re-added some old files that didn't depend on the framework and copied stuff over from a different repo + fix: some progress to make it bearably lookable">
       <option name="closed" value="true" />
@@ -215,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758115964075</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="feat: aciton log beginning">
+      <option name="closed" value="true" />
+      <created>1759324074480</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1759324074480</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -235,6 +251,7 @@
     <MESSAGE value="fix: i love how vercel cli is just &quot;vercel&quot; and that's it most of the time i notice this every time lol" />
     <MESSAGE value="fix: forgot to commit inlang settings" />
     <MESSAGE value="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: it's a seal coming dowm from his magical tree&#10;he is real, he can't live in the sea" />
+    <MESSAGE value="feat: aciton log beginning" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: aciton log beginning" />
   </component>
 </project>

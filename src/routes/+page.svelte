@@ -683,6 +683,24 @@
 
         /*//*/
 
+        /*scroll*/
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #6e6e6e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #515151;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /*//*/
+
         .d-none {
             display: none !important;
         }

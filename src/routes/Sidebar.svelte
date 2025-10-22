@@ -26,11 +26,32 @@
         clickOnBurger();
     }
 
-    let logs = $state([])
+    let logs = $state([
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "aaa", time: new Date().toISOString().slice(0, 10)},
+        {content: "bb", time: new Date().toISOString().slice(0, 10)},
+    ])
 
     // i18n
     import { m } from '$lib/paraglide/messages.js';
     import { setLocale } from '$lib/paraglide/runtime';
+    import {SvelteDate} from "svelte/reactivity";
 
     let lang = $derived(m.lang());
 </script>
@@ -63,10 +84,8 @@
                 <h3>{m.sidebar_log_1()}</h3>
                 <div class="logs">
                     {#each logs as log}
-                        <p>{log}</p>
+                        <p class="log">{log.time} : {log.content}</p>
                     {/each}
-                    <p>aa</p>
-                    <p>aaa</p>
                 </div>
             </div>
         </li>
@@ -250,15 +269,18 @@
     .log-cont {
         display: flex;
         flex-direction: column  !important;
+        cursor: initial;
 
         box-sizing: border-box;
-        padding: 1rem 0 1rem 1.4rem;
+        padding: 1rem 0 0 0;
         background: #323232;
         border: 1px solid black;
+
 
         h3 {
             margin: 0;
             height: 1rem;
+            padding: 0 0 1.3rem 1rem;
             border-bottom: 1px solid black;
         }
 
@@ -266,7 +288,14 @@
             display: flex;
             flex-direction: column;
 
+            padding: 0.5rem 0 0 1rem;
             height: 11rem;
+            overflow-y: scroll;
+
+            & p {
+                font-size: 0.6rem;
+                padding: 0.3rem 0 0 0;
+            }
         }
     }
 
